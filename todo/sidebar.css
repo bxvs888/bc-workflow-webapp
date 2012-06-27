@@ -1,0 +1,10 @@
+.sidebar-todo>* {
+	border-width: 0;
+}
+
+.sidebar-todo>.ui-widget-header {
+	position: relative;
+	height:1.5em;
+	text-align: left;
+	padding:5px 2px;
+}
