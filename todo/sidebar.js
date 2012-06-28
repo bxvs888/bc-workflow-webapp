@@ -3,6 +3,6 @@ bc.sidebar.todo = {
 	init : function() {
 		var $page = $(this);
 		
-		alert("bc.sidebar.todo");
+		//alert("bc.sidebar.todo");
 	}
 };
