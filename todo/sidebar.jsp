@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <div class="sidebar-todo"
 	data-js='<s:url value="/bc-workflow/todo/sidebar.js"/>'
-	data-initMethod='bc.sidebar.todo.init' style="overflow-y: auto;">
+	data-initMethod='bc.sidebar.todo.init' style="overflow-y: hidden;">
 	<table class="ui-widget-header" cellspacing="0" cellpadding="0"
 		style="width: 100%;">
 		<tr>
@@ -19,12 +19,12 @@
 	<s:iterator value="todoList">
 		<table class="ui-widget-content" cellspacing="0" cellpadding="0">
 			<tr>
-				<td class="ui-widget-content" style="width: 30px;height:20px;text-align: center;vertical-align: top;border-width: 0px 1px 1px 0px;" >
-					<img id="portrait" style="width:30px;height:30px;cursor: pointer;" 
+				<td class="ui-widget-content" style="width: 30px;text-align: center;vertical-align: top;border-width: 0px 1px 1px 0px;" >
+					<img id="portrait" style="width:30px;height:33px;cursor: pointer;" 
 						src='<s:url value="/bc/image/userPortrait"></s:url>?code=admin'/>
 				</td>
 				<td>
-				   <table class="ui-widget-content"  cellspacing="0" cellpadding="0" style="width: 100%;border-width: 0px 0px 1px 0px;">
+				   <table class="ui-widget-content"  cellspacing="0" cellpadding="0" style="width: 209px;border-width: 0px 0px 1px 0px;">
 						<tr>
 							<td>
 								<s:if test="%{['todoType'] == 0}">
@@ -39,15 +39,15 @@
 									<span class="ui-icon ui-icon-clock"></span>
 								</s:if>
 							</td>
-							<td style="width: 126px;text-align: left;font-size: 14px;"><span style="margin-left: 2px;"><s:property value="%{['title']}"/></span></td>
-							<td style="width: 60px;text-align: right;"><s:property value="%{['createTime']}" /></td>
+							<td style="width: 107px;text-align: left;font-size: 14px;"><div style="width:107px;text-overflow:ellipsis;white-space:nowrap;"><s:property value="%{['title']}"/></div></td>
+							<td style="width: 70px;text-align: right;"><div style="width:70px;text-overflow:ellipsis;white-space:nowrap;"><s:property value="%{['createTime']}" /></div></td>
 						</tr>
 						<tr>
-							<td colspan="3" style="text-align: left;"><span style="margin-left: 2px;"><s:property value="%{['description']}"/></span></td>
+							<td colspan="4" style="text-align: left;"><div style="margin-left: 2px;width:207px;text-overflow:ellipsis;white-space:nowrap;"><s:property value="%{['description']}"/></div></td>
 						</tr>
 				   </table>
 				</td>
 			</tr>
-	</table>
+		</table>
 	</s:iterator>
 </div>
