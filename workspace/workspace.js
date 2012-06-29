@@ -3,6 +3,6 @@ bc.flow.workspace = {
 	init : function() {
 		var $page = $(this);
 		
-		alert("bc.flow.workspace");
+		//alert("bc.flow.workspace");
 	}
 };
