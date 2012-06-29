@@ -6,7 +6,7 @@ var $page = $(this);
 		// 获取选中的行的id单元格
 		var $tds = $page.find(".bc-grid>.data>.left tr.ui-state-highlight>td.id");
 		if($tds.length == 0){
-			alert("请先选择！");
+			bc.msg.slide("请先选择！");
 			return false;
 		}
 
