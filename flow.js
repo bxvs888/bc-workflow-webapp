@@ -19,7 +19,7 @@ bc.flow = {
 	
 	loadToDoPanel: function($container){
 		// 显示加载动画
-		$container.html('<img src="'+bc.root+'/bc/libs/themes/default/images/loader/loader02_64x64.gif" style="position:absolute;top:50%;margin-top:-32px;"/>');
+		$container.html('<img src="'+bc.root+'/bc/libs/themes/default/images/loader/loader02_64x64.gif" style="position:absolute;top:50%;margin-top:-32px;;left:50%;margin-left:-32px;"/>');
 		
 		// 加载待办页面
 		bc.ajax({
