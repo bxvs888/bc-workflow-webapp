@@ -1,3 +1,72 @@
-.workspace {
-	font-size: 5em;
+.ws>* {
+	width: 100%;
+	border-width: 0;
+	text-align: left;
+	border-width: 0;
+	border-spacing: 0;
+}
+
+.ws>.error {
+	padding: .5em;
+	font-size: 150%;
+}
+
+.ws .info {
+	border-width: 0;
+}
+
+.ws .header {
+	height: 1.5em;
+	padding: 5px 2px;
+	border-width: 1px 0 0 0;
+}
+
+.ws .line {
+	position: relative;
+}
+
+.ws .line>.leftIcon {
+	position: absolute;
+	top: 50%;
+	margin: -8px 2px 0 2px;
+	cursor: default;
+}
+
+.ws .line>.text {
+	line-height: 1.5em;
+	text-indent: 20px;
+	cursor: default;
+	display: inline-block;
+}
+
+.ws .line>.rightIcons {
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	margin: -8px 2px 0 2px;
+	top: 50%;
+}
+
+.ws .line>.rightIcons>span>.ui-icon {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.ws .line>.rightIcons>span>.text {
+	cursor: pointer;
+}
+
+.ws .line .link:hover {
+	text-decoration: underline;
+}
+
+.ws .detail {
+	margin-left: 20px;
+}
+
+.ws .low {
+	opacity: .4;
+	filter: Alpha(Opacity =   40);
+	font-size: 90%;
 }

@@ -37,7 +37,6 @@
 	cursor: pointer;
 }
 .sidebar-todo>.tasks .task .simple>.icons>.ui-icon.alarm{
-	display:inline-block;
 	cursor: default;
 }
 .sidebar-todo>.tasks .task .simple>.name{
