@@ -14,51 +14,103 @@
 			<span class="leftIcon ui-icon ui-icon-suitcase"></span>
 			<span class="text">公共信息</span>
 			<span class="rightIcons">
-				<span class="addComment"><span class="ui-icon ui-icon-document"></span><span class="text link">添加意见</span></span>
-				<span class="addAttach"><span class="ui-icon ui-icon-arrowthick-1-n"></span><span class="text link">添加附件</span></span>
-				<span class="collapseChildren"><span class="ui-icon ui-icon-carat-2-n-s" title="折叠|展开所有子节点"></span></span>
-				<span class="collapse"><span class="ui-icon ui-icon-triangle-1-n" title="折叠|展开公共信息"></span></span>
+				<span class="operate addComment"><span class="ui-icon ui-icon-document"></span><span class="text link">添加意见</span></span>
+				<span class="operate addAttach"><span class="ui-icon ui-icon-arrowthick-1-n"></span><span class="text link">添加附件</span></span>
+				<span class="reverse"><span class="ui-icon ui-icon-carat-2-n-s" title="反转详细信息区域的显示"></span></span>
+				<span class="toggle"><span class="ui-icon ui-icon-triangle-1-n" title="折叠|展开公共信息"></span></span>
 			</span>
 		</div>
 		<!-- 信息列表 -->
 		<div class="info ui-widget-content">
-			<div class="simple line">
-				<span class="leftIcon ui-icon ui-icon-document"></span>
-				<span class="text link">表单：月即将退出营运车辆确认表</span>
-				<span class="rightIcons">
-					<span class="edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
-					<span class="open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
-					<span class="open"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
-					<span class="open"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
-					<span class="collapse"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
-				</span>
+			<div class="simple">
+				<div class="line form">
+					<span class="leftIcon ui-icon ui-icon-document"></span>
+					<span class="text link">表单：月即将退出营运车辆确认表</span>
+					<span class="rightIcons">
+						<span class="operate edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
+						<span class="operate open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
+						<span class="operate download"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
+						<span class="operate delete"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
+						<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
+					</span>
+				</div>
 			</div>
-			<div class="detail line low">
-				<span class="leftIcon ui-icon ui-icon-clock"></span>
-				<span class="text">创建：小张 2012-01-01 08:00，最后修改：小明 2012-01-01 08:00</span>
-				<span class="rightIcons">
-					<span class="audit"><span class="ui-icon ui-icon-bookmark"></span><span class="text link">审计</span></span>
-				</span> 
+			<div class="detail low">
+				<div class="line">
+					<span class="leftIcon ui-icon ui-icon-clock"></span>
+					<span class="text">小张 2012-01-01 08:00</span>
+				</div>
 			</div>
 		</div>
 		<div class="info ui-widget-content">
-			<div class="simple line">
-				<span class="leftIcon ui-icon ui-icon-document"></span>
-				<span class="text link">附件：月即将退出营运车辆确认表</span>
-				<span class="rightIcons">
-					<span class="edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
-					<span class="open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
-					<span class="open"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
-					<span class="open"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
-					<span class="collapse"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
-				</span>
+			<div class="simple">
+				<div class="line comment">
+					<span class="leftIcon ui-icon ui-icon-comment"></span>
+					<span class="text link">意见：XXX意见XXX意见XXX意见X意见XXX意见XXX意见</span>
+					<span class="rightIcons">
+						<span class="operate edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
+						<span class="operate open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
+						<span class="operate download"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
+						<span class="operate delete"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
+						<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
+					</span>
+				</div>
 			</div>
-			<div class="detail line low">
-				<span class="leftIcon ui-icon ui-icon-clock"></span>
-				<span class="text">创建：小张 2012-01-01 08:00，最后修改：小明 2012-01-01 08:00</span>
-				<span class="rightIcons">
-					<span class="audit"><span class="ui-icon ui-icon-bookmark"></span><span class="text link">审计</span></span>
-				</span>
+			<div class="detail low">
+				<div class="line">
+					<span class="leftIcon ui-icon ui-icon-clock"></span>
+					<span class="text">小张 2012-01-01 08:00</span>
+				</div>
+			</div>
+		</div>
+		<div class="info ui-widget-content">
+			<div class="simple">
+				<div class="line attach">
+					<span class="leftIcon ui-icon ui-icon-link"></span>
+					<span class="text link">附件：月即将退出营运车辆确认表</span>
+					<span class="rightIcons">
+						<span class="operate edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
+						<span class="operate open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
+						<span class="operate download"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
+						<span class="operate delete"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
+						<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
+					</span>
+				</div>
+			</div>
+			<div class="detail low">
+				<div class="line">
+					<span class="leftIcon ui-icon ui-icon-clock"></span>
+					<span class="text">小张 2012-01-01 08:00</span>
+				</div>
+			</div>
+		</div>
+		<div class="info ui-widget-content">
+			<div class="simple">
+				<div class="line">
+					<span class="leftIcon ui-icon ui-icon-flag"></span>
+					<span class="text">统计信息</span>
+					<span class="rightIcons">
+						<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
+					</span>
+				</div>
+			</div>
+			<div class="detail low">
+				<div class="line">
+					<span class="leftIcon ui-icon ui-icon-radio-on"></span>
+					<span class="text">发起时间：2012-01-01 08:00 张三</span>
+				</div>
+				<div class="line">
+					<span class="leftIcon ui-icon ui-icon-radio-on"></span>
+					<span class="text">结束时间：(未结束)</span>
+				</div>
+				<div class="line">
+					<span class="leftIcon ui-icon ui-icon-radio-on"></span>
+					<span class="text">流转耗时：2天13小时</span>
+				</div>
+				<div class="line">
+					<span class="leftIcon ui-icon ui-icon-radio-on"></span>
+					<span class="text">参与人数：10人</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -76,14 +128,25 @@
 		</div>
 		<!-- 信息列表 -->
 		<div class="info ui-widget-content">
-			<div class="simple line topic">
-				<span class="leftIcon ui-icon ui-icon-clock"></span>
-				<span class="text">汇总月即将退出营运车辆 -- 小明</span>
-				<span class="rightIcons">
-					<span class="addComment"><span class="ui-icon ui-icon-document"></span><span class="text link">添加意见</span></span>
-					<span class="addAttach"><span class="ui-icon ui-icon-arrowthick-1-n"></span><span class="text link">添加附件</span></span>
-					<span class="finish"><span class="ui-icon ui-icon-check"></span><span class="text link">完成办理</span></span>
-				</span>
+			<div class="simple info">
+				<div class="simple line topic">
+					<span class="leftIcon ui-icon ui-icon-clock"></span>
+					<span class="text">汇总月即将退出营运车辆 -- 小明</span>
+					<span class="rightIcons">
+						<span class="addComment"><span class="ui-icon ui-icon-document"></span><span class="text link">添加意见</span></span>
+						<span class="addAttach"><span class="ui-icon ui-icon-arrowthick-1-n"></span><span class="text link">添加附件</span></span>
+						<span class="finish"><span class="ui-icon ui-icon-check"></span><span class="text link">完成办理</span></span>
+					</span>
+				</div>
+				<div class="simple line topic">
+					<span class="leftIcon ui-icon ui-icon-clock"></span>
+					<span class="text">汇总月即将退出营运车辆 -- 小明</span>
+					<span class="rightIcons">
+						<span class="addComment"><span class="ui-icon ui-icon-document"></span><span class="text link">添加意见</span></span>
+						<span class="addAttach"><span class="ui-icon ui-icon-arrowthick-1-n"></span><span class="text link">添加附件</span></span>
+						<span class="finish"><span class="ui-icon ui-icon-check"></span><span class="text link">完成办理</span></span>
+					</span>
+				</div>
 			</div>
 			<div class="detail">
 				<div class="info ui-widget-content">
@@ -93,8 +156,8 @@
 						<span class="rightIcons">
 							<span class="edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
 							<span class="open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
-							<span class="open"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
-							<span class="open"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
+							<span class="download"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
+							<span class="delete"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
 							<span class="collapse"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
 						</span>
 					</div>
@@ -113,8 +176,8 @@
 						<span class="rightIcons">
 							<span class="edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
 							<span class="open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
-							<span class="open"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
-							<span class="open"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
+							<span class="download"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
+							<span class="delete"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
 							<span class="collapse"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
 						</span>
 					</div>

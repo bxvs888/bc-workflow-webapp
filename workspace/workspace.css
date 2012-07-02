@@ -10,9 +10,13 @@
 	padding: .5em;
 	font-size: 150%;
 }
+.ws .info.collapse .detail{
+	display:none;
+}
 
 .ws .info {
 	border-width: 0;
+	font-weight: normal;
 }
 
 .ws .header {
@@ -62,11 +66,11 @@
 }
 
 .ws .detail {
-	margin-left: 20px;
+	margin-left: 16px;
 }
 
-.ws .low {
-	opacity: .4;
-	filter: Alpha(Opacity =   40);
+.ws .low,.ws .low > * {
+	opacity: .7;
+	filter: Alpha(Opacity=70);
 	font-size: 90%;
 }
