@@ -64,8 +64,15 @@
 	cursor: pointer;
 }
 
+.ws .line>.rightIcons>span.text>* {
+	cursor: default;
+}
+
 .ws .line .link:hover {
 	text-decoration: underline;
+}
+.ws .line.topic{
+	border-width: 1px 0 0 0;
 }
 
 .ws .detail {
@@ -74,7 +81,7 @@
 
 .ws .low,.ws .low>* {
 	opacity: .7;
-	filter: Alpha(Opacity = 70);
+	filter: Alpha(Opacity =   70);
 }
 
 .ws .little,.ws .little>* {

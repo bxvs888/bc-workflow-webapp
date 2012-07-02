@@ -41,7 +41,9 @@ bc.flow.workspace = {
 		$page.delegate(".common>.header>.rightIcons>.mainOperate,.todo>.info>.simple>.line>.rightIcons>.mainOperate",{
 			click: function(e) {
 				var $this = $(this);
-				if($this.is(".addComment")){// 添加意见
+				if($this.is(".flowImage")){// 查看流程图
+					alert("TODO:查看流程图");
+				}else if($this.is(".addComment")){// 添加意见
 					alert("TODO:添加意见");
 				}else if($this.is(".addAttach")){// 添加附件
 					alert("TODO:添加附件");
