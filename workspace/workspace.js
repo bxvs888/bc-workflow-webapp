@@ -37,16 +37,24 @@ bc.flow.workspace = {
 			}
 		});
 		
-		// 公共信息区添加意见、附件
-		$page.delegate(".common>.header>.rightIcons>.operate",{
+		// 公共信息区添加意见、附件，待办信息区添加意见、附件、完成办理、分派任务、签领任务
+		$page.delegate(".common>.header>.rightIcons>.mainOperate,.todo>.info>.simple>.line>.rightIcons>.mainOperate",{
 			click: function(e) {
 				var $this = $(this);
 				if($this.is(".addComment")){// 添加意见
-					alert("TODO:添加公共意见");
+					alert("TODO:添加意见");
 				}else if($this.is(".addAttach")){// 添加附件
-					alert("TODO:添加公共附件");
+					alert("TODO:添加附件");
+				}else if($this.is(".finish")){// 添加附件
+					alert("TODO:完成办理");
+				}else if($this.is(".delegate")){// 委派任务
+					alert("TODO:委派任务");
+				}else if($this.is(".claim")){// 签领任务
+					alert("TODO:签领任务");
+				}else if($this.is(".assign ")){// 分配任务
+					alert("TODO:分配任务");
 				}else{
-					alert("TODO:添加公共??,class=" + $this.attr("class"));
+					alert("TODO:添加??,class=" + $this.attr("class"));
 				}
 				
 				return false;
@@ -70,7 +78,7 @@ bc.flow.workspace = {
 		});
 		
 		// 表单、意见、附件的操作按钮
-		$page.delegate(".line>.rightIcons>.operate",{
+		$page.delegate(".line>.rightIcons>.itemOperate",{
 			click: function(e) {
 				var $this = $(this);
 				var $line = $this.closest(".line");
