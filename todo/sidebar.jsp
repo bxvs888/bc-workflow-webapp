@@ -43,6 +43,9 @@
 							<span class="taskidvalue">
 								<input type="hidden" name="taskId" value="<s:property value="%{['taskId']}" />" />
 							</span>
+							<span class="procinstidvalue">
+								<input type="hidden" name="procInstId" value="<s:property value="%{['procInstId']}" />" />
+							</span>
 							<s:if test="%{['dueDate'] != null}">
 							<div class="durdate"><span class="content ui-state-highlight">
 								<s:text name="todo.personal.dueDate"/>：<s:property value="%{['dueDate']}" />
