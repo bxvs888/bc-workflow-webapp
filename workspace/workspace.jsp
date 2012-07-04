@@ -118,6 +118,13 @@
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
 					<span class="text">${item['createTime']}</span>
 				</div>
+				
+				<!-- 办理耗时 -->
+				<div class="line low">
+					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
+					<span class="text">${item['wasteTime']}</span>
+				</div>
+				
 			</div>
 		</div>
 		</s:iterator>
