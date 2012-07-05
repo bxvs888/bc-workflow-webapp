@@ -3,6 +3,11 @@ bc.flow.workspace = {
 	init : function() {
 		var $page = $(this);
 		
+		// 查看异常堆栈信息
+		$page.children(".error").find(".click2see").click(function(){
+			$(this).parent().next().toggleClass("hide");
+		});
+		
 		// 总区域的折叠或展开
 		$page.delegate(".header>.rightIcons>.toggle",{
 			click: function(e) {

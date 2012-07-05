@@ -8,6 +8,8 @@ bc.todoView = {
 		var $page = $(this);
 		// 获取用户选中的条目
 		var ids = bc.grid.getSelected($page.find(".bc-grid"));
+		
+		return;
 		// 检测是否选中条目
 		if(ids.length ==0){
 			bc.msg.slide("请先选择要签领的信息！");
@@ -46,13 +48,15 @@ bc.todoView = {
 	
 	open : function (){
 		var $page = $(this);
-		// 获取用户选中的条目
-		var ids = bc.grid.getSelected($page.find(".bc-grid"));
+		//获取选中的行
+		var $tr = $page.find(".bc-grid>.data>.right tr.ui-state-highlight");
+		var $hidden = $tr.data("hidden");
+		
 		bc.page.newWin({
 			name: "我的工作空间",
 			mid: "openWorkspace",
 			url: bc.root+ "/bc-workflow/workspace/open",
-			data: {id: ids[0]}, 
+			data: {id: $hidden.procInstId}, 
 			afterClose: function(status){
 				if(status) bc.grid.reloadData($page);
 			}

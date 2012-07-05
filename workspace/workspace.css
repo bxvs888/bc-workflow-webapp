@@ -7,8 +7,25 @@
 }
 
 .ws>.error {
-	padding: .5em;
+	padding: .5em .5em .1em .5em;
 	font-size: 150%;
+}
+.ws>.error .click2see {
+	font-size: 60%;
+	color:#ccc;
+	text-decoration: underline;
+	margin-left: 4px;
+	cursor: pointer;
+}
+.ws>.error pre {
+	font-size: 60%;
+	color:#ccc;
+	margin: 4px;
+	border-width: 1 0 0 0;
+}
+
+.ws>.common .header{
+	border-top-width: 0;
 }
 
 .ws .info.collapse .detail {
@@ -66,6 +83,10 @@
 
 .ws .line>.rightIcons>span.text>* {
 	cursor: default;
+}
+
+.ws .line .link{
+	cursor: pointer;
 }
 
 .ws .line .link:hover {

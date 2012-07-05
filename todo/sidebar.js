@@ -16,6 +16,7 @@ bc.sidebar.todo = {
 				var $target = $(e.target);
 				var $this = $(this);
 				var taskId = $this.find(".taskidvalue").children().val();
+				var procInstId = $this.find(".procinstidvalue").children().val();
 				if($target.is(".toggle")){// 折叠或展开当前任务
 					$this.toggleClass("collapse");
 					$target.toggleClass("ui-icon-carat-1-se ui-icon-carat-1-nw");
@@ -47,8 +48,8 @@ bc.sidebar.todo = {
 				}else if($target.is(".name")){// 打开任务
 					bc.page.newWin({
 						name: "我的工作空间",
-						mid: "workspace"+taskId,
-						url: bc.root+ "/bc-workflow/workspace/open?id="+taskId
+						mid: "workspace"+procInstId,
+						url: bc.root+ "/bc-workflow/workspace/open?id="+procInstId
 					});
 				}
 				return false;

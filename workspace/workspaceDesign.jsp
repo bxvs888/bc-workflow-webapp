@@ -291,7 +291,7 @@
 	</div>
 	
 	<!-- 已办信息区 -->
-	<div class="todo ui-widget-content">
+	<div class="done ui-widget-content">
 		<!-- 标题行 -->
 		<div class="header line ui-widget-header">
 			<span class="leftIcon ui-icon ui-icon-tag"></span>
