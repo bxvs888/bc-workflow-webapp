@@ -2,6 +2,9 @@ bc.namespace("bc.flow.workspace");
 bc.flow.workspace = {
 	init : function() {
 		var $page = $(this);
+		// 记录流程实例的id
+		var id = $page.find("input[name='id']").val();
+		var subject = $page.find("input[name='subject']").val();
 		
 		// 查看异常堆栈信息
 		$page.children(".error").find(".click2see").click(function(){
@@ -47,7 +50,13 @@ bc.flow.workspace = {
 			click: function(e) {
 				var $this = $(this);
 				if($this.is(".flowImage")){// 查看流程图
-					alert("TODO:查看流程图");
+					//alert("TODO:查看流程图");
+					window.open(bc.root + "/bc-workflow/workflow/diagram?id=" + id,"_blank");
+				}else if($this.is(".excutionLog")){// 查看流转日志
+					bc.page.newWin({
+						name:subject,mid:"excutionLog"+id,
+						url: bc.root + "/bc-workflow/excutionLogs/list?pid="+id
+					});
 				}else if($this.is(".addComment")){// 添加意见
 					alert("TODO:添加意见");
 				}else if($this.is(".addAttach")){// 添加附件
