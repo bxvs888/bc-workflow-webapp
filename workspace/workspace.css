@@ -24,6 +24,10 @@
 	border-width: 1 0 0 0;
 }
 
+.ws>.common .header{
+	border-top-width: 0;
+}
+
 .ws .info.collapse .detail {
 	display: none;
 }
@@ -79,6 +83,10 @@
 
 .ws .line>.rightIcons>span.text>* {
 	cursor: default;
+}
+
+.ws .line .link{
+	cursor: pointer;
 }
 
 .ws .line .link:hover {
