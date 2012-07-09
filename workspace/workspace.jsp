@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <div class="ws" title='<s:property value="title"/>'
-	data-js='<s:url value="/bc-workflow/workspace/workspace.js"/>'
+	data-js='<s:url value="/bc-workflow/workspace/workspace.js"/>,<s:url value="/bc-workflow/flowattach/flowattach.js"/>'
 	data-initMethod='bc.flow.workspace.init'
 	data-option='<s:property value="pageOption"/>' style="overflow-y: auto;">
 <s:if test="%{error.length()>0}">

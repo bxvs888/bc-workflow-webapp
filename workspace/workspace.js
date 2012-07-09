@@ -58,9 +58,24 @@ bc.flow.workspace = {
 						url: bc.root + "/bc-workflow/excutionLogs/list?pid="+id
 					});
 				}else if($this.is(".addComment")){// 添加意见
-					alert("TODO:添加意见");
+					bc.flowattach.create({
+						type:2,
+						common:true,
+						pid:'123',
+						tid:'123',
+						onOk:function(json){
+							alert($.toJSON(json))
+						}
+					});
 				}else if($this.is(".addAttach")){// 添加附件
-					alert("TODO:添加附件");
+					bc.flowattach.create({
+						type:1,
+						common:true,
+						pid:'123',
+						onOk:function(json){
+							alert($.toJSON(json))
+						}
+					});
 				}else if($this.is(".finish")){// 添加附件
 					alert("TODO:完成办理");
 				}else if($this.is(".delegate")){// 委派任务
@@ -99,13 +114,25 @@ bc.flow.workspace = {
 				var $this = $(this);
 				var $line = $this.closest(".line");
 				if($this.is(".edit")){// 编辑
-					alert("TODO:编辑");
+					bc.flowattach.edit({
+						id:10064360,
+						onOk:function(json){
+							alert($.toJSON(json))
+						}
+					});
 				}else if($this.is(".open")){// 查看
-					alert("TODO:查看");
+					bc.flowattach.open({
+						id:10064620
+					});
 				}else if($this.is(".download")){// 下载
-					alert("TODO:下载");
+					bc.flowattach.download({
+						subject:'readme.txt',
+						path:'201207/201207090904320185.txt'
+					});
 				}else if($this.is(".delete")){// 删除
-					alert("TODO:删除");
+					bc.flowattach.delete_({
+						id:10064620
+					});
 				}
 				
 				return false;
