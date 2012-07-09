@@ -107,6 +107,7 @@ bc.flowattach = {
 		/**
 		 * 删除流程附加信息
 		 * @option {int} id 
+		 * @option {Function} onOk 点击删除后的回调函数,返回json信息{success:[success],msg:[msg]}
 		 *
 		 */
 		delete_ : function(option){
@@ -115,12 +116,23 @@ bc.flowattach = {
 					url: bc.root +"/bc-workflow/flowattach/delete?id="+option.id,
 					dataType: "json",
 					success: function(json) {
-						if(logger.debugEnabled)logger.debug("delete success.json=" + $.toJSON(json));
-						if(json.success === false){
-							bc.msg.alert(json.msg);// 仅显示失败信息
-						}else
-							bc.msg.slide(json.msg);
-						
+						if(typeof(option.onOk) == "function"){
+							option.onOk(json);
+						}else{
+							if(json.success === false){
+								bc.msg.alert(json.msg);// 仅显示失败信息
+							}else{
+								//调用回调函数
+								var showMsg = true;
+								if(typeof option.callback == "function"){
+									//返回false将禁止保存提示信息的显示
+									if(option.callback.call($page[0],json) === false)
+										showMsg = false;
+								}
+								if(showMsg)
+									bc.msg.slide(json.msg);
+							}
+						}
 					}
 				});
 			});
@@ -137,7 +149,7 @@ bc.flowattach = {
 			// 下载文件
 			bc.file.download({f: f, n: n});
 		}
-}
+};
 
 
 
