@@ -64,11 +64,11 @@ bc.flow.workspace = {
 						common:true,
 						pid: id,
 						onOk:function(json){
-							alert($.toJSON(json));
+							//alert($.toJSON(json));
 							var simpleLine = bc.flow.workspace.TPL.LINE.format("comment","ui-icon-comment","link",json.desc, bc.flow.workspace.TPL.COMMENT_BUTTONS);
 							var detailLine = bc.flow.workspace.TPL.TEXT_LINE.format(json.author + " " + json.fileDate);
 							var info = bc.flow.workspace.TPL.INFO.format(json.id,"","","",simpleLine,detailLine,"low little");
-							$common.append(info);
+							$common.children(":last").before(info);
 						}
 					});
 				}else if($this.is(".addAttach")){// 添加附件
@@ -77,10 +77,14 @@ bc.flow.workspace = {
 						common:true,
 						pid: id,
 						onOk:function(json){
-							alert($.toJSON(json))
+							//alert($.toJSON(json));
+							var simpleLine = bc.flow.workspace.TPL.LINE.format("attach","ui-icon-link","link",json.subject, bc.flow.workspace.TPL.ATTACH_BUTTONS);
+							var detailLine = bc.flow.workspace.TPL.TEXT_LINE.format(json.author + " " + json.fileDate);
+							var info = bc.flow.workspace.TPL.INFO.format(json.id,"","","",simpleLine,detailLine,"low little");
+							$common.children(".comment,.stat").filter(":first").before(info);
 						}
 					});
-				}else if($this.is(".finish")){// 添加附件
+				}else if($this.is(".finish")){// 完成办理
 					alert("TODO:完成办理");
 				}else if($this.is(".delegate")){// 委派任务
 					alert("TODO:委派任务");
@@ -100,12 +104,17 @@ bc.flow.workspace = {
 		$page.delegate(".line>.text",{
 			click: function(e) {
 				var $line = $(this).closest(".line");
+				var $info = $line.closest(".info");
 				if($line.is(".form")){// 打开表单
 					alert("TODO:打开表单");
 				}else if($line.is(".comment")){// 打开意见
-					alert("TODO:打开意见");
+					bc.flowattach.open({
+						id: $info.data("id")
+					});
 				}else if($line.is(".attach")){// 打开附件
-					alert("TODO:打开附件");
+					bc.flowattach.open({
+						id: $info.data("id")
+					});
 				}
 				
 				return false;
@@ -137,7 +146,10 @@ bc.flow.workspace = {
 					bc.flowattach.delete_({
 						id: $info.data("id"),
 						onOk:function(json){
-							alert($.toJSON(json))
+							//alert($.toJSON(json));
+							if(json.success){
+								$info.remove();
+							}
 						}
 					});
 				}
