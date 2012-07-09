@@ -28,7 +28,7 @@ bc.flowattach = {
 
 			// 将一些配置参数放到data参数内(这些参数是提交到服务器的参数)
 			option.data = jQuery.extend({
-				pid : option.procId,
+				pid : option.pid,
 				tid : option.tid?option.tid:'',
 				type : option.type?option.type:1,
 				common : option.common? option.common : true
@@ -54,7 +54,7 @@ bc.flowattach = {
 				name:'添加'+title_common+title_type,
 				title:'添加'+title_common+title_type,
 			   	url: bc.root +"/bc-workflow/flowattach/create",
-				mid: 'flowattach.create.'+attach_type+'.'+option.data.procId+option.data.tid,
+				mid: 'flowattach.create.'+attach_type+'.'+option.data.pid+option.data.tid,
 				afterClose: function(status){
 					if(status && typeof(option.onOk) == "function"){
 						option.onOk(status);
