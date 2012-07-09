@@ -71,7 +71,7 @@
 		<s:hidden name="e.uid" />
 		<s:hidden name="e.common" />
 		<s:hidden name="e.type" />
-		<s:hidden name="e.procId" />
+		<s:hidden name="e.pid" />
 		<s:hidden name="e.tid" />
 		<s:hidden name="e.ext" />
 		<s:hidden name="e.size" />

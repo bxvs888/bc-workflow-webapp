@@ -9,7 +9,7 @@ bc.flowattach = {
 		/**
 		 * 新建流程附加信息
 		 * @param {Object} option 配置参数
-		 * @option {String} procId 流程实例ID 必填 
+		 * @option {String} pid 流程实例ID 必填 
 		 * @option {String} tid 流程任务ID 
 		 * @option {int} type 类型：1-附件，2-意见 默认附件
 		 * @option {boolean} common 是否公共信息 默认公共
@@ -28,7 +28,7 @@ bc.flowattach = {
 
 			// 将一些配置参数放到data参数内(这些参数是提交到服务器的参数)
 			option.data = jQuery.extend({
-				procId : option.procId,
+				pid : option.procId,
 				tid : option.tid?option.tid:'',
 				type : option.type?option.type:1,
 				common : option.common? option.common : true
