@@ -9,7 +9,6 @@ bc.todoView = {
 		// 获取用户选中的条目
 		var ids = bc.grid.getSelected($page.find(".bc-grid"));
 		
-		return;
 		// 检测是否选中条目
 		if(ids.length ==0){
 			bc.msg.slide("请先选择要签领的信息！");
@@ -17,7 +16,7 @@ bc.todoView = {
 		}else if(ids.length == 1){
 			// 检测是否已有签领记录，没有才允许继续签领，避免重复签领
 			jQuery.ajax({
-				url: bc.root + "/bc-workflow/todo/personals/claimTask", 
+				url: bc.root + "/bc-workflow/todo/personals/isSigned", 
 				data: {excludeId: ids[0]}, 
 				dataType: "json",
 				success: function(json) {
@@ -27,7 +26,7 @@ bc.todoView = {
 					}else{
 						bc.msg.confirm("确定签领此任务吗？",function(){
 							jQuery.ajax({
-								url: bc.root + "/bc-workflow/todo/personals/doSignTask", 
+								url: bc.root + "/bc-workflow/todo/personals/claimTask", 
 								data: {excludeId: ids[0]},
 								dataType: "json",
 								success: function(json) {
