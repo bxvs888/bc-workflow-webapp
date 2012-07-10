@@ -84,24 +84,26 @@ bc.deployForm = {
 		//后缀名
 		var ext=path.substr(lastIndex+1);
 		var typeExt1 = "xml";
-		var typeExt2 = "bar";
+		var typeExt2 = "bpmn";
+		var typeExt3 = "bar";
+		var typeExt4 = "zip";
 		var typeSelect = $(":input[name='e.type']")[0].selectedIndex;
 		
 		//判断上传文件的后缀名是否与模板类型的后缀名相同  
 		if(typeSelect == 0){//XML
-			if(ext == typeExt1){
+			if(ext == typeExt1 || ext == typeExt2){
 				saveInfo();
 			}else{
-				bc.msg.alert("你选择的部署类型需要保存后缀名为"+typeExt1+"的文件");
+				bc.msg.alert("只能上传扩展名为"+'".bpmn20.xml的文件"或"bpmn的文件"');
 				return;
 			}
 		}
 		
 		if(typeSelect == 1){//BAR
-			if(ext == typeExt2){
+			if(ext == typeExt3 || ext == typeExt4){
 				saveInfo();
 			}else{
-				bc.msg.alert("你选择的部署类型需要保存后缀名为"+typeExt2+"的文件");
+				bc.msg.alert("只能上传扩展名为"+'".bar的文件"或".zip的文件"');
 				return;
 			}
 		}
