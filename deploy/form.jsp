@@ -79,7 +79,8 @@
 				<tr>
 					<td class="label" colspan="4">
 						<div class="formTopInfo">
-							创建：<s:property value="e.author.name" />(<s:date name="e.fileDate" format="yyyy-MM-dd HH:mm:ss"/>)
+							状态：<s:property value="%{statusesValue[e.status]}" />，
+							创建人：<s:property value="e.author.name" />(<s:date name="e.fileDate" format="yyyy-MM-dd HH:mm:ss"/>)
 							<s:if test="%{e.modifier != null}">
 							最后修改：<s:property value="e.modifier.name" />(<s:date name="e.modifiedDate" format="yyyy-MM-dd HH:mm:ss"/>)
 							</s:if>
@@ -87,13 +88,14 @@
 					</td>
 				</tr>		
 			</tbody>
-			
-			
 		</table>
 		<s:hidden name="e.id" />
+		<s:hidden name="e.deploymentId" />
 		<s:hidden name="e.uid" />
 		<s:hidden name="e.status" />
 		<s:hidden name="e.author.id" />
 		<input type="hidden" name="e.fileDate" value='<s:date format="yyyy-MM-dd HH:mm:ss" name="e.fileDate" />'/>
+		<s:hidden name="e.deployer.id" />
+		<input type="hidden" name="e.deployDate" value='<s:date format="yyyy-MM-dd HH:mm:ss" name="e.deployDate" />'/>
 	</s:form>
 </div>
