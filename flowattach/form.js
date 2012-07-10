@@ -30,6 +30,33 @@ bc.flowattachForm = {
 	/**意见保存方法*/
 	save : function(){
 		$page=$(this);
+		
+		//意见保存的特殊处理
+		if($page.find(":input[name='e.type']").val()=='2'){
+			var desc=$page.find(":input[name='e.desc']").val();
+			var subject=$page.find(":input[name='e.subject']").val();
+			if(desc==''&&subject==''){
+				bc.msg.alert('请输入意见');
+				return;
+			}else if(desc==''){
+				if(subject.length>30){
+					bc.msg.alert('输入的简易意见过长，你可以简化简易意见或者在详细中输入.');
+					return;
+				}
+				$page.find(":input[name='e.desc']").val(subject);	
+			}else if(subject==''){
+				if(desc.length<30){
+					$page.find(":input[name='e.subject']").val(desc);
+				}else{
+					$page.find(":input[name='e.subject']").val(desc.substring(0,31));
+				}
+			}else{
+				if(subject.length>30){
+					bc.msg.alert('输入的简易意见过长，你可以简化简易意见或者在详细中输入.');
+					return;
+				}
+			}
+		}
 	
 		//调用标准的方法执行保存
 		bc.page.save.call($page,{callback: function(json){
@@ -45,8 +72,13 @@ bc.flowattachForm = {
 			data.subject=$page.find(":input[name='e.subject']").val();
 			data.path=$page.find(":input[name='e.path']").val();
 			data.desc=$page.find(":input[name='e.desc']").val();
-			data.ext=$page.find(":input[name='e.ext']").val();
-			data.size=$page.find(":input[name='e.size']").val();
+			data.uid=$page.find(":input[name='e.uid']").val();
+			data.ext=json.ext;
+			data.size=json.size;
+			data.author=json.author;
+			data.fileDate=json.fileDate;
+			data.modifier=json.modifier;
+			data.modifiedDate=json.modifiedDate;
 			logger.info($.toJSON(data));
 			$page.data("data-status", data);
 			$page.dialog("close");

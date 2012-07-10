@@ -22,39 +22,26 @@ bc.flowattach = {
 		 * 					path:[path],			--附件路径
 		 * 					ext:[ext],				--附件扩展名
 		 * 					desc:[desc]				--附件的时候为备注,意见的时候为意见信息
+		 * 					author:[author]			--创建人
+		 * 					fileDate:[fileDate]		--创建时间
 		 * 					}
 		 */
 		create : function(option){
-
 			// 将一些配置参数放到data参数内(这些参数是提交到服务器的参数)
 			option.data = jQuery.extend({
-				pid : option.pid,
-				tid : option.tid?option.tid:'',
-				type : option.type?option.type:1,
-				common : option.common? option.common : true
+				pid:option.pid,
+				tid:option.tid?option.tid:'',
+				type:option.type?option.type:1,
+				common:option.common? option.common : true
 			},option.data);
 
-			var	title_common='流程';
-			var tltie_type='附加信息';
-			var attach_type='attachment';
-			
-			if(option.data.common){
-				title_common='公共';
-			}else
-				title_common='任务';
-			
-			if(option.data.type==1){
-				title_type='附件';
-			}else if(option.data.type==2){
-				title_type='意见';
-				attach_type='comment';
-			}
+			var attachType=option.data.type==1?'attachment':'comment';
 				
 			bc.page.newWin(jQuery.extend({
-				name:'添加'+title_common+title_type,
-				title:'添加'+title_common+title_type,
-			   	url: bc.root +"/bc-workflow/flowattach/create",
-				mid: 'flowattach.create.'+attach_type+'.'+option.data.pid+option.data.tid,
+				name:option.data.type==1?'添加附件':'请输入意见',
+				title:option.data.type==1?'添加附件':'请输入意见',
+			   	url:bc.root +"/bc-workflow/flowattach/create",
+				mid:'flowattach.create.'+attachType+'.'+option.data.pid+option.data.tid,
 				afterClose: function(status){
 					if(status && typeof(option.onOk) == "function"){
 						option.onOk(status);
@@ -67,6 +54,8 @@ bc.flowattach = {
 		 * 编辑流程附加信息
 		 * @param {Object} option 配置参数
          * @option {int} id id号
+         * @option {string} subject 标题
+         * @option {int} type 类型：1-附件，2-意见 
 		 * @option {Function} onOk 点击保存后的回调函数，
 		 * 选返回一个对象 格式为{
 		 * 					id:[id],				--id
@@ -76,12 +65,20 @@ bc.flowattach = {
 		 * 					path:[path],			--附件路径
 		 * 					ext:[ext],				--附件扩展名
 		 * 					desc:[desc]				--附件的时候为备注,意见的时候为意见信息
-		 * 			}
+		 * 					author:[author]			--创建人
+		 * 					fileDate:[fileDate]		--创建时间
+		 * 					modifier:[modifier]		--最后修改人 
+		 * 					modifiedDate:[modifiedDate]	--最后修改时间 
+		 * 				}
 		 */
 		edit : function(option){
+			var title=option.type==1?'维护附件':'维护意见';
+			if(option.subject)
+				title+=':'+option.subject;
+			
 			bc.page.newWin(jQuery.extend({
-				name:'修护流程添加信息',
-				title:'维护流程添加信息',
+				name:option.type==1?'维护附件':'维护意见',
+				title:title,
 			   	url: bc.root +"/bc-workflow/flowattach/edit?id="+option.id,
 				mid: 'flowattach.edit.'+option.id,
 				afterClose: function(status){
@@ -94,12 +91,18 @@ bc.flowattach = {
 		/**
 		 * 查看流程附加信息
 		 * @option {int} id 
+		 * @option {string} subject 标题
+		 * @option {int} type 类型：1-附件，2-意见 
 		 *
 		 */
 		open : function(option){
+			var title=option.type==1?'查看附件':'查看意见';
+			if(option.subject)
+				title+=':'+option.subject;
+			
 			bc.page.newWin(jQuery.extend({
-				name:'查看流程添加信息',
-				title:'查看流程添加信息',
+				name:option.type==1?'查看附件':'查看意见',
+				title:title,
 			   	url: bc.root +"/bc-workflow/flowattach/open?id="+option.id,
 				mid: 'flowattach.open.'+option.id
 			},option));
@@ -107,11 +110,13 @@ bc.flowattach = {
 		/**
 		 * 删除流程附加信息
 		 * @option {int} id 
+		 * @option {int} type 类型：1-附件，2-意见 
 		 * @option {Function} onOk 点击删除后的回调函数,返回json信息{success:[success],msg:[msg]}
 		 *
 		 */
 		delete_ : function(option){
-			bc.msg.confirm("确定要删除流程添加的信息吗？",function(){
+			var attachType=option.type==1?'意见':'附件'
+			bc.msg.confirm("确定要删除"+attachType+"吗？",function(){
 				bc.ajax({
 					url: bc.root +"/bc-workflow/flowattach/delete?id="+option.id,
 					dataType: "json",
@@ -138,7 +143,7 @@ bc.flowattach = {
 			});
 		},
 		/**
-		 * 下载流程附加信息，只支持附件
+		 * 下载附件，只支持附件
 		 * @option {string} subject 附件标题
 		 * @option {string} path	附件路径
 		 *
@@ -148,6 +153,21 @@ bc.flowattach = {
 			var f = "workflow/attachment/" + option.path;// 获取附件相对路径			
 			// 下载文件
 			bc.file.download({f: f, n: n});
+		},
+		/**
+		 * 在线查看附件，只支持附件
+		 * @option {string} subject 附件标题
+		 * @option {string} path	附件路径
+		 * @option {string} uid	
+		 *
+		 */
+		inline : function(option){
+			var n =  option.subject;// 获取文件名
+			var f = "workflow/attachment/" + option.path;// 获取附件相对路径			
+			// 预览文件
+			var option = {f: f, n: n,ptype:"FlowAttach",puid:option.uid};
+			var ext = f.substr(f.lastIndexOf("."));
+			bc.file.inline(option);
 		}
 };
 

@@ -6,22 +6,22 @@
 	data-initMethod='bc.flowattachForm.init'
 	data-option='<s:property value="formPageOption"/>' style="overflow-y: auto;">
 	<s:form name="flowAttachForm" theme="simple" >
-		<table  cellspacing="2" cellpadding="0" style="width:545px;"  >
+		<table  cellspacing="2" cellpadding="0" style="width:500px;"  >
 			<tbody>
 				<tr class="widthMarker">
-					<td style="width: 80px;"></td>
+					<td style="min-width: 60px;width: 60px;"></td>
 					<td >&nbsp;</td>
 				</tr>
 				<!-- 附件  -->
 					<s:if test="e.type==1">
 					<tr>
-						<td class="label">*<s:text name="flowattach.subject"/>:</td>
+						<td class="label" style="min-width: 60px;width: 60px;">*<s:text name="flowattach.subject"/>:</td>
 						<td class="value">
 							<s:textfield name="e.subject" cssClass="ui-widget-content" data-validate="required"/>
 						</td>
 					</tr>
 					<tr>
-						<td class="label">*<s:text name="flowattach.path"/>:</td>
+						<td class="label" style="min-width: 60px;width: 60px;">*<s:text name="flowattach.path"/>:</td>
 						<td class="value"  >
 							<div class="relative">
 								<s:textfield name="e.path" cssClass="ui-widget-content" readonly="true" data-validate="required"/>
@@ -38,25 +38,27 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="topLabel"><s:text name="flowattach.desc"/>:</td>		
+						<td class="topLabel" style="min-width: 60px;width: 60px;"><s:text name="flowattach.desc"/>:</td>		
 						<td class="value">
-							<s:textarea rows="3" name="e.desc"  cssClass="ui-widget-content noresize" />
+							<s:textarea rows="4" name="e.desc"  cssClass="ui-widget-content noresize" />
 						</td>		
 					</tr>
 				</s:if>
 				<!-- 意见 -->
 				<s:elseif test="e.type==2">
 					<tr>
-						<td class="topLabel">
-							*<s:text name="flowattach.comment"/>:
+						<td class="value" style="min-width: 60px;" colspan="2">
+								<s:textfield name="e.subject" cssClass="ui-widget-content" placeholder="输入简易意见" />
 						</td>		
-						<td class="value">
-								<s:textarea rows="4" name="e.desc" cssClass="ui-widget-content noresize" data-validate="required" />
+					</tr>
+					<tr>
+						<td class="value" style="min-width: 60px;" colspan="2">
+								<s:textarea rows="5" name="e.desc" cssClass="ui-widget-content noresize" placeholder="输入详细意见" />
 						</td>		
 					</tr>
 				</s:elseif>
 				<tr>
-					<td class="label" colspan="2">
+					<td class="label" colspan="2" style="min-width: 60px;width: 60px;">
 						<div class="formTopInfo">
 							登记：<s:property value="e.author.name" />(<s:date name="e.fileDate" format="yyyy-MM-dd HH:mm:ss"/>)
 							<s:if test="%{e.modifier != null}">
