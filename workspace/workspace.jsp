@@ -26,11 +26,16 @@
 		</div>
 		<!-- 信息列表 -->
 		<s:iterator value="ws['commonInfo']['items']" var="item">
-		<div class="info ui-widget-content" data-id="${item['id']}">
+		<div class="info ui-widget-content ${item['type']}" data-id="${item['id']}"
+			<s:if test="%{#item['type']=='attach'}">
+				data-subject='<s:property value="#item['subject']"/>'
+				data-size='<s:property value="#item['size']"/>'
+				data-path='<s:property value="#item['path']"/>'
+			</s:if>>
 			<div class="simple">
 				<div class="line ${item['type']}">
 					<span class="leftIcon ui-icon ${item['iconClass']}"></span>
-					<span class="text ${item['link'] ? 'link':''}">${item['subject']}</span>
+					<span class="text ${item['link'] ? 'link':''}">${item['subject']}<s:if test="%{#item['type']=='attach'}"> (${item['sizeInfo']})</s:if></span>
 					<span class="rightIcons">
 						<s:if test="#item['hasButtons']">${item['buttons']}</s:if>
 						<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
