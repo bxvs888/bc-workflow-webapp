@@ -71,6 +71,7 @@ bc.flow = {
 	 * 如果为多选则返回的是对象集合，[对象1,对象2]。
 	 */
 	start: function(option) {
+		$page=$(this);
 		bc.flow.select({
 			onOk: function(def){
 				logger.info($.toJSON(def));
@@ -78,7 +79,23 @@ bc.flow = {
 					dataType: "json",
 					url: bc.root + "/bc-workflow/workflow/startFlow?key=" + def.key,
 					success: function(json){
-						logger.info($.toJSON(def));
+						if(logger.debugEnabled)logger.debug("delete success.json=" + $.toJSON(json));
+						if(json.success === false){
+							bc.msg.alert(json.msg);// 仅显示失败信息
+						}else{
+							//调用回调函数
+							var showMsg = true;
+							if(typeof option.callback == "function"){
+								//返回false将禁止保存提示信息的显示
+								if(option.callback.call($page[0],json) === false)
+									showMsg = false;
+							}
+							if(showMsg)
+								bc.msg.slide(json.msg);
+							
+							//重新加载列表
+							bc.grid.reloadData($page);
+						}
 					}
 				});
 			}
