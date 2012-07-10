@@ -48,12 +48,12 @@
 				<s:elseif test="e.type==2">
 					<tr>
 						<td class="value" style="min-width: 60px;" colspan="2">
-								<s:textfield name="e.subject" cssClass="ui-widget-content" placeholder="输入简易意见" />
+								<s:textfield name="e.subject" cssClass="ui-widget-content" placeholder="在这里输入意见的简要描述" />
 						</td>		
 					</tr>
 					<tr>
 						<td class="value" style="min-width: 60px;" colspan="2">
-								<s:textarea rows="5" name="e.desc" cssClass="ui-widget-content noresize" placeholder="输入详细意见" />
+								<s:textarea rows="5" name="e.desc" cssClass="ui-widget-content noresize" placeholder="在这里输入意见的详细内容[可选]" />
 						</td>		
 					</tr>
 				</s:elseif>

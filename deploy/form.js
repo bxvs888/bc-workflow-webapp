@@ -94,7 +94,7 @@ bc.deployForm = {
 			if(ext == typeExt1 || ext == typeExt2){
 				saveInfo();
 			}else{
-				bc.msg.alert("只能上传扩展名为"+'".bpmn20.xml的文件"或"bpmn的文件"');
+				bc.msg.alert("只能上传扩展名为"+'".bpmn20.xml的"或"bpmn的文件"');
 				return;
 			}
 		}
@@ -103,7 +103,7 @@ bc.deployForm = {
 			if(ext == typeExt3 || ext == typeExt4){
 				saveInfo();
 			}else{
-				bc.msg.alert("只能上传扩展名为"+'".bar的文件"或".zip的文件"');
+				bc.msg.alert("只能上传扩展名为"+'".bar"或".zip的文件"');
 				return;
 			}
 		}
