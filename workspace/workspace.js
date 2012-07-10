@@ -5,7 +5,7 @@ bc.flow.workspace = {
 		var $common = $page.children(".common");
 		
 		// 记录流程实例的id
-		var id = $page.find("input[name='id']").val();
+		var pid = $page.find("input[name='id']").val();
 		var subject = $page.find("input[name='subject']").val();
 		
 		// 查看异常堆栈信息
@@ -51,47 +51,35 @@ bc.flow.workspace = {
 		$page.delegate(".common>.header>.rightIcons>.mainOperate,.todo>.info>.simple>.line>.rightIcons>.mainOperate",{
 			click: function(e) {
 				var $this = $(this);
+				var $line = $this.closest(".line");
+				var $info = $this.closest(".info");
 				if($this.is(".flowImage")){// 查看流程图
-					window.open(bc.root + "/bc-workflow/workflow/diagram?id=" + id,"_blank");
+					window.open(bc.root + "/bc-workflow/workflow/diagram?id=" + pid,"_blank");
 				}else if($this.is(".excutionLog")){// 查看流转日志
 					bc.page.newWin({
-						name:subject,mid:"excutionLog"+id,
-						url: bc.root + "/bc-workflow/excutionLogs/list?pid="+id
+						name:subject,mid:"excutionLog"+pid,
+						url: bc.root + "/bc-workflow/excutionLogs/list?pid="+pid
 					});
 				}else if($this.is(".addComment")){// 添加意见
-					bc.flowattach.create({
-						type:2,
-						common:true,
-						pid: id,
-						onOk:function(json){
-							//alert($.toJSON(json));
-							var simpleLine = bc.flow.workspace.TPL.LINE.format("comment","ui-icon-comment","link",json.desc, bc.flow.workspace.TPL.COMMENT_BUTTONS);
-							var detailLine = bc.flow.workspace.TPL.TEXT_LINE.format(json.author + " " + json.fileDate);
-							var info = bc.flow.workspace.TPL.INFO.format(json.id,"","","",simpleLine,detailLine,"low little");
-							$common.children(":last").before(info);
-						}
-					});
+					if($line.is(".header")){// 添加公共意见
+						bc.flow.workspace.addComment.call($line.parent(),"common",pid);
+					}else if($line.is(".topic")){// 添加待办意见
+						bc.flow.workspace.addComment.call($info.parent(),"todo",pid,$info.data("id"));
+					}
 				}else if($this.is(".addAttach")){// 添加附件
-					bc.flowattach.create({
-						type:1,
-						common:true,
-						pid: id,
-						onOk:function(json){
-							//alert($.toJSON(json));
-							var simpleLine = bc.flow.workspace.TPL.LINE.format("attach","ui-icon-link","link",json.subject, bc.flow.workspace.TPL.ATTACH_BUTTONS);
-							var detailLine = bc.flow.workspace.TPL.TEXT_LINE.format(json.author + " " + json.fileDate);
-							var info = bc.flow.workspace.TPL.INFO.format(json.id,"","","",simpleLine,detailLine,"low little");
-							$common.children(".comment,.stat").filter(":first").before(info);
-						}
-					});
+					if($line.is(".header")){// 添加公共附件
+						bc.flow.workspace.addAttach.call($line.parent(),"common",pid);
+					}else if($line.is(".topic")){// 添加待办附件
+						bc.flow.workspace.addAttach.call($info.parent(),"todo",pid,$info.data("id"));
+					}
 				}else if($this.is(".finish")){// 完成办理
-					alert("TODO:完成办理");
+					bc.flow.workspace.finishTask.call($info, $info.data("id"));
 				}else if($this.is(".delegate")){// 委派任务
-					alert("TODO:委派任务");
+					bc.flow.workspace.delegateTask.call($info, $info.data("id"));
 				}else if($this.is(".claim")){// 签领任务
-					alert("TODO:签领任务");
-				}else if($this.is(".assign ")){// 分配任务
-					alert("TODO:分配任务");
+					bc.flow.workspace.claimTask.call($info, $info.data("id"));
+				}else if($this.is(".assign")){// 分配任务
+					bc.flow.workspace.assignTask.call($info, $info.data("id"));
 				}else{
 					alert("TODO:添加??,class=" + $this.attr("class"));
 				}
@@ -108,15 +96,10 @@ bc.flow.workspace = {
 				if($line.is(".form")){// 打开表单
 					alert("TODO:打开表单");
 				}else if($line.is(".comment")){// 打开意见
-					bc.flowattach.open({
-						id: $info.data("id")
-					});
+					bc.flow.workspace.openComment.call($info, $info.data("id"));
 				}else if($line.is(".attach")){// 打开附件
-					bc.flowattach.open({
-						id: $info.data("id")
-					});
+					bc.flow.workspace.openAttach.call($info, $info.data("id"));
 				}
-				
 				return false;
 			}
 		});
@@ -127,16 +110,21 @@ bc.flow.workspace = {
 				var $this = $(this);
 				var $info = $this.closest(".info");
 				if($this.is(".edit")){// 编辑
-					bc.flowattach.edit({
-						id: $info.data("id"),
-						onOk:function(json){
-							alert($.toJSON(json))
-						}
-					});
+					if($info.hasClass("attach")){
+						bc.flow.workspace.editAttach.call($info, $info.data("id"));
+					}else if($info.hasClass("comment")){
+						bc.flow.workspace.editComment.call($info, $info.data("id"));
+					}else{
+						alert("未支持的编辑类型");
+					}
 				}else if($this.is(".open")){// 查看
-					bc.flowattach.open({
-						id: $info.data("id")
-					});
+					if($info.hasClass("attach")){
+						bc.flow.workspace.openAttach.call($info, $info.data("id"));
+					}else if($info.hasClass("comment")){
+						bc.flow.workspace.openComment.call($info, $info.data("id"));
+					}else{
+						alert("未支持的查看类型");
+					}
 				}else if($this.is(".download")){// 下载
 					bc.flowattach.download({
 						subject: $info.data("subject"),
@@ -155,6 +143,142 @@ bc.flow.workspace = {
 				}
 				
 				return false;
+			}
+		});
+	},
+	
+	/** 签领任务：上下文为info样式所在的容器 */
+	claimTask: function(taskId){
+		alert("TODO:签领任务：taskId=" + taskId);
+	},
+	
+	/** 委派任务 */
+	delegatemTask: function(taskId){
+		alert("TODO:委派任务：taskId=" + taskId);
+	},
+	
+	/** 完成办理 */
+	finishTask: function(taskId){
+		alert("TODO:完成办理：taskId=" + taskId);
+	},
+	
+	/** 分配任务 */
+	assignTask: function(taskId){
+		alert("TODO:分配任务：taskId=" + taskId);
+	},
+	
+    /** 查看意见 
+     * @desc 上下文为'.info'的jquery对象
+     * @param {String} commentId 意见ID
+     */
+	openComment: function(commentId){
+		bc.flowattach.open({id: commentId});
+	},
+	
+	/** 编辑意见
+	 * @desc 上下文为'.info'的jquery对象
+	 * @param {String} commentId 意见ID
+	 */
+	editComment: function(commentId){
+		var $container = this;
+		bc.flowattach.edit({
+			type:2,
+			id: commentId,
+			onOk:function(json){
+				//alert($.toJSON(json));
+				$container.find(">.simple>.line>.text").text(json.subject);
+				var $desc = $container.find(">.detail>.line.desc");
+				$desc.find(">pre.text").html(json.desc);
+				$desc.toggleClass("hide",(!json.desc || json.desc.length == 0));
+			}
+		});
+	},
+	
+	/** 添加意见
+	 * @desc 上下文为意见列表容器的jquery对象
+	 * @param {String} targetType 容器类型：common-公共信息容器，todo-待办信息容器
+	 * @param {String} pid 流程实例id
+	 * @param {String} tid 任务实例id
+	 */
+	addComment: function(targetType,pid,tid){
+		var $container = this;
+		alert(targetType == "common");
+		bc.flowattach.create({
+			type: 2,
+			common: (targetType == "common"),
+			pid: pid,
+			tid: tid,
+			onOk:function(json){
+				//alert($.toJSON(json));
+				var simpleLine = bc.flow.workspace.TPL.LINE.format("comment","ui-icon-comment","link",json.desc, bc.flow.workspace.TPL.COMMENT_BUTTONS);
+				var detail_descLine = bc.flow.workspace.TPL.DESC_LINE.format(!json.desc || json.desc.length==0 ? "hide" : "",json.desc);
+				var detail_authorLine = bc.flow.workspace.TPL.TEXT_LINE.format("low little",json.author + " " + json.fileDate);
+				var info = bc.flow.workspace.TPL.INFO.format(json.id,"","","",simpleLine,detail_descLine+detail_authorLine,"","comment");
+				
+				if(targetType == "common"){// 公共信息：插在统计信息前
+					$container.children(":last").before(info);
+				}else if(targetType == "todo"){// 待办信息：插到最后
+					$container.append(info);
+				}else{
+					alert("不支持的容器类型");
+				}
+			}
+		});
+	},
+	
+    /** 查看附件 
+     * @desc 上下文为'.info'的jquery对象
+     * @param {String} attachId 附件ID
+     */
+	openAttach: function(attachId){
+		bc.flowattach.inline({
+			subject: this.data("subject"),
+			path: this.data("path")
+		});
+	},
+	
+    /** 编辑附件 
+     * @desc 上下文为'.info'的jquery对象
+     * @param {String} attachId 附件ID
+     */
+	editAttach: function(attachId){
+		var $container = this;
+		bc.flowattach.edit({
+			type:1,
+			id: attachId,
+			onOk:function(json){
+				//alert($.toJSON(json))
+				$container.find(">.simple>.line>.text").text(json.subject);
+			}
+		});
+	},
+	
+	/** 添加附件
+	 * @desc 上下文为附件列表容器的jquery对象
+	 * @param {String} targetType 容器类型：common-公共信息容器，todo-待办信息容器
+	 * @param {String} pid 流程实例id
+	 * @param {String} tid 任务实例id
+	 */
+	addAttach: function(targetType,pid,tid){
+		var $container = this;
+		bc.flowattach.create({
+			type:1,
+			common: (targetType == "common"),
+			pid: pid,
+			tid: tid,
+			onOk:function(json){
+				// alert($.toJSON(json));
+				var simpleLine = bc.flow.workspace.TPL.LINE.format("attach","ui-icon-link","link",json.subject, bc.flow.workspace.TPL.ATTACH_BUTTONS);
+				var detailLine = bc.flow.workspace.TPL.TEXT_LINE.format("low little",json.author + " " + json.fileDate);
+				var info = bc.flow.workspace.TPL.INFO.format(json.id,json.subject,json.size,json.path,simpleLine,detailLine,"","attach");
+				
+				if(targetType == "common"){// 公共信息：插在意见和统计信息前
+					$container.children(".comment,.stat").filter(":first").before(info);
+				}else if(targetType == "todo"){// 待办信息：插到最后
+					$container.append(info);
+				}else{
+					alert("不支持的容器类型");
+				}
 			}
 		});
 	}
@@ -181,15 +305,22 @@ bc.flow.workspace.TPL.LINE = [
 	,'</div>'
 ].join("");
 
-bc.flow.workspace.TPL.TEXT_LINE = [
-	'<div class="line">'
+bc.flow.workspace.TPL.DESC_LINE = [
+	'<div class="line desc {0}">'
 	,'	<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>'
-	,'	<span class="text">{0}</span>'
+	,'	<pre class="text">{1}</pre>'
+	,'</div>'
+].join("");
+
+bc.flow.workspace.TPL.TEXT_LINE = [
+	'<div class="line {0}">'
+	,'	<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>'
+	,'	<span class="text">{1}</span>'
 	,'</div>'
 ].join("");
 
 bc.flow.workspace.TPL.INFO = [
-	'<div class="info ui-widget-content" data-id="{0}" data-subject="{1}" data-size="{2}" data-path="{3}">'
+	'<div class="info ui-widget-content {7}" data-id="{0}" data-subject="{1}" data-size="{2}" data-path="{3}">'
 	,'	<div class="simple">{4}</div>'
 	,'	<div class="detail {6}">{5}</div>'
 	,'</div>'

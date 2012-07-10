@@ -57,10 +57,28 @@
 
 .ws .line>.text {
 	line-height: 1.5em;
-	text-indent: 20px;
+	text-indent: 0;
+	margin: 0 4px 0 20px;
 	cursor: default;
 	display: inline-block;
 	border-width: 0;
+}
+
+.ws .line>pre.text {
+	word-wrap: break-word; /* Internet Explorer 5.5+ */
+	white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+	white-space: -pre-wrap; /* Opera 4-6 */
+	white-space: -o-pre-wrap; /* Opera 7 */
+	white-space: pre-wrap; /* css-3 */
+	_white-space: normal; /* Internet Explorer 5.5+ */
+	max-height:8em;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;
+	width: 96%;
+	overflow: auto;
+	border-width: 1px;
+	font-family: "微软雅黑", "宋体", sans-serif;
 }
 
 .ws .line>.rightIcons {

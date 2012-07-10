@@ -42,9 +42,13 @@
 					</span>
 				</div>
 			</div>
-			<div class="detail low little">
+			<div class="detail">
+				<div class="line desc ${item['desc'] != null ? '':'hide'}">
+					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
+					<pre class="ui-widget-content text">${item['desc']}</pre>
+				</div>
 				<s:iterator value="#item['detail']">
-				<div class="line">
+				<div class="line low little">
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
 					<span class="text"><s:property/></span>
 				</div>
