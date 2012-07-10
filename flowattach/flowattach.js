@@ -32,7 +32,7 @@ bc.flowattach = {
 				pid:option.pid,
 				tid:option.tid?option.tid:'',
 				type:option.type?option.type:1,
-				common:option.common? option.common : true
+				common: option.common === true
 			},option.data);
 
 			var attachType=option.data.type==1?'attachment':'comment';
