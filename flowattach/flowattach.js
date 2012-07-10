@@ -48,8 +48,7 @@ bc.flowattach = {
 					}
 				}
 			},option));
-		},
-		
+		},	
 		/**
 		 * 编辑流程附加信息
 		 * @param {Object} option 配置参数
@@ -72,13 +71,13 @@ bc.flowattach = {
 		 * 				}
 		 */
 		edit : function(option){
-			var title=option.type==1?'维护附件':'维护意见';
+			var name=option.type==1?'维护附件':'维护意见';
 			if(option.subject)
-				title+=':'+option.subject;
+				name+=':'+option.subject;
 			
 			bc.page.newWin(jQuery.extend({
-				name:option.type==1?'维护附件':'维护意见',
-				title:title,
+				name:name,
+				title:option.type==1?'维护附件':'维护意见',
 			   	url: bc.root +"/bc-workflow/flowattach/edit?id="+option.id,
 				mid: 'flowattach.edit.'+option.id,
 				afterClose: function(status){
@@ -96,13 +95,13 @@ bc.flowattach = {
 		 *
 		 */
 		open : function(option){
-			var title=option.type==1?'查看附件':'查看意见';
+			var name=option.type==1?'查看附件':'查看意见';
 			if(option.subject)
-				title+=':'+option.subject;
-			
+				name+=':'+option.subject;
+
 			bc.page.newWin(jQuery.extend({
-				name:option.type==1?'查看附件':'查看意见',
-				title:title,
+				title:option.type==1?'查看附件':'查看意见',
+				name:name,
 			   	url: bc.root +"/bc-workflow/flowattach/open?id="+option.id,
 				mid: 'flowattach.open.'+option.id
 			},option));
