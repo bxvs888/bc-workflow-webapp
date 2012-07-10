@@ -39,19 +39,18 @@ bc.flowattachForm = {
 				bc.msg.alert('请输入意见');
 				return;
 			}else if(desc==''){
-				if(subject.length>30){
+				if(subject.length>33){
 					bc.msg.alert('输入的简易意见过长，你可以简化简易意见或者在详细中输入.');
 					return;
 				}
-				$page.find(":input[name='e.desc']").val(subject);	
 			}else if(subject==''){
-				if(desc.length<30){
+				if(desc.length<31){
 					$page.find(":input[name='e.subject']").val(desc);
-				}else{
-					$page.find(":input[name='e.subject']").val(desc.substring(0,31));
-				}
+				}else
+					$page.find(":input[name='e.subject']").val(desc.substring(0,30)+'...');
+				
 			}else{
-				if(subject.length>30){
+				if(subject.length>33){
 					bc.msg.alert('输入的简易意见过长，你可以简化简易意见或者在详细中输入.');
 					return;
 				}

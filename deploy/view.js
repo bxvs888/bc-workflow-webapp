@@ -13,23 +13,10 @@ bc.deploy = {
 		//定义函数
 		function releaseInfo(){ 
 			
-			//获取选中的行
-			var $tr = $page.find(".bc-grid>.data>.right tr.ui-state-highlight");
-			var $hidden = $tr.data("hidden");
-			
-			var subject = $hidden.subject; //标题
-			var source = $hidden.source; //原始文件名称
-			var type = $hidden.type; //0:XML,1:BAR
-			var path = $hidden.path; //0:XML,1:BAR
-			
 			jQuery.ajax({
-				url: bc.root + "/bc-workflow/deploys/deployRelease", 
+				url: bc.root + "/bc-workflow/deploys/dodeployRelease", 
 				data: {
-					excludeId: ids[0],
-					subject: subject,
-					source: source,
-					type:type,
-					path:path
+					excludeId: ids[0]
 				},
 				dataType: "json",
 				success: function(json) {
@@ -53,11 +40,9 @@ bc.deploy = {
 				success: function(json) {
 					// 如果已经签领过就提示用户
 					if(json.released == "true"){
-						bc.msg.confirm(json.msg,function(){
-							releaseInfo();
-						});
+						bc.msg.alert(json.msg);
 					}else{
-						bc.msg.confirm("确定发布此流程部署文件吗？",function(){
+						bc.msg.confirm("确定要发布此流程吗？",function(){
 							releaseInfo();
 						});
 					}
@@ -71,18 +56,37 @@ bc.deploy = {
 	
 	releaseCancel : function (){
 		var $page = $(this);
-		//获取选中的行
-		var $tr = $page.find(".bc-grid>.data>.right tr.ui-state-highlight");
-		var $hidden = $tr.data("hidden");
-		
-		bc.page.newWin({
-			name: "我的工作空间",
-			mid: "openWorkspace",
-			url: bc.root+ "/bc-workflow/workspace/open",
-			data: {id: $hidden.procInstId}, 
-			afterClose: function(status){
-				if(status) bc.grid.reloadData($page);
+		// 获取用户选中的条目
+		var ids = bc.grid.getSelected($page.find(".bc-grid"));
+
+		// 检测是否选中条目
+		if(ids.length ==0){
+			bc.msg.slide("请先选择要取消发布的信息！");
+			return;
+		}else if(ids.length == 1){
+			
+			var $tr = $page.find(".bc-grid>.data>.right tr.ui-state-highlight");
+			var $hidden = $tr.data("hidden");
+			
+			if($hidden.status == 0){
+				bc.msg.confirm("确定要取消此流程吗？",function(){
+					jQuery.ajax({
+						url: bc.root + "/bc-workflow/deploys/dodeployCancel", 
+						data: {excludeId: ids[0]},
+						dataType: "json",
+						success: function(json) {
+							bc.msg.slide(json.msg);
+							bc.grid.reloadData($page);
+						}
+					});
+				});
+			}else{
+				bc.msg.alert("未发布的信息不能取消发布！");
 			}
-		});
+
+			
+		}else{
+			bc.msg.slide("一次只能选择一条信息取消发布！");
+		}
 	}
 };
