@@ -2,6 +2,8 @@ bc.namespace("bc.flow.workspace");
 bc.flow.workspace = {
 	init : function() {
 		var $page = $(this);
+		var $common = $page.children(".common");
+		
 		// 记录流程实例的id
 		var id = $page.find("input[name='id']").val();
 		var subject = $page.find("input[name='subject']").val();
@@ -50,7 +52,6 @@ bc.flow.workspace = {
 			click: function(e) {
 				var $this = $(this);
 				if($this.is(".flowImage")){// 查看流程图
-					//alert("TODO:查看流程图");
 					window.open(bc.root + "/bc-workflow/workflow/diagram?id=" + id,"_blank");
 				}else if($this.is(".excutionLog")){// 查看流转日志
 					bc.page.newWin({
@@ -58,10 +59,32 @@ bc.flow.workspace = {
 						url: bc.root + "/bc-workflow/excutionLogs/list?pid="+id
 					});
 				}else if($this.is(".addComment")){// 添加意见
-					alert("TODO:添加意见");
+					bc.flowattach.create({
+						type:2,
+						common:true,
+						pid: id,
+						onOk:function(json){
+							//alert($.toJSON(json));
+							var simpleLine = bc.flow.workspace.TPL.LINE.format("comment","ui-icon-comment","link",json.desc, bc.flow.workspace.TPL.COMMENT_BUTTONS);
+							var detailLine = bc.flow.workspace.TPL.TEXT_LINE.format(json.author + " " + json.fileDate);
+							var info = bc.flow.workspace.TPL.INFO.format(json.id,"","","",simpleLine,detailLine,"low little");
+							$common.children(":last").before(info);
+						}
+					});
 				}else if($this.is(".addAttach")){// 添加附件
-					alert("TODO:添加附件");
-				}else if($this.is(".finish")){// 添加附件
+					bc.flowattach.create({
+						type:1,
+						common:true,
+						pid: id,
+						onOk:function(json){
+							//alert($.toJSON(json));
+							var simpleLine = bc.flow.workspace.TPL.LINE.format("attach","ui-icon-link","link",json.subject, bc.flow.workspace.TPL.ATTACH_BUTTONS);
+							var detailLine = bc.flow.workspace.TPL.TEXT_LINE.format(json.author + " " + json.fileDate);
+							var info = bc.flow.workspace.TPL.INFO.format(json.id,"","","",simpleLine,detailLine,"low little");
+							$common.children(".comment,.stat").filter(":first").before(info);
+						}
+					});
+				}else if($this.is(".finish")){// 完成办理
 					alert("TODO:完成办理");
 				}else if($this.is(".delegate")){// 委派任务
 					alert("TODO:委派任务");
@@ -81,12 +104,17 @@ bc.flow.workspace = {
 		$page.delegate(".line>.text",{
 			click: function(e) {
 				var $line = $(this).closest(".line");
+				var $info = $line.closest(".info");
 				if($line.is(".form")){// 打开表单
 					alert("TODO:打开表单");
 				}else if($line.is(".comment")){// 打开意见
-					alert("TODO:打开意见");
+					bc.flowattach.open({
+						id: $info.data("id")
+					});
 				}else if($line.is(".attach")){// 打开附件
-					alert("TODO:打开附件");
+					bc.flowattach.open({
+						id: $info.data("id")
+					});
 				}
 				
 				return false;
@@ -97,15 +125,33 @@ bc.flow.workspace = {
 		$page.delegate(".line>.rightIcons>.itemOperate",{
 			click: function(e) {
 				var $this = $(this);
-				var $line = $this.closest(".line");
+				var $info = $this.closest(".info");
 				if($this.is(".edit")){// 编辑
-					alert("TODO:编辑");
+					bc.flowattach.edit({
+						id: $info.data("id"),
+						onOk:function(json){
+							alert($.toJSON(json))
+						}
+					});
 				}else if($this.is(".open")){// 查看
-					alert("TODO:查看");
+					bc.flowattach.open({
+						id: $info.data("id")
+					});
 				}else if($this.is(".download")){// 下载
-					alert("TODO:下载");
+					bc.flowattach.download({
+						subject: $info.data("subject"),
+						path: $info.data("path")
+					});
 				}else if($this.is(".delete")){// 删除
-					alert("TODO:删除");
+					bc.flowattach.delete_({
+						id: $info.data("id"),
+						onOk:function(json){
+							//alert($.toJSON(json));
+							if(json.success){
+								$info.remove();
+							}
+						}
+					});
 				}
 				
 				return false;
@@ -113,3 +159,39 @@ bc.flow.workspace = {
 		});
 	}
 };
+
+/** 页面模板 */
+bc.flow.workspace.TPL={};
+bc.flow.workspace.TPL.ITEM_BUTTON = '<span class="itemOperate {0}"><span class="ui-icon {2}"></span><span class="text link">{1}</span></span>';
+bc.flow.workspace.TPL.ITEM_BUTTON_EDIT = bc.flow.workspace.TPL.ITEM_BUTTON.format("edit","编辑","ui-icon-pencil");
+bc.flow.workspace.TPL.ITEM_BUTTON_OPEN = bc.flow.workspace.TPL.ITEM_BUTTON.format("open","查看","ui-icon-document-b");
+bc.flow.workspace.TPL.ITEM_BUTTON_DOWNLOAD = bc.flow.workspace.TPL.ITEM_BUTTON.format("download","下载","ui-icon-arrowthickstop-1-s");
+bc.flow.workspace.TPL.ITEM_BUTTON_DELETE = bc.flow.workspace.TPL.ITEM_BUTTON.format("delete","删除","ui-icon-closethick");
+	
+bc.flow.workspace.TPL.COMMENT_BUTTONS = bc.flow.workspace.TPL.ITEM_BUTTON_EDIT+bc.flow.workspace.TPL.ITEM_BUTTON_OPEN+bc.flow.workspace.TPL.ITEM_BUTTON_DELETE;
+bc.flow.workspace.TPL.ATTACH_BUTTONS = bc.flow.workspace.TPL.ITEM_BUTTON_EDIT+bc.flow.workspace.TPL.ITEM_BUTTON_OPEN+bc.flow.workspace.TPL.ITEM_BUTTON_DOWNLOAD+bc.flow.workspace.TPL.ITEM_BUTTON_DELETE;
+
+bc.flow.workspace.TPL.LINE = [
+	'<div class="line {0}">'
+	,'	<span class="leftIcon ui-icon {1}"></span>'
+	,'	<span class="text {2}">{3}</span>'
+	,'	<span class="rightIcons">{4}'
+	,'		<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>'
+	,'	</span>'
+	,'</div>'
+].join("");
+
+bc.flow.workspace.TPL.TEXT_LINE = [
+	'<div class="line">'
+	,'	<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>'
+	,'	<span class="text">{0}</span>'
+	,'</div>'
+].join("");
+
+bc.flow.workspace.TPL.INFO = [
+	'<div class="info ui-widget-content" data-id="{0}" data-subject="{1}" data-size="{2}" data-path="{3}">'
+	,'	<div class="simple">{4}</div>'
+	,'	<div class="detail {6}">{5}</div>'
+	,'</div>'
+].join("");
+
