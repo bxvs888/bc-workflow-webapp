@@ -161,15 +161,15 @@
 			</span>
 		</div>
 		<!-- 信息列表 -->
-		<s:iterator value="ws['doneInfo']['items']" var="item">
-		<div class="info" data-id="${item['id']}">
+		<s:iterator value="ws['doneInfo']['tasks']" var="task">
+		<div class="info" data-id="${task['id']}">
 			<div class="simple">
 				<div class="line topic ui-state-default">
 					<span class="leftIcon ui-icon ui-icon-flag"></span>
-					<span class="text">${item['subject']}</span>
+					<span class="text">${task['subject']}</span>
 					<span class="rightIcons">
-						<span class="text"><span class="ui-icon ui-icon-person"></span><span class="text">${item['assignee']}</span></span>
-						<span class="text"><span class="ui-icon ui-icon-clock"></span><span class="text">${item['startTime']}</span></span>
+						<span class="text"><span class="ui-icon ui-icon-person"></span><span class="text">${task['assignee']}</span></span>
+						<span class="text"><span class="ui-icon ui-icon-clock"></span><span class="text">${task['startTime']}</span></span>
 						<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
 					</span>
 				</div>
@@ -178,18 +178,18 @@
 				<!-- 办理耗时 -->
 				<div class="line low">
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-					<span class="text">${item['wasteTime']}</span>
+					<span class="text">${task['wasteTime']}</span>
 				</div>
 				
-				<s:if test="%{item['dueDate'] != null}">
+				<s:if test="%{task['dueDate'] != null}">
 				<!-- 办理期限 -->
 				<div class="line">
 					<span class="leftIcon ui-icon ui-icon-clock"></span>
-					<span class="text ui-state-focus">${item['dueDate']}</span>
+					<span class="text ui-state-focus">${task['dueDate']}</span>
 				</div>
 				</s:if>
 				
-				<s:iterator value="#item['detail']" var="d">
+				<s:iterator value="#task['items']" var="item">
 				<div class="line info">
 					<div class="simple">
 						<div class="line form">
