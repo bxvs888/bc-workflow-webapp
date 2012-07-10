@@ -190,25 +190,33 @@
 				</s:if>
 				
 				<s:iterator value="#task['items']" var="item">
-				<div class="line info">
+				<div class="info ui-widget-content ${item['type']}" data-id="${item['id']}"
+					<s:if test="%{#item['type']=='attach'}">
+						data-subject='<s:property value="#item['subject']"/>'
+						data-size='<s:property value="#item['size']"/>'
+						data-path='<s:property value="#item['path']"/>'
+					</s:if>>
 					<div class="simple">
-						<div class="line form">
-							<span class="leftIcon ui-icon ui-icon-document"></span>
-							<span class="text link">表单：测试任务表单</span>
+						<div class="line ${item['type']}">
+							<span class="leftIcon ui-icon ${item['iconClass']}"></span>
+							<span class="text ${item['link'] ? 'link':''}">${item['subject']}<s:if test="%{#item['type']=='attach'}"> (${item['sizeInfo']})</s:if></span>
 							<span class="rightIcons">
-								<span class="itemOperate edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
-								<span class="itemOperate open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
-								<span class="itemOperate download"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
-								<span class="itemOperate delete"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
+								<s:if test="#item['hasButtons']">${item['buttons']}</s:if>
 								<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
 							</span>
 						</div>
 					</div>
-					<div class="detail low little">
-						<div class="line">
+					<div class="detail">
+						<div class="line desc ${item['desc'] == null || item['desc'].length() == 0 ? 'hide':''}">
 							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-							<span class="text">小张 2012-01-01 08:00</span>
+							<pre class="ui-widget-content text">${item['desc']}</pre>
 						</div>
+						<s:iterator value="#item['detail']">
+						<div class="line low little">
+							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
+							<span class="text"><s:property/></span>
+						</div>
+						</s:iterator>
 					</div>
 				</div>
 				</s:iterator>
