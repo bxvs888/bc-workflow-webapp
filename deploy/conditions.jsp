@@ -6,8 +6,14 @@
 		<li class="condition">
 			<div class="label">类型</div>
 			<div class="value checkboxes" data-condition='{"type":"long","key":"d.type_"}' >
-				<label><input type="checkbox" name="checkboxField1" value="0"><span>XML</span></label>
-				<label><input type="checkbox" name="checkboxField1" value="1"><span>BAR</span></label>
+				<ul class="conditions">
+					<li class="condition">
+						<label><input type="checkbox" name="checkboxField1" value="0"><span>Activiti BPMN 2.0 XML流程图文件</span></label>
+					</li>
+					<li class="condition">
+						<label><input type="checkbox" name="checkboxField1" value="1"><span>Activiti BPMN 2.0  流程打包文件</span></label>
+					</li>
+				</ul>
 			</div>
 		</li>
 		<li class="condition">
