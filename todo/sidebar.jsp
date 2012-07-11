@@ -11,6 +11,7 @@
 			<td style="text-align: left;">待办事项</td>
 			<td style="text-align: right;">
 				<ul class="inputIcons">
+					<li class="refresh custom inputIcon ui-icon ui-icon-refresh" title="点击刷新"></li>
 					<li class="more custom inputIcon ui-icon ui-icon-folder-open" title="点击查看更多"></li>
 				</ul>
 			</td>
