@@ -61,7 +61,7 @@ bc.flow = {
 	 * @option {Boolean} isNewVersion [可选]是否只显示最新版本,默认true						
 	 * @option {Boolean} multiple [可选]是否允许多选，默认false
 	 * @option {Boolean} paging [可选]是否分页，默认false
-	 * @option {Function} onOk 选择完毕后的回调函数，
+	 * @option {Function} onStart 启动后的回调函数，
 	 * 单选返回一个对象 格式为{
 	 *		id:[id],
 	 *		name:[name],				--名称
@@ -79,22 +79,13 @@ bc.flow = {
 					dataType: "json",
 					url: bc.root + "/bc-workflow/workflow/startFlow?key=" + def.key,
 					success: function(json){
-						if(logger.debugEnabled)logger.debug("delete success.json=" + $.toJSON(json));
-						if(json.success === false){
-							bc.msg.alert(json.msg);// 仅显示失败信息
+						if(json&&typeof(option.onStart) == "function"){
+							option.onStart(json);
 						}else{
-							//调用回调函数
-							var showMsg = true;
-							if(typeof option.callback == "function"){
-								//返回false将禁止保存提示信息的显示
-								if(option.callback.call($page[0],json) === false)
-									showMsg = false;
-							}
-							if(showMsg)
+							if(json.success === false){
+								bc.msg.alert(json.msg);// 仅显示失败信息
+							}else
 								bc.msg.slide(json.msg);
-							
-							//重新加载列表
-							bc.grid.reloadData($page);
 						}
 					}
 				});

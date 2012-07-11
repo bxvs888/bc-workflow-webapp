@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <div class="bc-page" data-type='form' title='<s:property value="title"/>'
 	data-saveUrl='<s:url value="/bc-workflow/flowattach/save" />'
-	data-js='<s:url value="/bc-workflow/flowattach/form.js"/>'
+	data-js='<s:url value="/bc-workflow/flowattach/form.js"/>,<s:url value="/bc/template/template.js"/>'
 	data-initMethod='bc.flowattachForm.init'
 	data-option='<s:property value="formPageOption"/>' style="overflow-y: auto;">
 	<s:form name="flowAttachForm" theme="simple" >
@@ -13,7 +13,7 @@
 					<td >&nbsp;</td>
 				</tr>
 				<!-- 附件  -->
-					<s:if test="e.type==1">
+				<s:if test="e.type==1">
 					<tr>
 						<td class="label" style="min-width: 60px;width: 60px;">*<s:text name="flowattach.subject"/>:</td>
 						<td class="value">
@@ -26,6 +26,7 @@
 							<div class="relative">
 								<s:textfield name="e.path" cssClass="ui-widget-content" readonly="true" data-validate="required"/>
 								<ul class="inputIcons" style="padding-right:8px">
+									<li id="loadAttachFromTemplate" class="inputIcon ui-icon ui-icon-circle-plus" title='点击从模板中添加' >
 									<li id="upLoadFileId" class="inputIcon ui-icon ui-icon-circle-arrow-n" style="position: relative;">
 										<input type="file" class="auto uploadFile" id="uploadFile" name="uploadFile" title="点击上传文件"
 											data-cfg='{"callback":"bc.flowattachForm.afterUploadfile","subdir":"workflow/attachment","source":":input[name=\"e.subject\"]","to":":input[name=\"e.path\"]","ptype":"FlowAttach","puid":"<s:property value="e.uid"/>"}'
@@ -42,6 +43,12 @@
 						<td class="value">
 							<s:textarea rows="4" name="e.desc"  cssClass="ui-widget-content noresize" />
 						</td>		
+					</tr>
+					<tr>
+						<td class="label" style="min-width: 60px;width: 60px;"><s:text name="flowattach.formatted"/>:</td>		
+						<td class="value">
+							<s:radio name="e.formatted" list="#{'true':'是','false':'否'}" cssStyle="width:auto;"/>
+						</td>	
 					</tr>
 				</s:if>
 				<!-- 意见 -->
@@ -75,8 +82,10 @@
 		<s:hidden name="e.type" />
 		<s:hidden name="e.pid" />
 		<s:hidden name="e.tid" />
-		<s:hidden name="e.ext" />
-		<s:hidden name="e.size" />
+		<s:if test="e.type==1">
+			<s:hidden name="e.ext" />
+			<s:hidden name="e.size" />
+		</s:if>
 		<s:hidden name="e.author.id" />
 		<input type="hidden" name="e.fileDate" value='<s:date format="yyyy-MM-dd HH:mm:ss" name="e.fileDate" />'/>
 	</s:form>

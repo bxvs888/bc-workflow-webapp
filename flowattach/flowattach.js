@@ -18,10 +18,11 @@ bc.flowattach = {
 		 * 					id:[id],				--id
 		 * 					type:[type],			--type 类型：1-附件，2-意见
 		 * 					common:[common],		--common 是否公共信息
-		 * 					subject:[subject],		--附件类型下的标题
+		 * 					subject:[subject],		--标题
 		 * 					path:[path],			--附件路径
 		 * 					ext:[ext],				--附件扩展名
 		 * 					desc:[desc]				--附件的时候为备注,意见的时候为意见信息
+		 * 					formatted:[formatted]	--格式化
 		 * 					author:[author]			--创建人
 		 * 					fileDate:[fileDate]		--创建时间
 		 * 					}
@@ -64,6 +65,7 @@ bc.flowattach = {
 		 * 					path:[path],			--附件路径
 		 * 					ext:[ext],				--附件扩展名
 		 * 					desc:[desc]				--附件的时候为备注,意见的时候为意见信息
+		 * 					formatted:[formatted]	--格式化
 		 * 					author:[author]			--创建人
 		 * 					fileDate:[fileDate]		--创建时间
 		 * 					modifier:[modifier]		--最后修改人 
@@ -144,7 +146,7 @@ bc.flowattach = {
 		/**
 		 * 下载附件，只支持附件
 		 * @option {string} subject 附件标题
-		 * @option {string} path	附件路径
+		 * @option {string} path	附件路径 
 		 *
 		 */
 		download : function(option){

@@ -1,13 +1,31 @@
 bc.namespace("bc.sidebar");
+bc.sidebar = {
+	refresh : function() {
+		bc.sidebar.todo.refresh();
+	}
+};
 bc.sidebar.todo = {
 	init : function() {
 		var $page = $(this);
 		
-		$page.find('.more').click(function(){
-			bc.page.newWin({
-				name: "我的待办",
-				mid: "personals",
-				url: bc.root+ "/bc-workflow/todo/personals/list",
+		// 绑定查看更多事件
+		$page.delegate(".more",{
+			click: function(){
+				bc.page.newWin({
+					name: "我的待办",
+					mid: "personals",
+					url: bc.root+ "/bc-workflow/todo/personals/list",
+				});
+			}
+		});
+		
+		// 绑定刷新事件
+		$page.find('.refresh').click(function(){
+			$page.delegate(".refresh",{
+				click: function(){
+					//bc.sidebar.refresh();
+					bc.sidebar.todo.refresh.call($page);
+				}
 			});
 		});
 		
@@ -53,6 +71,46 @@ bc.sidebar.todo = {
 					});
 				}
 				return false;
+			}
+		});
+	},
+	
+	/** 
+	 * 刷新待办边栏的数据
+	 * 
+	 */
+	refresh: function(){
+		var $sidebar = $(this);
+		if(!$sidebar.is(".sidebar-todo")){
+			$sidebar = $("#right").children(".sidebar-todo");
+		}
+		
+		// 显示加载动画
+		var $loader = $sidebar.children('#sidebarLoader');
+		if($loader.size() == 0){
+			$loader = $('<img id="sidebarLoader" src="'+bc.root+'/bc/libs/themes/default/images/loader/loader02_64x64.gif" style="position:absolute;top:50%;margin-top:-32px;;left:50%;margin-left:-32px;"/>');
+			$loader.appendTo($sidebar);
+		}
+		$loader.removeClass("hide");
+		
+		// 加载待办页面
+		bc.ajax({
+			url: bc.root + "/bc-workflow/todo/personals/sidebar",
+			dataType: "html",
+			success: function(html){
+				var $dom = $(html).children(".empty,.tasks");
+				$sidebar.children(".empty,.tasks").remove();
+				$sidebar.append($dom);
+				
+				// 删除加载动画
+				$loader.addClass("hide");
+			},
+			error: function(){
+				// error
+				bc.msg.error("加载待办信息异常！");
+				
+				// 删除加载动画
+				$loader.addClass("hide");
 			}
 		});
 	}

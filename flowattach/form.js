@@ -16,21 +16,62 @@ bc.flowattachForm = {
 			var path=$form.find(":input[name='e.path']").val();
 			var id=$form.find(":input[name='e.id']").val();
 			if(id==""){
-				bc.msg.slide('请先保存附件！');
+				bc.msg.slide('请先确认添加附件！');
 				return;
 			}
 			if(!bc.validator.validate($form)) return;
-				
 			var n =  subject;// 获取文件名
 			var f = "workflow/attachment/" + path;// 获取附件相对路径			
 			// 下载文件
 			bc.file.download({f: f, n: n});
 		});
+		
+		//绑定选择模板按钮
+		$form.find("#loadAttachFromTemplate").click(function(){
+			//获取流程实例id
+			var pid=$form.find(':input[name="e.pid"]').val();
+			//ajax请求获取实例ID的流程的名称
+			bc.ajax({
+				url:bc.root+"/bc-workflow/flowattach/loadProcInstName",
+				data:{pid:pid},
+				dataType:"json",
+				success:function(piName){
+					//根据名称，查询属于本流程的模板
+					var category="流程";
+					if(piName.name)
+						category+=","+piName.name;
+					//选择模板
+					bc.selectTemplate({
+						category:category,
+						onOk:function(template){
+							logger.info($.toJSON(template));
+							var uid=$form.find(":input[name='e.uid']").val();
+							bc.ajax({
+								url:bc.root+"/bc-workflow/flowattach/loadAttachFromTemplate",
+								data:{tplCode:template.code,uid:uid},
+								dataType:'json',
+								success:function(json){
+									if(json.success){
+										bc.msg.slide(json.msg);
+										$form.find(':input[name="e.subject"]').val(template.subject);
+										$form.find(':input[name="e.path"]').val(json.path);
+										if(template.formatted=='true'){
+											$form.find('input[name="e.formatted"]:first').attr("checked","checked");
+										}else
+											$form.find('input[name="e.formatted"]:last').attr("checked","checked");
+									}else
+										bc.msg.alert(json.msg);
+								}
+							});
+						}
+					});
+				}
+			});	
+		});
 	},
 	/**意见保存方法*/
 	save : function(){
-		$page=$(this);
-		
+		$page=$(this);	
 		//意见保存的特殊处理
 		if($page.find(":input[name='e.type']").val()=='2'){
 			var desc=$page.find(":input[name='e.desc']").val();
@@ -40,7 +81,7 @@ bc.flowattachForm = {
 				return;
 			}else if(desc==''){
 				if(subject.length>33){
-					bc.msg.alert('输入的简易意见过长，你可以简化简易意见或者在详细中输入.');
+					bc.msg.alert('输入的简易意见过长，你可以简化简易描述或者在详细中输入.');
 					return;
 				}
 			}else if(subject==''){
@@ -51,7 +92,7 @@ bc.flowattachForm = {
 				
 			}else{
 				if(subject.length>33){
-					bc.msg.alert('输入的简易意见过长，你可以简化简易意见或者在详细中输入.');
+					bc.msg.alert('输入的简易描述过长，你可以简化简易描述或者在详细中输入.');
 					return;
 				}
 			}
@@ -60,24 +101,24 @@ bc.flowattachForm = {
 		//调用标准的方法执行保存
 		bc.page.save.call($page,{callback: function(json){
 			bc.msg.slide(json.msg);
-			$page.find(":input[name='e.ext']").val(json.ext);
-			$page.find(":input[name='e.size']").val(json.size);
-			
+			var type=$page.find(":input[name='e.type']").val();
 			//声明返回的信息
 			var data = {};
 			data.id=$page.find(":input[name='e.id']").val();
-			data.type=$page.find(":input[name='e.type']").val();
+			data.type=type;
 			data.common=$page.find(":input[name='e.common']").val();
 			data.subject=$page.find(":input[name='e.subject']").val();
-			data.path=$page.find(":input[name='e.path']").val();
 			data.desc=$page.find(":input[name='e.desc']").val();
-			data.uid=$page.find(":input[name='e.uid']").val();
-			data.ext=json.ext;
-			data.size=json.size;
 			data.author=json.author;
 			data.fileDate=json.fileDate;
 			data.modifier=json.modifier;
 			data.modifiedDate=json.modifiedDate;
+			if(type=='1'){
+				data.uid=$page.find(":input[name='e.uid']").val();
+				data.ext=json.ext;
+				data.size=json.size;
+				data.formatted=json.formatted;
+			}
 			logger.info($.toJSON(data));
 			$page.data("data-status", data);
 			$page.dialog("close");

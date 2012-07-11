@@ -159,7 +159,7 @@ bc.flow.workspace = {
 	},
 	
 	/** 委派任务 */
-	delegatemTask: function(taskId){
+	delegateTask: function(taskId){
 		alert("TODO:委派任务：taskId=" + taskId);
 	},
 	
