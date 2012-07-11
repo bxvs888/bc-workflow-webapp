@@ -23,6 +23,7 @@ bc.sidebar.todo = {
 		$page.find('.refresh').click(function(){
 			$page.delegate(".refresh",{
 				click: function(){
+					//bc.sidebar.refresh();
 					bc.sidebar.todo.refresh.call($page);
 				}
 			});
