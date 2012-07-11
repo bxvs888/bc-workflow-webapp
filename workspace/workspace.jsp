@@ -71,67 +71,76 @@
 			</span>
 		</div>
 		<!-- 信息列表 -->
-		<s:iterator value="ws['todoInfo']['items']" var="item">
-		<div class="info" data-id="${item['id']}" data-isMyTask="${item['isMyTask']}" data-isUserTask="${item['isUserTask']}">
+		<s:iterator value="ws['todoInfo']['tasks']" var="task">
+		<div class="info" data-id="${task['id']}" data-isMyTask="${task['isMyTask']}" data-isUserTask="${task['isUserTask']}">
 			<div class="simple">
-				<div class="line topic ui-state-default ${item['isMyTask'] ? 'ui-state-highlight':''}">
-					<span class="leftIcon ui-icon ${!item['isMyTask'] ? 'ui-icon-cancel':(item['isUserTask'] ? 'ui-icon-person':'ui-icon-home')}"></span>
-					<span class="text">${item['subject']}</span>
+				<div class="line topic ui-state-default ${task['isMyTask'] ? 'ui-state-highlight':''}">
+					<span class="leftIcon ui-icon ${!task['isMyTask'] ? 'ui-icon-cancel':(task['isUserTask'] ? 'ui-icon-person':'ui-icon-home')}"></span>
+					<span class="text">${task['subject']}</span>
 					<span class="rightIcons">
-						<s:if test="#item['hasButtons']">${item['buttons']}</s:if>
+						<s:if test="#task['hasButtons']">${task['buttons']}</s:if>
+						<span class="reverse"><span class="ui-icon ui-icon-carat-2-n-s" title="反转详细信息区域的显示"></span></span>
 						<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
 					</span>
 				</div>
 			</div>
 			<div class="detail">
-				<s:if test="%{item['dueDate'] != null}">
+				<s:if test="%{task['dueDate'] != null}">
 				<!-- 办理期限 -->
 				<div class="line">
 					<span class="leftIcon ui-icon ui-icon-clock"></span>
-					<span class="text ui-state-focus">${item['dueDate']}</span>
+					<span class="text ui-state-focus">${task['dueDate']}</span>
 				</div>
 				</s:if>
 				
-				<s:iterator value="#item['detail']" var="d">
-				<div class="line info">
+				<s:iterator value="#task['items']" var="item">
+				<div class="info ui-widget-content ${item['type']}" data-id="${item['id']}"
+					<s:if test="%{#item['type']=='attach'}">
+						data-subject='<s:property value="#item['subject']"/>'
+						data-size='<s:property value="#item['size']"/>'
+						data-path='<s:property value="#item['path']"/>'
+					</s:if>>
 					<div class="simple">
-						<div class="line form">
-							<span class="leftIcon ui-icon ui-icon-document"></span>
-							<span class="text link">表单：测试任务表单</span>
+						<div class="line ${item['type']}">
+							<span class="leftIcon ui-icon ${item['iconClass']}"></span>
+							<span class="text ${item['link'] ? 'link':''}">${item['subject']}<s:if test="%{#item['type']=='attach'}"> (${item['sizeInfo']})</s:if></span>
 							<span class="rightIcons">
-								<span class="itemOperate edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
-								<span class="itemOperate open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
-								<span class="itemOperate download"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
-								<span class="itemOperate delete"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
+								<s:if test="#item['hasButtons']">${item['buttons']}</s:if>
 								<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
 							</span>
 						</div>
 					</div>
-					<div class="detail low little">
-						<div class="line">
+					<div class="detail">
+						<div class="line desc ${item['desc'] == null || item['desc'].length() == 0 ? 'hide':''}">
 							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-							<span class="text">小张 2012-01-01 08:00</span>
+							<pre class="ui-widget-content text">${item['desc']}</pre>
 						</div>
+						<s:iterator value="#item['detail']">
+						<div class="line low little">
+							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
+							<span class="text"><s:property/></span>
+						</div>
+						</s:iterator>
 					</div>
 				</div>
 				</s:iterator>
 				
 				<!-- 待办人、组 -->
-				<div class="line low">
+				<div class="line normalFirst low">
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-					<span class="text">${item['actor']}</span>
+					<span class="text">${task['actor']}</span>
 				</div>
 				
 				<!-- 创建时间 -->
 				<div class="line low">
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-					<span class="text">${item['createTime']}</span>
+					<span class="text">${task['createTime']}</span>
 				</div>
 				
 				<!-- 办理耗时 -->
 				<div class="line low">
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-					<span class="text">${item['wasteTime']}</span>
+					<span class="text">${task['wasteTime']}</span>
 				</div>
 				
 			</div>
@@ -152,15 +161,15 @@
 			</span>
 		</div>
 		<!-- 信息列表 -->
-		<s:iterator value="ws['doneInfo']['items']" var="item">
-		<div class="info" data-id="${item['id']}">
+		<s:iterator value="ws['doneInfo']['tasks']" var="task">
+		<div class="info" data-id="${task['id']}">
 			<div class="simple">
 				<div class="line topic ui-state-default">
 					<span class="leftIcon ui-icon ui-icon-flag"></span>
-					<span class="text">${item['subject']}</span>
+					<span class="text">${task['subject']}</span>
 					<span class="rightIcons">
-						<span class="text"><span class="ui-icon ui-icon-person"></span><span class="text">${item['assignee']}</span></span>
-						<span class="text"><span class="ui-icon ui-icon-clock"></span><span class="text">${item['startTime']}</span></span>
+						<span class="text"><span class="ui-icon ui-icon-person"></span><span class="text">${task['assignee']}</span></span>
+						<span class="text"><span class="ui-icon ui-icon-clock"></span><span class="text">${task['startTime']}</span></span>
 						<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
 					</span>
 				</div>
@@ -169,37 +178,45 @@
 				<!-- 办理耗时 -->
 				<div class="line low">
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-					<span class="text">${item['wasteTime']}</span>
+					<span class="text">${task['wasteTime']}</span>
 				</div>
 				
-				<s:if test="%{item['dueDate'] != null}">
+				<s:if test="%{task['dueDate'] != null}">
 				<!-- 办理期限 -->
 				<div class="line">
 					<span class="leftIcon ui-icon ui-icon-clock"></span>
-					<span class="text ui-state-focus">${item['dueDate']}</span>
+					<span class="text ui-state-focus">${task['dueDate']}</span>
 				</div>
 				</s:if>
 				
-				<s:iterator value="#item['detail']" var="d">
-				<div class="line info">
+				<s:iterator value="#task['items']" var="item">
+				<div class="info ui-widget-content ${item['type']}" data-id="${item['id']}"
+					<s:if test="%{#item['type']=='attach'}">
+						data-subject='<s:property value="#item['subject']"/>'
+						data-size='<s:property value="#item['size']"/>'
+						data-path='<s:property value="#item['path']"/>'
+					</s:if>>
 					<div class="simple">
-						<div class="line form">
-							<span class="leftIcon ui-icon ui-icon-document"></span>
-							<span class="text link">表单：测试任务表单</span>
+						<div class="line ${item['type']}">
+							<span class="leftIcon ui-icon ${item['iconClass']}"></span>
+							<span class="text ${item['link'] ? 'link':''}">${item['subject']}<s:if test="%{#item['type']=='attach'}"> (${item['sizeInfo']})</s:if></span>
 							<span class="rightIcons">
-								<span class="itemOperate edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
-								<span class="itemOperate open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
-								<span class="itemOperate download"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span><span class="text link">下载</span></span>
-								<span class="itemOperate delete"><span class="ui-icon ui-icon-closethick"></span><span class="text link">删除</span></span>
+								<s:if test="#item['hasButtons']">${item['buttons']}</s:if>
 								<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
 							</span>
 						</div>
 					</div>
-					<div class="detail low little">
-						<div class="line">
+					<div class="detail">
+						<div class="line desc ${item['desc'] == null || item['desc'].length() == 0 ? 'hide':''}">
 							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-							<span class="text">小张 2012-01-01 08:00</span>
+							<pre class="ui-widget-content text">${item['desc']}</pre>
 						</div>
+						<s:iterator value="#item['detail']">
+						<div class="line low little">
+							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
+							<span class="text"><s:property/></span>
+						</div>
+						</s:iterator>
 					</div>
 				</div>
 				</s:iterator>

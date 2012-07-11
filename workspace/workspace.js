@@ -25,9 +25,15 @@ bc.flow.workspace = {
 		});
 		
 		// 反转详细信息区域的显示
-		$page.delegate(".header>.rightIcons>.reverse",{
+		$page.delegate(".header>.rightIcons>.reverse,.topic>.rightIcons>.reverse",{
 			click: function(e) {
-				var $infos = $(this).closest(".header").siblings(".info");
+				var $h = $(this).closest(".header,.simple");
+				var $infos;
+				if($h.is(".simple")){
+					$infos = $h.next().children(".info");
+				}else{// 当header处理
+					$infos = $h.siblings(".info");
+				}
 				$infos.toggleClass("collapse");
 				$infos.find(">.simple>.line>.rightIcons>.toggle>.ui-icon").toggleClass("ui-icon-carat-1-sw ui-icon-carat-1-ne");
 				return false;
@@ -64,13 +70,13 @@ bc.flow.workspace = {
 					if($line.is(".header")){// 添加公共意见
 						bc.flow.workspace.addComment.call($line.parent(),"common",pid);
 					}else if($line.is(".topic")){// 添加待办意见
-						bc.flow.workspace.addComment.call($info.parent(),"todo",pid,$info.data("id"));
+						bc.flow.workspace.addComment.call($info.children(".detail"),"todo",pid,$info.data("id"));
 					}
 				}else if($this.is(".addAttach")){// 添加附件
 					if($line.is(".header")){// 添加公共附件
 						bc.flow.workspace.addAttach.call($line.parent(),"common",pid);
 					}else if($line.is(".topic")){// 添加待办附件
-						bc.flow.workspace.addAttach.call($info.parent(),"todo",pid,$info.data("id"));
+						bc.flow.workspace.addAttach.call($info.children(".detail"),"todo",pid,$info.data("id"));
 					}
 				}else if($this.is(".finish")){// 完成办理
 					bc.flow.workspace.finishTask.call($info, $info.data("id"));
@@ -202,7 +208,6 @@ bc.flow.workspace = {
 	 */
 	addComment: function(targetType,pid,tid){
 		var $container = this;
-		alert(targetType == "common");
 		bc.flowattach.create({
 			type: 2,
 			common: (targetType == "common"),
@@ -210,15 +215,15 @@ bc.flow.workspace = {
 			tid: tid,
 			onOk:function(json){
 				//alert($.toJSON(json));
-				var simpleLine = bc.flow.workspace.TPL.LINE.format("comment","ui-icon-comment","link",json.desc, bc.flow.workspace.TPL.COMMENT_BUTTONS);
+				var simpleLine = bc.flow.workspace.TPL.LINE.format("comment","ui-icon-comment","link",json.subject, bc.flow.workspace.TPL.COMMENT_BUTTONS);
 				var detail_descLine = bc.flow.workspace.TPL.DESC_LINE.format(!json.desc || json.desc.length==0 ? "hide" : "",json.desc);
 				var detail_authorLine = bc.flow.workspace.TPL.TEXT_LINE.format("low little",json.author + " " + json.fileDate);
 				var info = bc.flow.workspace.TPL.INFO.format(json.id,"","","",simpleLine,detail_descLine+detail_authorLine,"","comment");
 				
 				if(targetType == "common"){// 公共信息：插在统计信息前
 					$container.children(":last").before(info);
-				}else if(targetType == "todo"){// 待办信息：插到最后
-					$container.append(info);
+				}else if(targetType == "todo"){// 待办信息：插到普通信息前
+					$container.children(".normalFirst").before(info);
 				}else{
 					alert("不支持的容器类型");
 				}
@@ -267,15 +272,15 @@ bc.flow.workspace = {
 			pid: pid,
 			tid: tid,
 			onOk:function(json){
-				// alert($.toJSON(json));
+				//alert($.toJSON(json));
 				var simpleLine = bc.flow.workspace.TPL.LINE.format("attach","ui-icon-link","link",json.subject, bc.flow.workspace.TPL.ATTACH_BUTTONS);
 				var detailLine = bc.flow.workspace.TPL.TEXT_LINE.format("low little",json.author + " " + json.fileDate);
 				var info = bc.flow.workspace.TPL.INFO.format(json.id,json.subject,json.size,json.path,simpleLine,detailLine,"","attach");
 				
 				if(targetType == "common"){// 公共信息：插在意见和统计信息前
 					$container.children(".comment,.stat").filter(":first").before(info);
-				}else if(targetType == "todo"){// 待办信息：插到最后
-					$container.append(info);
+				}else if(targetType == "todo"){// 待办信息：插在意见和普通信息前
+					$container.children(".comment,.normalFirst").filter(":first").before(info);
 				}else{
 					alert("不支持的容器类型");
 				}
@@ -308,7 +313,7 @@ bc.flow.workspace.TPL.LINE = [
 bc.flow.workspace.TPL.DESC_LINE = [
 	'<div class="line desc {0}">'
 	,'	<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>'
-	,'	<pre class="text">{1}</pre>'
+	,'	<pre class="ui-widget-content text">{1}</pre>'
 	,'</div>'
 ].join("");
 
