@@ -20,5 +20,22 @@ bc.historicProcessInstanceSelectView = {
 		
 		// 打开工作空间
 		bc.flow.openWorkspace({id:procinstid, name:name});
+	},
+	/** 启动流程 **/
+	startflow : function(){
+		var $page = $(this);
+		bc.flow.start({
+			onStart:function(json){
+				if(json.success === false){
+					bc.msg.alert(json.msg);// 仅显示失败信息
+				}else{
+					bc.msg.slide(json.msg);
+					//重新加载列表
+					bc.grid.reloadData($page);
+					//刷新待办边框
+					bc.sidebar.refresh();
+				}
+			}
+		})
 	}
 };
