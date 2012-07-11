@@ -172,7 +172,7 @@ bc.flow.workspace = {
 				data: {id: taskId},
 				dataType: "json",
 				success: function(json) {
-					if(json.success){
+					if(json.success){//成功刷新边栏
 						bc.msg.slide(json.msg);
 						bc.sidebar.refresh();
 					}else{
