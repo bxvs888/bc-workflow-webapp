@@ -44,9 +44,8 @@ bc.flowattach = {
 			   	url:bc.root +"/bc-workflow/flowattach/create",
 				mid:'flowattach.create.'+attachType+'.'+option.data.pid+option.data.tid,
 				afterClose: function(status){
-					if(status && typeof(option.onOk) == "function"){
+					if(status && typeof(option.onOk) == "function")
 						option.onOk(status);
-					}
 				}
 			},option));
 		},	
@@ -83,9 +82,8 @@ bc.flowattach = {
 			   	url: bc.root +"/bc-workflow/flowattach/edit?id="+option.id,
 				mid: 'flowattach.edit.'+option.id,
 				afterClose: function(status){
-					if(status && typeof(option.onOk) == "function"){
-						option.onOk(status);
-					}
+					if(status && typeof(option.onOk) == "function")
+						option.onOk(status);	
 				}
 			},option));
 		},
@@ -122,53 +120,46 @@ bc.flowattach = {
 					url: bc.root +"/bc-workflow/flowattach/delete?id="+option.id,
 					dataType: "json",
 					success: function(json) {
+						//调用callback
 						if(typeof(option.onOk) == "function"){
 							option.onOk(json);
-						}else{
-							if(json.success === false){
-								bc.msg.alert(json.msg);// 仅显示失败信息
-							}else{
-								//调用回调函数
-								var showMsg = true;
-								if(typeof option.callback == "function"){
-									//返回false将禁止保存提示信息的显示
-									if(option.callback.call($page[0],json) === false)
-										showMsg = false;
-								}
-								if(showMsg)
-									bc.msg.slide(json.msg);
-							}
+							return;
 						}
+						// 仅显示失败信息
+						if(json.success == 'false'){
+							bc.msg.alert(json.msg);
+							return;
+						}
+						//输出完成删除信息	
+						bc.msg.slide(json.msg);
 					}
 				});
 			});
 		},
 		/**
 		 * 下载附件，只支持附件
-		 * @option {string} subject 附件标题
-		 * @option {string} path	附件路径 
-		 *
+		 * @id {ind} id
 		 */
 		download : function(option){
-			var n =  option.subject;// 获取文件名
-			var f = "workflow/attachment/" + option.path;// 获取附件相对路径			
-			// 下载文件
-			bc.file.download({f: f, n: n});
+			var url = bc.root + "/bc-workflow/flowattachfile/download?id=" + option.id;			
+			var win = window.open(url, "blank");
+			if(typeof option.callback == "function"){
+				option.callback.call(this,option,win);
+			}
+			return win;
 		},
 		/**
 		 * 在线查看附件，只支持附件
-		 * @option {string} subject 附件标题
-		 * @option {string} path	附件路径
-		 * @option {string} uid	
+		 * @id {ind} id	
 		 *
 		 */
 		inline : function(option){
-			var n =  option.subject;// 获取文件名
-			var f = "workflow/attachment/" + option.path;// 获取附件相对路径			
-			// 预览文件
-			var option = {f: f, n: n,ptype:"FlowAttach",puid:option.uid};
-			var ext = f.substr(f.lastIndexOf("."));
-			bc.file.inline(option);
+			var url = bc.root + "/bc-workflow/flowattachfile/inline?id=" + option.id;
+			var win = window.open(url, "_blank");
+			if(typeof option.callback == "function"){
+				option.callback.call(this,option,win);
+			}
+			return win;
 		}
 };
 
