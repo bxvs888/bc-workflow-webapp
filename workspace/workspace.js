@@ -165,7 +165,23 @@ bc.flow.workspace = {
 	
 	/** 完成办理 */
 	finishTask: function(taskId){
-		alert("TODO:完成办理：taskId=" + taskId);
+//		alert("TODO:完成办理：taskId=" + taskId);
+		bc.msg.confirm("确定完成任务吗？",function(){
+			jQuery.ajax({
+				url: bc.root + "/bc-workflow/workflow/completeTask", 
+				data: {id: taskId},
+				dataType: "json",
+				success: function(json) {
+					if(json.success){//成功刷新边栏
+						bc.msg.slide(json.msg);
+						bc.sidebar.refresh();
+					}else{
+						bc.msg.alert(json.msg);
+					}
+				}
+			});
+		});
+
 	},
 	
 	/** 分配任务 */
