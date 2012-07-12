@@ -41,9 +41,44 @@ bc.todoView = {
 			});
 
 		}else{
-			bc.msg.slide("一次只能选择一条任务签领！");
+			bc.msg.slide("一次只能签领一条任务！");
 		}
 	},
+	
+	delegateTask : function (){
+		var $page = $(this);
+		var $tr = $page.find(".bc-grid>.data>.right tr.ui-state-highlight");
+		var $hidden = $tr.data("hidden");
+		
+		// 检测是否选中条目
+		if(ids.length ==0){
+			bc.msg.slide("请先选择一条任务！");
+			return;
+		}else if(ids.length == 1){
+			if($hidden.assignee != null){
+				// 选择委托人
+				bc.identity.selectUser({
+					history: true,
+					onOk : function(user) {
+						if(){
+							
+						}
+					}
+				});
+			}else{
+				bc.msg.alert("不能委托岗位任务！");
+			}
+		}else{
+			bc.msg.slide("一次只能委托一条任务！");
+		}
+
+	},
+	
+	assignTask : function (){
+		var $page = $(this);
+	},
+	
+	
 	
 	open : function (){
 		var $page = $(this);

@@ -4,6 +4,7 @@ bc.deploy = {
 		var $page = $(this);
 	},
 	
+	//发布
 	release : function (){
 		
 		var $page = $(this);
@@ -54,6 +55,7 @@ bc.deploy = {
 		}
 	},
 	
+	//取消发布
 	releaseCancel : function (){
 		var $page = $(this);
 		// 获取用户选中的条目
@@ -69,10 +71,61 @@ bc.deploy = {
 			var $hidden = $tr.data("hidden");
 			
 			if($hidden.status == 0){
-				bc.msg.confirm("确定要取消此流程吗？",function(){
+				
+					jQuery.ajax({
+						url: bc.root + "/bc-workflow/deploys/isStarted", 
+						data: {excludeId: ids[0]},
+						dataType: "json",
+						success: function(json) {
+							if(json.started == "true"){
+								bc.msg.alert(json.msg);
+							}else{
+								bc.msg.confirm("确定要取消此流程吗？",function(){
+									jQuery.ajax({
+										url: bc.root + "/bc-workflow/deploys/dodeployCancel", 
+										data: {excludeId: ids[0]},
+										dataType: "json",
+										success: function(json) {
+											bc.msg.slide(json.msg);
+											bc.grid.reloadData($page);
+										}
+									});
+								});
+							}
+						}
+					});
+				
+			}else{
+				bc.msg.alert("未发布的信息不能取消发布！");
+			}
+
+			
+		}else{
+			bc.msg.slide("一次只能选择一条信息取消发布！");
+		}
+	},
+	
+	//级联取消发布
+	cascadeCancel : function (){
+		var $page = $(this);
+		// 获取用户选中的条目
+		var ids = bc.grid.getSelected($page.find(".bc-grid"));
+
+		// 检测是否选中条目
+		if(ids.length ==0){
+			bc.msg.slide("请先选择要取消发布的信息！");
+			return;
+		}else if(ids.length == 1){
+			
+			var $tr = $page.find(".bc-grid>.data>.right tr.ui-state-highlight");
+			var $hidden = $tr.data("hidden");
+			
+			if($hidden.status == 0){
+				
+				bc.msg.confirm("确定要级联取消此流程吗？",function(){
 					jQuery.ajax({
 						url: bc.root + "/bc-workflow/deploys/dodeployCancel", 
-						data: {excludeId: ids[0]},
+						data: {excludeId: ids[0],isCascade: true},
 						dataType: "json",
 						success: function(json) {
 							bc.msg.slide(json.msg);
@@ -80,6 +133,7 @@ bc.deploy = {
 						}
 					});
 				});
+				
 			}else{
 				bc.msg.alert("未发布的信息不能取消发布！");
 			}
@@ -89,4 +143,5 @@ bc.deploy = {
 			bc.msg.slide("一次只能选择一条信息取消发布！");
 		}
 	}
+
 };

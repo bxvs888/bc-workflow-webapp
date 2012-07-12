@@ -56,6 +56,7 @@ bc.sidebar.todo = {
 										dataType: "json",
 										success: function(json) {
 											bc.msg.slide(json.msg);
+											bc.sidebar.refresh();
 										}
 									});
 								});
