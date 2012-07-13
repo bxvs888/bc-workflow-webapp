@@ -151,8 +151,15 @@
 				<div class="line info">
 					<div class="simple">
 						<div class="line form">
+							<div class="ui-widget-content form">[内嵌表单HTML]</div>
+						</div>
+					</div>
+				</div>
+				<div class="line info">
+					<div class="simple">
+						<div class="line form">
 							<span class="leftIcon ui-icon ui-icon-document"></span>
-							<span class="text link">表单：测试任务表单</span>
+							<span class="text link">独立窗口表单：测试任务表单</span>
 							<span class="rightIcons">
 								<span class="itemOperate edit"><span class="ui-icon ui-icon-pencil"></span><span class="text link">编辑</span></span>
 								<span class="itemOperate open"><span class="ui-icon ui-icon-document-b"></span><span class="text link">查看</span></span>
@@ -162,10 +169,9 @@
 							</span>
 						</div>
 					</div>
-					<div class="detail low little">
+					<div class="detail">
 						<div class="line">
-							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-							<span class="text">小张 2012-01-01 08:00</span>
+							<div class="ui-widget-content form">[表单详细信息]</div>
 						</div>
 					</div>
 				</div>

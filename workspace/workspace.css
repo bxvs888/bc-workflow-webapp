@@ -78,7 +78,18 @@
 	width: 96%;
 	overflow: auto;
 	border-width: 1px;
+	border-style: dotted;
 	font-family: "微软雅黑", "宋体", sans-serif;
+}
+
+.ws .line>.form {
+	overflow: auto;
+	margin: 0 4px 0 4px;
+	cursor: default;
+	display: inline-block;
+	border-width: 1px;
+    box-sizing: border-box;
+	width: 98%;
 }
 
 .ws .line>.rightIcons {
