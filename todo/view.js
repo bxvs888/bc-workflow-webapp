@@ -4,6 +4,7 @@ bc.todoView = {
 		var $page = $(this);
 	},
 	
+	//领取
 	signTask : function (){
 		var $page = $(this);
 		// 获取用户选中的条目
@@ -32,6 +33,7 @@ bc.todoView = {
 								success: function(json) {
 									bc.msg.slide(json.msg);
 									bc.grid.reloadData($page);
+									bc.sidebar.refresh();
 								}
 							});
 						});
@@ -45,8 +47,11 @@ bc.todoView = {
 		}
 	},
 	
+	//委托
 	delegateTask : function (){
 		var $page = $(this);
+		// 获取用户选中的条目
+		var ids = bc.grid.getSelected($page.find(".bc-grid"));
 		var $tr = $page.find(".bc-grid>.data>.right tr.ui-state-highlight");
 		var $hidden = $tr.data("hidden");
 		
@@ -58,11 +63,22 @@ bc.todoView = {
 			if($hidden.assignee != null){
 				// 选择委托人
 				bc.identity.selectUser({
-					history: true,
+					history: false,
 					onOk : function(user) {
-						if(){
-							
-						}
+						jQuery.ajax({
+							url: bc.root + "/bc-workflow/workflow/delegateTask", 
+							data: {id: ids[0],toUser: user.account},
+							dataType: "json",
+							success: function(json) {
+								if(json.success){//成功刷新边栏
+									bc.msg.slide(json.msg);
+									bc.grid.reloadData($page);
+									bc.sidebar.refresh();
+								}else{
+									bc.msg.alert(json.msg);
+								}
+							}
+						});
 					}
 				});
 			}else{
@@ -74,11 +90,48 @@ bc.todoView = {
 
 	},
 	
+	//指派
 	assignTask : function (){
 		var $page = $(this);
+		// 获取用户选中的条目
+		var ids = bc.grid.getSelected($page.find(".bc-grid"));
+		var $tr = $page.find(".bc-grid>.data>.right tr.ui-state-highlight");
+		var $hidden = $tr.data("hidden");
+		
+		// 检测是否选中条目
+		if(ids.length ==0){
+			bc.msg.slide("请先选择一条任务！");
+			return;
+		}else if(ids.length == 1){
+			if($hidden.assignee == null){
+				// 选择指派人
+				bc.identity.selectUser({
+					history: false,
+					group: $hidden.groupId,
+					onOk : function(user) {
+						jQuery.ajax({
+							url: bc.root + "/bc-workflow/workflow/assignTask", 
+							data: {id: ids[0],toUser: user.account},
+							dataType: "json",
+							success: function(json) {
+								if(json.success){//成功刷新边栏
+									bc.msg.slide(json.msg);
+									bc.grid.reloadData($page);
+									bc.sidebar.refresh();
+								}else{
+									bc.msg.alert(json.msg);
+								}
+							}
+						});
+					}
+				});
+			}else{
+				bc.msg.alert("该任务已经领取,不能分派！");
+			}
+		}else{
+			bc.msg.slide("一次只能分派一条任务！");
+		}
 	},
-	
-	
 	
 	open : function (){
 		var $page = $(this);
