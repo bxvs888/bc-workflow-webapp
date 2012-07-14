@@ -13,6 +13,9 @@ bc.flow.workspace = {
 			$(this).parent().next().toggleClass("hide");
 		});
 		
+		// 加载流程、任务表单的js、css文件
+		bc.flow.workspace.lodJsCss($page.find(".line>.form>:first"));
+		
 		// 总区域的折叠或展开
 		$page.delegate(".header>.rightIcons>.toggle",{
 			click: function(e) {
@@ -133,6 +136,7 @@ bc.flow.workspace = {
 					}
 				}else if($this.is(".download")){// 下载
 					bc.flowattach.download({
+						id: $info.data("id"),
 						subject: $info.data("subject"),
 						path: $info.data("path")
 					});
@@ -153,6 +157,34 @@ bc.flow.workspace = {
 		});
 	},
 	
+	lodJsCss: function($forms){
+		$forms.each(function(){
+			var $form = $(this);
+			var namespace = $form.attr("data-namespace");
+			
+			// 加载js、css文件
+			var dataJs = bc.getJsCss($form.attr("data-js"));
+			if(dataJs && dataJs.length > 0){
+				if(namespace){
+					dataJs.push(function(){
+						//执行组件指定的额外初始化方法，上下文为$dom
+						var method = namespace + ".init";
+						logger.debug("initMethod="+method);
+						if(method){
+							method = bc.getNested(method);
+							if(typeof method == "function"){
+								method.call($form);
+							}else{
+								alert("undefined function: " + method);
+							}
+						}
+					});
+				}
+				bc.load(dataJs);
+			}
+		});
+	},
+	
 	/** 签领任务：上下文为info样式所在的容器 */
 	claimTask: function(taskId){
 		alert("TODO:签领任务：taskId=" + taskId);
@@ -166,10 +198,19 @@ bc.flow.workspace = {
 	/** 完成办理 */
 	finishTask: function(taskId){
 //		alert("TODO:完成办理：taskId=" + taskId);
-		bc.msg.confirm("确定完成任务吗？",function(){
+		// 表单验证
+		var $task = $(this);
+		var $form = $task.find(".line>.form>:first");
+		if($form.size() > 0){
+			if(!bc.validator.validate($form))
+				return false;
+		}
+		bc.msg.confirm("确定要完成此任务的办理吗？",function(){
+			alert($form.serialize());
+			// 完成办理
 			jQuery.ajax({
-				url: bc.root + "/bc-workflow/workflow/completeTask", 
-				data: {id: taskId},
+				url: bc.root + "/bc-workflow/workflow/completeTask?id=" + taskId, 
+				data: $form.size() > 0 ? $form.serialize() : null,
 				dataType: "json",
 				success: function(json) {
 					if(json.success){//成功刷新边栏
@@ -181,7 +222,6 @@ bc.flow.workspace = {
 				}
 			});
 		});
-
 	},
 	
 	/** 分配任务 */
@@ -253,6 +293,7 @@ bc.flow.workspace = {
      */
 	openAttach: function(attachId){
 		bc.flowattach.inline({
+			id: attachId,
 			subject: this.data("subject"),
 			path: this.data("path")
 		});

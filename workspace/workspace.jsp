@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<div class="ws" title='<s:property value="title"/>'
+<div class="bc-page ws" title='<s:property value="title"/>'
+	data-type="form"
 	data-js='<s:url value="/bc-workflow/workspace/workspace.js"/>,<s:url value="/bc-workflow/flowattach/flowattach.js"/>'
 	data-initMethod='bc.flow.workspace.init'
 	data-option='<s:property value="pageOption"/>' style="overflow-y: auto;">
@@ -43,7 +44,7 @@
 				</div>
 			</div>
 			<div class="detail">
-				<div class="line desc ${item['desc'] != null ? '':'hide'}">
+				<div class="line desc ${item['desc'] != null && item['desc'].length()>0 ? '':'hide'}">
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
 					<pre class="ui-widget-content text">${item['desc']}</pre>
 				</div>
