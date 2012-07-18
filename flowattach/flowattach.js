@@ -150,7 +150,7 @@ bc.flowattach = {
 		},
 		/**
 		 * 在线查看附件，只支持附件
-		 * @id {ind} id	
+		 * @id {id} id	
 		 *
 		 */
 		inline : function(option){

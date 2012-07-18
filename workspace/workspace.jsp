@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<div class="ws" title='<s:property value="title"/>'
+<div class="bc-page ws" title='<s:property value="title"/>'
+	data-type="form"
 	data-js='<s:url value="/bc-workflow/workspace/workspace.js"/>,<s:url value="/bc-workflow/flowattach/flowattach.js"/>'
 	data-initMethod='bc.flow.workspace.init'
 	data-option='<s:property value="pageOption"/>' style="overflow-y: auto;">
@@ -43,7 +44,7 @@
 				</div>
 			</div>
 			<div class="detail">
-				<div class="line desc ${item['desc'] != null ? '':'hide'}">
+				<div class="line desc ${item['desc'] != null && item['desc'].length()>0 ? '':'hide'}">
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
 					<pre class="ui-widget-content text">${item['desc']}</pre>
 				</div>
@@ -100,6 +101,14 @@
 						data-size='<s:property value="#item['size']"/>'
 						data-path='<s:property value="#item['path']"/>'
 					</s:if>>
+					<s:if test="%{#item['type']=='form' && !#item['form_seperate']}">
+					<div class="simple">
+						<div class="line form">
+							<div class="ui-widget-content form"><s:iterator value="#item['detail']"><s:property escapeHtml="false"/></s:iterator></div>
+						</div>
+					</div>
+					</s:if>
+					<s:else>
 					<div class="simple">
 						<div class="line ${item['type']}">
 							<span class="leftIcon ui-icon ${item['iconClass']}"></span>
@@ -116,12 +125,20 @@
 							<pre class="ui-widget-content text">${item['desc']}</pre>
 						</div>
 						<s:iterator value="#item['detail']">
+						<s:if test="%{#item['type']=='form'}">
+						<div class="line">
+							<div class="ui-widget-content form"><s:property escapeHtml="false"/></div>
+						</div>
+						</s:if>
+						<s:else>
 						<div class="line low little">
 							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-							<span class="text"><s:property/></span>
+							<span class="text"><s:property escapeHtml="false"/></span>
 						</div>
+						</s:else>
 						</s:iterator>
 					</div>
+					</s:else>
 				</div>
 				</s:iterator>
 				

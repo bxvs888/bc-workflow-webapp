@@ -13,6 +13,9 @@ bc.flow.workspace = {
 			$(this).parent().next().toggleClass("hide");
 		});
 		
+		// 加载流程、任务表单的js、css文件
+		bc.flow.workspace.lodJsCss($page.find(".line>.form>:first"));
+		
 		// 总区域的折叠或展开
 		$page.delegate(".header>.rightIcons>.toggle",{
 			click: function(e) {
@@ -133,6 +136,7 @@ bc.flow.workspace = {
 					}
 				}else if($this.is(".download")){// 下载
 					bc.flowattach.download({
+						id: $info.data("id"),
 						subject: $info.data("subject"),
 						path: $info.data("path")
 					});
@@ -153,6 +157,34 @@ bc.flow.workspace = {
 		});
 	},
 	
+	lodJsCss: function($forms){
+		$forms.each(function(){
+			var $form = $(this);
+			var namespace = $form.attr("data-namespace");
+			
+			// 加载js、css文件
+			var dataJs = bc.getJsCss($form.attr("data-js"));
+			if(dataJs && dataJs.length > 0){
+				if(namespace){
+					dataJs.push(function(){
+						//执行组件指定的额外初始化方法，上下文为$dom
+						var method = namespace + ".init";
+						logger.debug("initMethod="+method);
+						if(method){
+							method = bc.getNested(method);
+							if(typeof method == "function"){
+								method.call($form);
+							}else{
+								alert("undefined function: " + method);
+							}
+						}
+					});
+				}
+				bc.load(dataJs);
+			}
+		});
+	},
+	
 	/** 签领任务：上下文为info样式所在的容器 */
 	claimTask: function(taskId){
 		alert("TODO:签领任务：taskId=" + taskId);
@@ -165,14 +197,29 @@ bc.flow.workspace = {
 	
 	/** 完成办理 */
 	finishTask: function(taskId){
-//		alert("TODO:完成办理：taskId=" + taskId);
-		bc.msg.confirm("确定完成任务吗？",function(){
+		// 表单验证
+		var $task = $(this);
+		var $form = $task.find(".line>.form>:first");
+		var namespace = $form.attr("data-namespace");
+		if($form.size() > 0){
+			if(!bc.flow.workspace.validateForm($form,namespace))
+				return false;
+		}
+		
+		// 获取表单数据
+		var formData = null;
+		if($form.size() > 0){
+			formData = bc.flow.workspace.getFormData($form,namespace);
+		}
+		bc.msg.confirm("确定要完成此任务的办理吗？",function(){
+			alert($form.serialize());
+			// 完成办理
 			jQuery.ajax({
-				url: bc.root + "/bc-workflow/workflow/completeTask", 
-				data: {id: taskId},
+				url: bc.root + "/bc-workflow/workflow/completeTask?id=" + taskId, 
+				data: formData ? {formData: $.toJSON(formData)} : null,
 				dataType: "json",
 				success: function(json) {
-					if(json.success){//成功刷新边栏
+					if(json.success){//成功就刷新边栏
 						bc.msg.slide(json.msg);
 						bc.sidebar.refresh();
 					}else{
@@ -181,7 +228,6 @@ bc.flow.workspace = {
 				}
 			});
 		});
-
 	},
 	
 	/** 分配任务 */
@@ -253,6 +299,7 @@ bc.flow.workspace = {
      */
 	openAttach: function(attachId){
 		bc.flowattach.inline({
+			id: attachId,
 			subject: this.data("subject"),
 			path: this.data("path")
 		});
@@ -302,6 +349,54 @@ bc.flow.workspace = {
 				}
 			}
 		});
+	},
+	
+	/** 表单验证 */
+	validateForm: function($form,namespace){
+		if(namespace){
+			var method = namespace + ".validateForm";
+			logger.debug("validateMethod="+method);
+			method = bc.getNested(method);
+			if(typeof method == "function"){
+				return method.call($form);// 自定义的表单验证方法
+			}else{
+				logger.debug("use default validate because undefined function: " + namespace + ".validateForm");
+			}
+		}
+		
+		// 默认的表单验证方法
+		return bc.validator.validate($form);
+	},
+	
+	/** 获取表单数据 */
+	getFormData: function($form,namespace){
+		if(namespace){
+			var method = namespace + ".getFormData";
+			logger.debug("getFormData Method="+method);
+			method = bc.getNested(method);
+			if(typeof method == "function"){
+				return method.call($form);// 自定义的表单数据获取方法
+			}else{
+				logger.debug("use default getFormData because undefined function: " + namespace + ".getFormData");
+			}
+		}
+		
+		// 默认的表单数据获取方法
+		var $inputs = $form.find(":input:not(.ignore)");
+		if($inputs.size() == 0)
+			return false;
+		var data = [];
+		$inputs.each(function(){
+			var $input = $(this);
+			data.push({
+				name: this.name,
+				value: $input.val(),
+				type: $input.attr("data-type") || "string",
+				scope: $input.attr("data-scope") || "local"
+			});
+		});
+		alert($.toJSON(data));
+		return data;
 	}
 };
 
