@@ -25,7 +25,7 @@
 			<div class="clear"></div>
 		</li>
 		<li class="condition">
-			<div class="label">发送时间</div>
+			<div class="label">创建时间</div>
 			<div class="value">
 				<div class="bc-dateContainer">
 					<input type="text" class="bc-date ui-widget-content" data-validate="date" style="width:9em;"
