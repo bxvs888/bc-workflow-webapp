@@ -104,10 +104,11 @@ bc.todoView = {
 			return;
 		}else if(ids.length == 1){
 			if($hidden.assignee == null){
+				
 				// 选择指派人
 				bc.identity.selectUser({
 					history: false,
-					group: $hidden.groupId,
+					group: $hidden.groupIds,
 					onOk : function(user) {
 						jQuery.ajax({
 							url: bc.root + "/bc-workflow/workflow/assignTask", 
