@@ -212,16 +212,23 @@ bc.flow.workspace = {
 			formData = bc.flow.workspace.getFormData($form,namespace);
 		}
 		bc.msg.confirm("确定要完成此任务的办理吗？",function(){
-			alert($form.serialize());
+			//alert($form.serialize());
 			// 完成办理
 			jQuery.ajax({
 				url: bc.root + "/bc-workflow/workflow/completeTask?id=" + taskId, 
 				data: formData ? {formData: $.toJSON(formData)} : null,
 				dataType: "json",
 				success: function(json) {
-					if(json.success){//成功就刷新边栏
+					if(json.success){
 						bc.msg.slide(json.msg);
+						
+						//刷新边栏
 						bc.sidebar.refresh();
+						
+						// 关闭自己
+						var $page = $task.closest(".bc-page");
+					    $page.data("data-status", true);
+						$page.dialog("close");
 					}else{
 						bc.msg.alert(json.msg);
 					}
@@ -395,7 +402,7 @@ bc.flow.workspace = {
 				scope: $input.attr("data-scope") || "local"
 			});
 		});
-		alert($.toJSON(data));
+		//alert($.toJSON(data));
 		return data;
 	}
 };

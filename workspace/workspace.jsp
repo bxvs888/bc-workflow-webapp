@@ -192,20 +192,6 @@
 				</div>
 			</div>
 			<div class="detail">
-				<!-- 办理耗时 -->
-				<div class="line low">
-					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-					<span class="text">${task['wasteTime']}</span>
-				</div>
-				
-				<s:if test="%{task['dueDate'] != null}">
-				<!-- 办理期限 -->
-				<div class="line">
-					<span class="leftIcon ui-icon ui-icon-clock"></span>
-					<span class="text ui-state-focus">${task['dueDate']}</span>
-				</div>
-				</s:if>
-				
 				<s:iterator value="#task['items']" var="item">
 				<div class="info ui-widget-content ${item['type']}" data-id="${item['id']}"
 					<s:if test="%{#item['type']=='attach'}">
@@ -213,6 +199,14 @@
 						data-size='<s:property value="#item['size']"/>'
 						data-path='<s:property value="#item['path']"/>'
 					</s:if>>
+					<s:if test="%{#item['type']=='form' && !#item['form_seperate']}">
+					<div class="simple">
+						<div class="line form">
+							<div class="ui-widget-content form"><s:iterator value="#item['detail']"><s:property escapeHtml="false"/></s:iterator></div>
+						</div>
+					</div>
+					</s:if>
+					<s:else>
 					<div class="simple">
 						<div class="line ${item['type']}">
 							<span class="leftIcon ui-icon ${item['iconClass']}"></span>
@@ -229,13 +223,35 @@
 							<pre class="ui-widget-content text">${item['desc']}</pre>
 						</div>
 						<s:iterator value="#item['detail']">
+						<s:if test="%{#item['type']=='form'}">
+						<div class="line">
+							<div class="ui-widget-content form"><s:property escapeHtml="false"/></div>
+						</div>
+						</s:if>
+						<s:else>
 						<div class="line low little">
 							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
-							<span class="text"><s:property/></span>
+							<span class="text"><s:property escapeHtml="false"/></span>
 						</div>
+						</s:else>
 						</s:iterator>
 					</div>
+					</s:else>
 				</div>
+				
+				<!-- 办理耗时 -->
+				<div class="line low">
+					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
+					<span class="text">${task['wasteTime']}</span>
+				</div>
+				
+				<s:if test="%{task['dueDate'] != null}">
+				<!-- 办理期限 -->
+				<div class="line">
+					<span class="leftIcon ui-icon ui-icon-clock"></span>
+					<span class="text ui-state-focus">${task['dueDate']}</span>
+				</div>
+				</s:if>
 				</s:iterator>
 			</div>
 		</div>
