@@ -14,7 +14,7 @@ bc.flow.workspace = {
 		});
 		
 		// 加载流程、任务表单的js、css文件
-		bc.flow.workspace.lodJsCss($page.find(".line>.form>:first"));
+		bc.flow.workspace.loadJsCss($page.find(".line>.form>:first"));
 		
 		// 总区域的折叠或展开
 		$page.delegate(".header>.rightIcons>.toggle",{
@@ -157,7 +157,7 @@ bc.flow.workspace = {
 		});
 	},
 	
-	lodJsCss: function($forms){
+	loadJsCss: function($forms){
 		$forms.each(function(){
 			var $form = $(this);
 			var namespace = $form.attr("data-namespace");
@@ -166,19 +166,19 @@ bc.flow.workspace = {
 			var dataJs = bc.getJsCss($form.attr("data-js"));
 			if(dataJs && dataJs.length > 0){
 				if(namespace){
-					dataJs.push(function(){
-						//执行组件指定的额外初始化方法，上下文为$dom
-						var method = namespace + ".init";
-						logger.debug("initMethod="+method);
-						if(method){
-							method = bc.getNested(method);
-							if(typeof method == "function"){
+					var method = namespace + ".init";
+					logger.debug("initMethod="+method);
+					if(method){
+						method = bc.getNested(method);
+						if(typeof method == "function"){
+							dataJs.push(function(){
+								//执行组件指定的额外初始化方法
 								method.call($form);
-							}else{
-								alert("undefined function: " + namespace + ".init");
-							}
+							});
+						}else{
+							logger.debug("undefined function: " + namespace + ".init");
 						}
-					});
+					}
 				}
 				bc.load(dataJs);
 			}
