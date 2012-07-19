@@ -175,7 +175,7 @@ bc.flow.workspace = {
 							if(typeof method == "function"){
 								method.call($form);
 							}else{
-								alert("undefined function: " + method);
+								alert("undefined function: " + namespace + ".init");
 							}
 						}
 					});
