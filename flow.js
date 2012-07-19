@@ -106,5 +106,49 @@ bc.flow = {
 			name: option.name,
 			mid: "flow.instance." + option.id
 		});
+	},
+	
+	/**
+	 * 选择用户信息
+	 * @param {Object} option 配置参数
+	 * @option {String} selecteds 已选择用户的id列表，多个值用逗号连接
+	 * @option {String} excludes 要排除显示的项的值，多个值用逗号连接
+	 * @option {String} taskId 任务id
+	 * @option {Boolean} multiple 是否允许多选，默认false
+	 * @option {Boolean} history 是否选择ActorHistory信息，默认true，设为false选择Actor信息
+	 * @option {Function} onOk 选择完毕后的回调函数，函数第一个参数为选中的用户信息(多选时数组，单选时时对象)
+	 */
+	selectUser : function(option) {
+		option.data = jQuery.extend({
+			multiple: false,
+			history: false,
+			status: "0,1"
+		},option.data);
+		if(option.selecteds)
+			option.data.selecteds = option.selecteds;
+		if(option.excludes)
+			option.data.excludes = option.excludes;
+		if(option.taskId)
+			option.data.taskId = option.taskId;
+		if(option.history === false)
+			option.data.history = false;
+		if(option.multiple === true)
+			option.data.multiple = true;
+		if(option.status)
+			option.data.status = option.status;
+		
+		option = jQuery.extend({
+			url: bc.root + "/bc-workflow/selectUsers/paging",
+			name: "选择用户信息",
+			mid: "selectUserflow",
+			history: true,
+			afterClose: function(status){
+				if(status && typeof(option.onOk) == "function"){
+					option.onOk(status);
+				}
+			}
+		},option);
+		
+		bc.page.newWin(option);
 	}
 };

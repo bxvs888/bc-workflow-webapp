@@ -2,7 +2,8 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <div class="bc-page ws" title='<s:property value="title"/>'
 	data-type="form"
-	data-js='<s:url value="/bc-workflow/workspace/workspace.js"/>,<s:url value="/bc-workflow/flowattach/flowattach.js"/>'
+	data-js='<s:url value="/bc-workflow/workspace/workspace.js"/>,<s:url value="/bc-workflow/flowattach/flowattach.js"/>,<s:url value="/bc/identity/identity.js"/>,<s:url value="/bc-workflow/select/selectUsers.js"/>'
+
 	data-initMethod='bc.flow.workspace.init'
 	data-option='<s:property value="pageOption"/>' style="overflow-y: auto;">
 <s:if test="%{error.length()>0}">
