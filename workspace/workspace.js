@@ -217,7 +217,7 @@ bc.flow.workspace = {
 		//alert("TODO:签领任务：taskId=" + taskId);
 	},
 	
-	/** 委派任务 */
+	/** 委托任务 */
 	delegateTask: function(taskId){
 		// 表单验证
 		var $task = $(this);
