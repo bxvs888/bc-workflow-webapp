@@ -187,12 +187,69 @@ bc.flow.workspace = {
 	
 	/** 签领任务：上下文为info样式所在的容器 */
 	claimTask: function(taskId){
-		alert("TODO:签领任务：taskId=" + taskId);
+		// 表单验证
+		var $task = $(this);
+		
+		bc.msg.confirm("确定签领此任务吗？",function(){
+			jQuery.ajax({
+				url: bc.root + "/bc-workflow/workflow/claimTask?id=" + taskId, 
+				dataType: "json",
+				success: function(json) {
+					if(json.success){
+						bc.msg.slide(json.msg);
+						
+						//刷新边栏
+						bc.sidebar.refresh();
+						
+						// 关闭自己
+						var $page = $task.closest(".bc-page");
+					    $page.data("data-status", true);
+						$page.dialog("close");
+						
+						// 打开工作空间
+						bc.flow.openWorkspace({id:json.pId, name:json.name});
+					}else{
+						bc.msg.alert(json.msg);
+					}
+				}
+			});
+		});
+		//alert("TODO:签领任务：taskId=" + taskId);
 	},
 	
 	/** 委派任务 */
 	delegateTask: function(taskId){
-		alert("TODO:委派任务：taskId=" + taskId);
+		// 表单验证
+		var $task = $(this);
+		
+		// 选择委托人
+		bc.identity.selectUser({
+			history: false,
+			onOk : function(user) {
+				jQuery.ajax({
+					url: bc.root + "/bc-workflow/workflow/delegateTask", 
+					data: {id: taskId,toUser: user.account},
+					dataType: "json",
+					success: function(json) {
+						if(json.success){
+							bc.msg.slide(json.msg);
+							
+							//刷新边栏
+							bc.sidebar.refresh();
+							
+							// 关闭自己
+							var $page = $task.closest(".bc-page");
+						    $page.data("data-status", true);
+							$page.dialog("close");
+						}else{
+							bc.msg.alert(json.msg);
+						}
+					}
+				});
+			}
+		});
+
+		//alert("TODO:委派任务：taskId=" + taskId);
 	},
 	
 	/** 完成办理 */
@@ -237,9 +294,38 @@ bc.flow.workspace = {
 		});
 	},
 	
-	/** 分配任务 */
+	/** 分派任务 */
 	assignTask: function(taskId){
-		alert("TODO:分配任务：taskId=" + taskId);
+		// 表单验证
+		var $task = $(this);
+		
+		// 选择分派人
+		bc.flow.selectUser({
+			taskId : taskId,
+			onOk : function(user) {
+				jQuery.ajax({
+					url: bc.root + "/bc-workflow/workflow/assignTask", 
+					data: {id: taskId,toUser: user.account},
+					dataType: "json",
+					success: function(json) {
+						if(json.success){
+							bc.msg.slide(json.msg);
+							
+							//刷新边栏
+							bc.sidebar.refresh();
+							
+							// 关闭自己
+							var $page = $task.closest(".bc-page");
+						    $page.data("data-status", true);
+							$page.dialog("close");
+						}else{
+							bc.msg.alert(json.msg);
+						}
+					}
+				});
+			}
+		});
+		//alert("TODO:分配任务：taskId=" + taskId);
 	},
 	
     /** 查看意见 

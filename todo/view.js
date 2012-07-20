@@ -106,9 +106,8 @@ bc.todoView = {
 			if($hidden.assignee == null){
 				
 				// 选择指派人
-				bc.identity.selectUser({
-					history: false,
-					group: $hidden.groupIds,
+				bc.flow.selectUser({
+					taskId: ids[0],
 					onOk : function(user) {
 						jQuery.ajax({
 							url: bc.root + "/bc-workflow/workflow/assignTask", 
