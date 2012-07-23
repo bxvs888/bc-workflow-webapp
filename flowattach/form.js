@@ -3,11 +3,22 @@ bc.namespace("bc.flowattachForm");
 bc.flowattachForm = {
 	init : function() {
 		$form=$(this);
+		
+		//格式化按钮控制
+		var type=$form.find(":input[name='e.type']").val();	
+		var templateId=$form.find(":input[name='e.templateId']").val();
+		if(type == 1){
+			if(templateId == "")
+				$form.find("#formattedtr").hide();
+		}
+		
+		
 		//绑定清除按钮事件
 		$form.find("#cleanFileId").click(function(){
 			bc.file.clearFileSelect($form.find("#uploadFile"));
 			$form.find(":input[name='e.path']").val('');
 			$form.find(":input[name='e.subject']").val('');
+			$form.find("#formattedtr").hide();
 		});
 		
 		//绑定下载按钮事件
@@ -53,8 +64,11 @@ bc.flowattachForm = {
 								success:function(json){
 									if(json.success){
 										bc.msg.slide(json.msg);
+										
 										$form.find(':input[name="e.subject"]').val(template.subject);
 										$form.find(':input[name="e.path"]').val(json.path);
+										$form.find(':input[name="e.templateId"]').val(template.id);
+										$form.find("#formattedtr").show();
 										if(template.formatted=='true'){
 											$form.find('input[name="e.formatted"]:first').attr("checked","checked");
 										}else
@@ -131,6 +145,9 @@ bc.flowattachForm = {
 			var $page = this.closest(".bc-page");
 			$page.find(':input[name="e.subject"]').val(json.source);
 			$page.find(':input[name="e.path"]').val(json.to);
+			$page.find('input[name="e.formatted"]:last').attr("checked","checked");
+			$page.find(':input[name="e.templateId"]').val('');
+			$page.find("#formattedtr").hide();
 		}else
 			bc.msg.alert(json.msg);
 	}

@@ -44,7 +44,7 @@
 							<s:textarea rows="4" name="e.desc"  cssClass="ui-widget-content noresize" />
 						</td>		
 					</tr>
-					<tr>
+					<tr id="formattedtr">
 						<td class="label" style="min-width: 60px;width: 60px;"><s:text name="flowattach.formatted"/>:</td>		
 						<td class="value">
 							<s:radio name="e.formatted" list="#{'true':'是','false':'否'}" cssStyle="width:auto;"/>
@@ -85,6 +85,7 @@
 		<s:if test="e.type==1">
 			<s:hidden name="e.ext" />
 			<s:hidden name="e.size" />
+			<s:hidden name="e.templateId" />
 		</s:if>
 		<s:hidden name="e.author.id" />
 		<input type="hidden" name="e.fileDate" value='<s:date format="yyyy-MM-dd HH:mm:ss" name="e.fileDate" />'/>
