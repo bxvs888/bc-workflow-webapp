@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <div title='<s:text name="deploy.title"/>' data-type='form' class="bc-page"
 	data-saveUrl='<s:url value="/bc-workflow/deploy/save" />'
-	data-js='<s:url value="/bc-workflow/deploy/form.js" />'
+	data-js='<s:url value="/bc-workflow/deploy/form.js" />,<s:url value="/bc/identity/identity.js" />'
 	data-initMethod='bc.deployForm.init'
 	data-option='<s:property value="formPageOption"/>' style="overflow-y:auto;">
 	<s:form name="deployForm" theme="simple" >
@@ -28,6 +28,33 @@
 				<tr>
 					<td class="label"><s:text name="deploy.order"/>:</td>
 					<td class="value"><s:textfield name="e.orderNo" cssClass="ui-widget-content" /></td>
+				</tr>
+				<!-- 使用人-->
+				<tr>
+					<td class="topLabel"><s:text name="deploy.user"/>:</td>
+					<td class="value relative" >
+						<div id="assignUsers" style="position:relative;margin: 0;padding: 1px 0;min-height:19px;margin: 0;font-weight: normal;width: 98%;" class="ui-widget-content" 
+							data-removeTitle='<s:text name="title.click2remove"/>'>
+							<ul class="inputIcons" style="top:10px">
+								 	<li class="inputIcon ui-icon ui-icon-person" title='<s:text name="group.title.click2addUsers"/>' id="addUsers">
+								 	<li class="inputIcon ui-icon ui-icon-contact" title='<s:text name="actor.title.click2addGroups"/>' id="addGroups">
+								 	<li class="inputIcon ui-icon ui-icon-home" title='<s:text name="deploy.title.addUnitOrDepartment"/>' id="addUnitOrDepartments">
+							</ul>
+							<s:if test="%{ownedUsers != null && !ownedUsers.isEmpty()}">
+								<ul class="horizontal deployUserUl" style="padding: 0 50px 0 0;">
+								<s:iterator value="ownedUsers">
+								<li class="horizontal deployUserLi" style="position: relative;margin:0 2px;float: left;padding: 0;"
+									data-id=<s:property value="['id']"/>>
+								<span class="text" ><s:property value="['name']" /></span>
+								<s:if test="!isReadonly()">
+									<span class="click2remove verticalMiddle ui-icon ui-icon-close" style="margin: -8px -2px;" title='<s:text name="title.click2remove"/>'></span>
+								</s:if>
+								</li>
+								</s:iterator>
+								</ul>
+							</s:if>	
+						</div>					
+					</td>
 				</tr>
 				<!-- 编码   版本号-->
 				<tr>
@@ -94,6 +121,7 @@
 		<s:hidden name="e.uid" />
 		<s:hidden name="e.status" />
 		<s:hidden name="e.author.id" />
+		<s:hidden name="assignUserIds" />
 		<input type="hidden" name="e.fileDate" value='<s:date format="yyyy-MM-dd HH:mm:ss" name="e.fileDate" />'/>
 		<s:hidden name="e.deployer.id" />
 		<input type="hidden" name="e.deployDate" value='<s:date format="yyyy-MM-dd HH:mm:ss" name="e.deployDate" />'/>
