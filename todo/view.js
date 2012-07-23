@@ -139,14 +139,25 @@ bc.todoView = {
 		var $tr = $page.find(".bc-grid>.data>.right tr.ui-state-highlight");
 		var $hidden = $tr.data("hidden");
 		
-		bc.page.newWin({
-			name: "我的工作空间",
-			mid: "openWorkspace",
-			url: bc.root+ "/bc-workflow/workspace/open",
-			data: {id: $hidden.procInstId}, 
-			afterClose: function(status){
-				if(status) bc.grid.reloadData($page);
-			}
-		});
+		// 获取用户选中的条目
+		var ids = bc.grid.getSelected($page.find(".bc-grid"));
+		
+		// 检测是否选中条目
+		if(ids.length ==0){
+			bc.msg.slide("请先选择要查看的信息！");
+			return;
+		}else if(ids.length == 1){
+			bc.page.newWin({
+				name: "我的工作空间",
+				mid: "openWorkspace",
+				url: bc.root+ "/bc-workflow/workspace/open",
+				data: {id: $hidden.procInstId}, 
+				afterClose: function(status){
+					if(status) bc.grid.reloadData($page);
+				}
+			});
+		}else{
+			bc.msg.slide("一次只能选择一条信息查看！");
+		}
 	}
 };
