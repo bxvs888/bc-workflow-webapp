@@ -165,21 +165,21 @@ bc.flow.workspace = {
 			// 加载js、css文件
 			var dataJs = bc.getJsCss($form.attr("data-js"));
 			if(dataJs && dataJs.length > 0){
-				if(namespace){
-					var method = namespace + ".init";
-					logger.debug("initMethod="+method);
-					if(method){
-						method = bc.getNested(method);
-						if(typeof method == "function"){
-							dataJs.push(function(){
+				dataJs.push(function(){
+					if(namespace){
+						var method = namespace + ".init";
+						logger.debug("initMethod="+method);
+						if(method){
+							method = bc.getNested(method);
+							if(typeof method == "function"){
 								//执行组件指定的额外初始化方法
 								method.call($form);
-							});
-						}else{
-							logger.debug("undefined function: " + namespace + ".init");
+							}else{
+								logger.debug("undefined function: " + namespace + ".init");
+							}
 						}
 					}
-				}
+				});
 				bc.load(dataJs);
 			}
 		});
