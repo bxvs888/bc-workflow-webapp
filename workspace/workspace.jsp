@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="detail">
-				<div class="line desc ${item['desc'] != null && item['desc'].length()>0 ? '':'hide'}">
+				<div class="line desc ${(empty item['desc']) ? 'hide':''}">
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
 					<pre class="ui-widget-content text">${item['desc']}</pre>
 				</div>
@@ -120,7 +120,7 @@
 						</div>
 					</div>
 					<div class="detail">
-						<div class="line desc ${item['desc'] == null || item['desc'].length() == 0 ? 'hide':''}">
+						<div class="line desc ${(empty item['desc']) ? 'hide':''}">
 							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
 							<pre class="ui-widget-content text">${item['desc']}</pre>
 						</div>
@@ -218,7 +218,7 @@
 						</div>
 					</div>
 					<div class="detail">
-						<div class="line desc ${item['desc'] == null || item['desc'].length() == 0 ? 'hide':''}">
+						<div class="line desc ${(empty item['desc']) ? 'hide':''}">
 							<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
 							<pre class="ui-widget-content text">${item['desc']}</pre>
 						</div>
