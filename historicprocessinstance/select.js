@@ -25,6 +25,7 @@ bc.historicProcessInstanceSelectView = {
 	startflow : function(){
 		var $page = $(this);
 		bc.flow.start({
+			constraint: false,
 			onStart:function(json){
 				if(json.success === false){
 					bc.msg.alert(json.msg);// 仅显示失败信息
