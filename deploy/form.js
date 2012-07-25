@@ -4,7 +4,14 @@ bc.deployForm = {
 		var $form = $(this);
 		
 		if(readonly) return;
-			
+		
+		var liTpl = '<li class="horizontal deployUserLi ui-widget-content ui-corner-all ui-state-highlight" data-id="{0}"'+
+		'style="position: relative;margin:0 2px;float: left;padding: 0;border-width: 0;">'+
+		'<span class="text">{1}</span>'+
+		'<span class="click2remove verticalMiddle ui-icon ui-icon-close" style="margin: -8px -2px;" title={2}></span></li>';
+		var ulTpl = '<ul class="horizontal deployUserUl" style="padding: 0 45px 0 0;"></ul>';
+		var title = $form.find("#assignUsers").attr("data-removeTitle");
+		
 		//绑定清除按钮事件
 		$form.find("#cleanFileId").click(function(){
 			$form.find(":input[name='e.path']").val('');
@@ -29,6 +36,105 @@ bc.deployForm = {
 			bc.file.download({f: f, n: n,ptype:"deploy",puid:$form.find(":input[name='e.uid']").val()});
 		});
 		
+		
+		//绑定添加用户的按钮事件处理
+		$form.find("#addUsers").click(function(){
+			var $ul = $form.find("#assignUsers .deployUserUl");
+			var $lis = $ul.find("li");
+			var selecteds="";
+			$lis.each(function(i){
+				selecteds+=(i > 0 ? "," : "") + ($(this).attr("data-id"));//
+			});
+			bc.identity.selectUser({
+				multiple: true,//可多选
+				history: false,
+				selecteds: selecteds,
+				onOk: function(users){
+					$.each(users,function(i,user){
+						if($lis.filter("[data-id='" + user.id + "']").size() > 0){//已存在
+							logger.info("duplicate select: id=" + user.id + ",name=" + user.name);
+						}else{//新添加的
+							if(!$ul.size()){//先创建ul元素
+								$ul = $(ulTpl).appendTo($form.find("#assignUsers"));
+							}
+							$(liTpl.format(user.id,user.name,title))
+							.appendTo($ul).find("span.click2remove")
+							.click(function(){
+								$(this).parent().remove();
+							});
+						}
+					});
+				}
+			});
+		});
+		
+		//绑定添加岗位的按钮事件处理
+		$form.find("#addGroups").click(function(){
+			var $ul = $form.find("#assignUsers .deployUserUl");
+			var $lis = $ul.find("li");
+			var selecteds = "";
+			$lis.each(function(i){
+				selecteds += (i > 0 ? "," : "") + $(this).attr("data-id");//已选择的id
+			});
+			bc.identity.selectGroup({
+				multiple: true,
+				selecteds: selecteds,
+				onOk: function(groups){
+					//添加当前没有分派的岗位
+					$.each(groups,function(i,group){
+						if($lis.filter("[data-id='" + group.id + "']").size() > 0){//已存在
+							logger.info("duplicate select: id=" + group.id + ",name=" + group.name);
+						}else{//新添加的
+							if(!$ul.size()){//先创建ul元素
+								$ul = $(ulTpl).appendTo($form.find("#assignUsers"));
+							}
+							$(liTpl.format(group.id,group.name,title))
+							.appendTo($ul).find("span.click2remove")
+							.click(function(){
+								$(this).parent().remove();
+							});
+						}
+					});
+				}
+			});
+		});
+		
+		//绑定添加单位或部门的按钮事件处理
+		$form.find("#addUnitOrDepartments").click(function(){
+			var $ul = $form.find("#assignUsers .deployUserUl");
+			var $lis = $ul.find("li");
+			var selecteds = "";
+			$lis.each(function(i){
+				selecteds += (i > 0 ? "," : "") + $(this).attr("data-id");//已选择的id
+			});
+			bc.identity.selectUnitOrDepartment({
+				multiple: true,
+				selecteds: selecteds,
+				onOk: function(groups){
+					//添加当前没有分派的岗位
+					$.each(groups,function(i,group){
+						if($lis.filter("[data-id='" + group.id + "']").size() > 0){//已存在
+							logger.info("duplicate select: id=" + group.id + ",name=" + group.name);
+						}else{//新添加的
+							if(!$ul.size()){//先创建ul元素
+								$ul = $(ulTpl).appendTo($form.find("#assignUsers"));
+							}
+							$(liTpl.format(group.id,group.name,title))
+							.appendTo($ul).find("span.click2remove")
+							.click(function(){
+								$(this).parent().remove();
+							});
+						}
+					});
+				}
+			});
+		});
+		
+		//绑定删除角色、用户的按钮事件处理
+		$form.find("span.click2remove").click(function(){
+			$(this).parent().remove();
+		});
+		
 	},
 	/** 文件上传完毕后 */
 	afterUploadfile : function(json){
@@ -47,6 +153,14 @@ bc.deployForm = {
 	 */
 	save : function(){
 		var $form = $(this);
+		
+		//将用户的id合并到隐藏域
+		var ids=[];
+		$form.find("#assignUsers .deployUserLi").each(function(){
+			ids.push($(this).attr("data-id"));
+		});
+		$form.find(":input[name=assignUserIds]").val(ids.join(","));
+		
 		//定义函数
 		function saveInfo(){
 			var id=$form.find(":input[name='e.id']").val();
