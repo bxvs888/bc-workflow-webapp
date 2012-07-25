@@ -12,7 +12,8 @@ bc.flow = {
 	 * @param {Object} option 配置参数
 	 * @option {Boolean} isNewVersion [可选]是否只显示最新版本,默认true						
 	 * @option {Boolean} multiple [可选]是否允许多选，默认false
-	 * @option {Boolean} paging [可选]是否分页，默认false
+	 * @option {Boolean} paging [可选]是否分页，默认true
+	 * @option {Boolean} constraint [可选]是否受发起权限控制，默认true
 	 * @option {Function} onOk 选择完毕后的回调函数，
 	 * 单选返回一个对象 格式为{
 	 *		id:[id],
@@ -27,7 +28,8 @@ bc.flow = {
 		option = jQuery.extend({
 			mid: 'selectProcess',
 			paging: false,
-			title: '选择流程'
+			title: '选择流程',
+			constraint: true
 		},option);
 		
 		// 将一些配置参数放到data参数内(这些参数是提交到服务器的参数)
@@ -41,6 +43,8 @@ bc.flow = {
 			option.data.multiple = true;
 		if(option.isNewVersion === true)
 			option.data.isNewVersion = true;
+		if(option.constraint === true)
+			option.data.constraint = option.constraint;
 		
 		//弹出选择对话框
 		bc.page.newWin(jQuery.extend({
@@ -73,6 +77,7 @@ bc.flow = {
 	start: function(option) {
 		$page=$(this);
 		bc.flow.select({
+			constraint : option.constraint,
 			onOk: function(def){
 				logger.info($.toJSON(def));
 				bc.ajax({
