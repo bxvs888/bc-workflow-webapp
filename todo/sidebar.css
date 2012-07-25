@@ -1,5 +1,6 @@
 .sidebar-todo>* {
 	border-width: 0;
+	font-size: 125%;
 }
 .sidebar-todo>.empty {
 	padding:.5em;
