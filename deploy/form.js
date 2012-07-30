@@ -141,9 +141,12 @@ bc.deployForm = {
 		logger.info($.toJSON(json));
 		if(json.success){
 			var $page = this.closest(".bc-page");
-			$page.find(':input[name="e.subject"]').val(json.source); //标题
-			$page.find(':input[name="e.path"]').val(json.to); //路径
-			$page.find(':input[name="e.source"]').val(json.source); //原始文件名
+			var lastIndex = json.source.lastIndexOf(".");
+			var filename = lastIndex != -1 ? json.source.substring(0,lastIndex) : json.source;
+			$page.find(':input[name="e.subject"]').val(filename); 	// 名称
+			$page.find(':input[name="e.code"]').val(filename); 		// 编码
+			$page.find(':input[name="e.path"]').val(json.to); 		// 路径
+			$page.find(':input[name="e.source"]').val(json.source); // 原始文件名
 		}else{
 			bc.msg.alert(json.msg);
 		}
@@ -221,5 +224,17 @@ bc.deployForm = {
 				return;
 			}
 		}
+	},
+	/**
+	 * 查看流程图
+	 */
+	showDiagram : function(){
+		var $form = $(this);
+		var did = $(":input[name='e.deploymentId']").val();
+		if(did.length == 0){
+			bc.msg.error("请先发布流程！");
+			return;
+		}
+		window.open(bc.root + "/bc-workflow/deploy/diagram?did=" + did,"_blank");
 	}
 };
