@@ -83,7 +83,7 @@ bc.deploy = {
 								bc.msg.confirm("确定要取消此流程吗？",function(){
 									jQuery.ajax({
 										url: bc.root + "/bc-workflow/deploys/dodeployCancel", 
-										data: {excludeId: ids[0]},
+										data: {excludeId: ids[0],isCascade: false},
 										dataType: "json",
 										success: function(json) {
 											bc.msg.slide(json.msg);
