@@ -80,7 +80,7 @@ bc.deploy = {
 							if(json.started == "true"){
 								bc.msg.alert(json.msg);
 							}else{
-								bc.msg.confirm("确定要取消此流程吗？",function(){
+								bc.msg.confirm("确定要取消发布吗？",function(){
 									jQuery.ajax({
 										url: bc.root + "/bc-workflow/deploys/dodeployCancel", 
 										data: {excludeId: ids[0],isCascade: false},
@@ -122,7 +122,7 @@ bc.deploy = {
 			
 			if($hidden.status == 0){
 				
-				bc.msg.confirm("确定要级联取消此流程吗？",function(){
+				bc.msg.confirm("确定要级联取消吗？",function(){
 					jQuery.ajax({
 						url: bc.root + "/bc-workflow/deploys/dodeployCancel", 
 						data: {excludeId: ids[0],isCascade: true},
