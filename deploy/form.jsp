@@ -20,14 +20,26 @@
 								cssClass="ui-widget-content "></s:select>
 					</td>
 				</tr>
-				<!-- 所属分类  排序号-->
+				<!-- 所属分类-->
 				<tr>
 					<td class="label">*<s:text name="deploy.category"/>:</td>
 					<td class="value"><s:textfield name="e.category" cssClass="ui-widget-content" data-validate="required" /></td>
 				</tr>
+				<!-- 标题  -->
 				<tr>
-					<td class="label"><s:text name="deploy.order"/>:</td>
-					<td class="value"><s:textfield name="e.orderNo" cssClass="ui-widget-content" /></td>
+					<td class="label">*<s:text name="deploy.tfsubject"/>:</td>
+					<td class="value">
+						<s:textfield name="e.subject" cssClass="ui-widget-content" data-validate="required"/>
+					</td>
+				</tr>
+				<!-- 编码   版本号-->
+				<tr>
+					<td class="label">*<s:text name="deploy.code"/>:</td>
+					<td class="value"><s:textfield name="e.code" cssClass="ui-widget-content" data-validate="required" /></td>
+				</tr>
+				<tr>
+					<td class="label">*<s:text name="deploy.version"/>:</td>
+					<td class="value"><s:textfield name="e.version" cssClass="ui-widget-content" data-validate="required" /></td>
 				</tr>
 				<!-- 使用人-->
 				<tr>
@@ -56,29 +68,6 @@
 						</div>					
 					</td>
 				</tr>
-				<!-- 编码   版本号-->
-				<tr>
-					<td class="label">*<s:text name="deploy.code"/>:</td>
-					<td class="value"><s:textfield name="e.code" cssClass="ui-widget-content" data-validate="required" /></td>
-				</tr>
-				<tr>
-					<td class="label">*<s:text name="deploy.version"/>:</td>
-					<td class="value"><s:textfield name="e.version" cssClass="ui-widget-content" data-validate="required" /></td>
-				</tr>
-				<!-- 标题  -->
-				<tr>
-					<td class="label">*<s:text name="deploy.tfsubject"/>:</td>
-					<td class="value">
-						<s:textfield name="e.subject" cssClass="ui-widget-content" data-validate="required"/>
-					</td>
-				</tr>
-				<!-- 原始文件名  -->
-				<tr>
-					<td class="label">*<s:text name="deploy.source"/>:</td>
-					<td class="value">
-						<s:textfield name="e.source" cssClass="ui-widget-content" readonly="true" data-validate="required"/>
-					</td>
-				</tr>
 				<tr class="tplFile">
 					<td class="label">*<s:text name="deploy.tfpath"/>:</td>
 					<td class="value"  >
@@ -96,6 +85,18 @@
 						</div>
 					</td>
 				</tr>
+				<!-- 原始文件名  -->
+				<tr>
+					<td class="label">*<s:text name="deploy.source"/>:</td>
+					<td class="value">
+						<s:textfield name="e.source" cssClass="ui-widget-content" readonly="true" data-validate="required"/>
+					</td>
+				</tr>
+				<!-- 排序号-->
+				<tr>
+					<td class="label"><s:text name="deploy.order"/>:</td>
+					<td class="value"><s:textfield name="e.orderNo" cssClass="ui-widget-content" /></td>
+				</tr>
 				<!-- 备注-->
 				<tr>
 					<td class="topLabel">备注:</td>
@@ -106,10 +107,13 @@
 				<tr>
 					<td class="label" colspan="4">
 						<div class="formTopInfo">
-							状态：<s:property value="%{statusesValue[e.status]}" />，
-							创建人：<s:property value="e.author.name" />(<s:date name="e.fileDate" format="yyyy-MM-dd HH:mm:ss"/>)
+							<div>状态：<s:property value="%{statusesValue[e.status]}" /></div>
+							<div>创建人：<s:property value="e.author.name" /> <s:date name="e.fileDate" format="yyyy-MM-dd HH:mm:ss"/></div>
 							<s:if test="%{e.modifier != null}">
-							最后修改：<s:property value="e.modifier.name" />(<s:date name="e.modifiedDate" format="yyyy-MM-dd HH:mm:ss"/>)
+							<div>最后修改：<s:property value="e.modifier.name" /> <s:date name="e.modifiedDate" format="yyyy-MM-dd HH:mm:ss"/></div>
+							</s:if>
+							<s:if test="%{e.deployer != null}">
+							<div>最后发布/取消人：<s:property value="e.deployer.name" /> <s:date name="e.deployDate" format="yyyy-MM-dd HH:mm:ss"/></div>
 							</s:if>
 						</div>
 					</td>
