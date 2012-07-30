@@ -232,7 +232,7 @@ bc.deployForm = {
 		var $form = $(this);
 		var did = $(":input[name='e.deploymentId']").val();
 		if(did.length == 0){
-			bc.msg.error("请先发布流程！");
+			bc.msg.alert("请先发布流程！");
 			return;
 		}
 		window.open(bc.root + "/bc-workflow/deploy/diagram?did=" + did,"_blank");
