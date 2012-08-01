@@ -232,7 +232,7 @@ bc.flow.workspace = {
 					dataType: "json",
 					success: function(json) {
 						if(json.success){
-							bc.msg.slide(json.msg);
+							bc.msg.alert(json.msg);
 							
 							//刷新边栏
 							bc.sidebar.refresh();
@@ -309,7 +309,7 @@ bc.flow.workspace = {
 					dataType: "json",
 					success: function(json) {
 						if(json.success){
-							bc.msg.slide(json.msg);
+							bc.msg.alert(json.msg);
 							
 							//刷新边栏
 							bc.sidebar.refresh();
