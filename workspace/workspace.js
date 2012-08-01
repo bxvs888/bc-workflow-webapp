@@ -3,10 +3,11 @@ bc.flow.workspace = {
 	init : function() {
 		var $page = $(this);
 		var $common = $page.children(".common");
+		var $wsform = $page.children("form[name='ws']");
 		
 		// 记录流程实例的id
-		var pid = $page.find("input[name='id']").val();
-		var subject = $page.find("input[name='subject']").val();
+		var pid = $wsform.find("input[name='id']").val();
+		var subject = $wsform.find("input[name='subject']").val();
 		
 		// 查看异常堆栈信息
 		$page.children(".error").find(".click2see").click(function(){
