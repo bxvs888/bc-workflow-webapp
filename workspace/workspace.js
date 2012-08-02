@@ -14,7 +14,7 @@ bc.flow.workspace = {
 		});
 		
 		// 加载流程、任务表单的js、css文件
-		bc.flow.workspace.loadJsCss($page.find(".line>.form>:first"));
+		bc.flow.workspace.loadJsCss($page.find(".line>.form>:first-child"));
 		
 		// 总区域的折叠或展开
 		$page.delegate(".header>.rightIcons>.toggle",{
