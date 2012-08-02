@@ -257,7 +257,7 @@ bc.flow.workspace = {
 	finishTask: function(taskId){
 		// 表单验证
 		var $task = $(this);
-		var $form = $task.find(".line>.form>:first");
+		var $form = $task.find(".line>.form>:first-child");
 		var namespace = $form.attr("data-namespace");
 		if($form.size() > 0){
 			if(!bc.flow.workspace.validateForm($form,namespace))
