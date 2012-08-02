@@ -15,7 +15,7 @@ bc.flow.workspace = {
 		});
 		
 		// 加载流程、任务表单的js、css文件
-		bc.flow.workspace.loadJsCss($page.find(".line>.form>:first"));
+		bc.flow.workspace.loadJsCss($page.find(".line>.form>:first-child"));
 		
 		// 总区域的折叠或展开
 		$page.delegate(".header>.rightIcons>.toggle",{
@@ -257,7 +257,7 @@ bc.flow.workspace = {
 	finishTask: function(taskId){
 		// 表单验证
 		var $task = $(this);
-		var $form = $task.find(".line>.form>:first");
+		var $form = $task.find(".line>.form>:first-child");
 		var namespace = $form.attr("data-namespace");
 		if($form.size() > 0){
 			if(!bc.flow.workspace.validateForm($form,namespace))
