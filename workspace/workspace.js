@@ -156,6 +156,13 @@ bc.flow.workspace = {
 				return false;
 			}
 		});
+		
+		//聚焦到待办的可领取或办理任务区域
+		var $focus=$page.find(".todo>.info>.simple>.line>.rightIcons>.finish,.todo>.info>.simple>.line>.rightIcons>.claim");
+		if(typeof $focus == "object"){
+			$focus.attr("tabindex",0);
+			$focus.focus();
+		}
 	},
 	
 	loadJsCss: function($forms){
