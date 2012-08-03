@@ -148,7 +148,7 @@ bc.todoView = {
 			return;
 		}else if(ids.length == 1){
 			bc.page.newWin({
-				name: "我的工作空间",
+				name: "工作空间",
 				mid: "openWorkspace",
 				url: bc.root+ "/bc-workflow/workspace/open",
 				data: {id: $hidden.procInstId}, 
@@ -175,6 +175,13 @@ bc.todoView = {
 					bc.grid.reloadData($page);
 					//刷新待办边框
 					bc.sidebar.refresh();
+					
+					//打开工作空间
+					bc.page.newWin({
+						name: "工作空间",
+						mid: "workspace"+json.processInstance,
+						url: bc.root+ "/bc-workflow/workspace/open?id="+json.processInstance
+					});
 				}
 			}
 		})

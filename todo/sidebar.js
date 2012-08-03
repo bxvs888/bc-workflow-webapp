@@ -66,7 +66,7 @@ bc.sidebar.todo = {
 					});
 				}else if($target.is(".name")){// 打开任务
 					bc.page.newWin({
-						name: "我的工作空间",
+						name: "工作空间",
 						mid: "workspace"+procInstId,
 						url: bc.root+ "/bc-workflow/workspace/open?id="+procInstId
 					});
