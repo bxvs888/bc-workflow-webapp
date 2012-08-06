@@ -109,6 +109,8 @@ bc.flow.workspace = {
 					bc.flow.workspace.openComment.call($info, $info.data("id"));
 				}else if($line.is(".attach")){// 打开附件
 					bc.flow.workspace.openAttach.call($info, $info.data("id"));
+				}else if($line.is(".stat")){// 统计信息折叠
+					$info.toggleClass("collapse").find(".rightIcons>.toggle>:first").toggleClass("ui-icon-carat-1-ne ui-icon-carat-1-sw");
 				}
 				return false;
 			}

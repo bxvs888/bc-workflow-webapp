@@ -27,19 +27,19 @@
 		</div>
 		<!-- 信息列表 -->
 		<s:iterator value="ws['commonInfo']['items']" var="item">
-		<div class="info ui-widget-content ${item['type']}" data-id="${item['id']}"
+		<div class="info ui-widget-content collapse ${item['type']}" data-id="${item['id']}"
 			<s:if test="%{#item['type']=='attach'}">
 				data-subject='<s:property value="#item['subject']"/>'
 				data-size='<s:property value="#item['size']"/>'
 				data-path='<s:property value="#item['path']"/>'
 			</s:if>>
 			<div class="simple">
-				<div class="line ${item['type']}">
+				<div class="line ${item['type']}" title="点击打开">
 					<span class="leftIcon ui-icon ${item['iconClass']}"></span>
 					<span class="text ${item['link'] ? 'link':''}">${item['subject']}<s:if test="%{#item['type']=='attach'}"> (${item['sizeInfo']})</s:if></span>
 					<span class="rightIcons">
 						<s:if test="#item['hasButtons']">${item['buttons']}</s:if>
-						<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
+						<span class="toggle"><span class="ui-icon ui-icon-carat-1-sw" title="折叠|展开详细信息"></span></span>
 					</span>
 				</div>
 			</div>
@@ -143,7 +143,7 @@
 				</s:iterator>
 				
 				<!-- 待办人、组 -->
-				<div class="line normalFirst low">
+				<div class="line normalFirst">
 					<span class="leftIcon ui-icon ui-icon-carat-1-e"></span>
 					<span class="text">${task['actor']}</span>
 				</div>
@@ -193,7 +193,7 @@
 			</div>
 			<div class="detail">
 				<s:iterator value="#task['items']" var="item">
-				<div class="info ui-widget-content ${item['type']}" data-id="${item['id']}"
+				<div class="info ui-widget-content collapse ${item['type']}" data-id="${item['id']}"
 					<s:if test="%{#item['type']=='attach'}">
 						data-subject='<s:property value="#item['subject']"/>'
 						data-size='<s:property value="#item['size']"/>'
@@ -213,7 +213,7 @@
 							<span class="text ${item['link'] ? 'link':''}">${item['subject']}<s:if test="%{#item['type']=='attach'}"> (${item['sizeInfo']})</s:if></span>
 							<span class="rightIcons">
 								<s:if test="#item['hasButtons']">${item['buttons']}</s:if>
-								<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
+								<span class="toggle"><span class="ui-icon ui-icon-carat-1-sw" title="折叠|展开详细信息"></span></span>
 							</span>
 						</div>
 					</div>
