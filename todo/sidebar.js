@@ -20,13 +20,21 @@ bc.sidebar.todo = {
 		});
 		
 		// 绑定刷新事件
-		$page.find('.refresh').click(function(){
-			$page.delegate(".refresh",{
-				click: function(){
-					//bc.sidebar.refresh();
-					bc.sidebar.todo.refresh.call($page);
-				}
-			});
+		$page.delegate(".refresh",{
+			click: function(){
+				//bc.sidebar.refresh();
+				bc.sidebar.todo.refresh.call($page);
+			}
+		});
+		
+		// 绑定全局折叠事件
+		$page.delegate(".reverse",{
+			click: function(){
+				var $tasks = $(this).closest(".sidebar-todo").find("tr.task");
+				$tasks.toggleClass("collapse");
+				$tasks.find(".toggle").toggleClass("ui-icon-carat-1-se ui-icon-carat-1-nw");
+				return false;
+			}
 		});
 		
 		$page.delegate(".task",{

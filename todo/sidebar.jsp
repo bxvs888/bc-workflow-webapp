@@ -10,9 +10,10 @@
 				class="custom inputIcon ui-icon ui-icon-calendar"></span></td>
 			<td style="text-align: left;">待办事项</td>
 			<td style="text-align: right;">
-				<ul class="inputIcons">
-					<li class="refresh custom inputIcon ui-icon ui-icon-refresh" title="点击刷新"></li>
+				<ul class="globalOperators inputIcons">
 					<li class="more custom inputIcon ui-icon ui-icon-folder-open" title="点击查看更多"></li>
+					<li class="refresh custom inputIcon ui-icon ui-icon-refresh" title="点击刷新"></li>
+					<li class="reverse custom inputIcon ui-icon ui-icon-carat-2-n-s" title="反转详细信息区域的显示"></li>
 				</ul>
 			</td>
 		</tr>
@@ -38,7 +39,7 @@
 									<span title="点击领取任务"class="group ui-icon ui-icon-person"></span>
 								</s:if>
 							</span>
-							<span class="name"><s:property value="%{['title']}" /></span>
+							<span class="name ui-priority-primary"><s:property value="%{['title']}" /></span>
 						</div>
 						<div class="detail">
 							<span class="taskidvalue">
@@ -56,7 +57,12 @@
 								<div class="desc low"><s:text name="todo.personal.description"/>：<s:property value="%{['description']}" /></div>
 							</s:if>
 							<div class="createTime low"><s:text name="todo.personal.createTime"/>：<s:property value="%{['createTime']}" /></div>
-							<div class="category low"><s:text name="todo.personal.arpName"/>：<s:property value="%{['category']}" /></div>
+							<s:if test="%{['processSubject'] != null}">
+								<div class="category low"><s:text name="todo.sodebar.belong"/>：<s:property value="%{['processSubject']}" /></div>
+							</s:if>
+							<s:else>
+								<div class="category low"><s:text name="todo.sodebar.belong"/>：<s:property value="%{['category']}" /></div>
+							</s:else>
 						</div>
 					</td>
 				</tr>
