@@ -238,6 +238,7 @@
 					</div>
 					</s:else>
 				</div>
+				</s:iterator>
 				
 				<!-- 办理耗时 -->
 				<div class="line low">
@@ -252,7 +253,6 @@
 					<span class="text ui-state-focus">${task['dueDate']}</span>
 				</div>
 				</s:if>
-				</s:iterator>
 			</div>
 		</div>
 		</s:iterator>
