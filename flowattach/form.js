@@ -7,11 +7,8 @@ bc.flowattachForm = {
 		//格式化按钮控制
 		var type=$form.find(":input[name='e.type']").val();	
 		var templateId=$form.find(":input[name='e.templateId']").val();
-		if(type == 1){
-			if(templateId == "")
+		if(type == 1 && templateId == "")
 				$form.find("#formattedtr").hide();
-		}
-		
 		
 		//绑定清除按钮事件
 		$form.find("#cleanFileId").click(function(){
@@ -65,7 +62,8 @@ bc.flowattachForm = {
 									if(json.success){
 										bc.msg.slide(json.msg);
 										
-										$form.find(':input[name="e.subject"]').val(template.subject);
+										if(	$form.find(':input[name="e.subject"]').val()=='')
+											$form.find(':input[name="e.subject"]').val(template.subject);
 										$form.find(':input[name="e.path"]').val(json.path);
 										$form.find(':input[name="e.templateId"]').val(template.id);
 										$form.find("#formattedtr").show();

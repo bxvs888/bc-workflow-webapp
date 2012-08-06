@@ -160,8 +160,9 @@ bc.flow.workspace = {
 		});
 		
 		//聚焦到待办的可领取或办理任务区域
-		var $focus=$page.find(".todo>.info>.simple>.line>.rightIcons>.finish,.todo>.info>.simple>.line>.rightIcons>.claim");
-		if(typeof $focus == "object"){
+		var $focusArr=$page.find(".todo>.info>.simple>.line>.rightIcons>.finish,.todo>.info>.simple>.line>.rightIcons>.claim");	
+		if($focusArr.size()>0){
+			var $focus=$($focusArr.get(0));
 			$focus.attr("tabindex",0);
 			$focus.focus();
 		}

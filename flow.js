@@ -109,7 +109,7 @@ bc.flow = {
 		bc.page.newWin({
 			url: bc.root+"/bc-workflow/workspace/open?id=" + option.id,
 			name: option.name,
-			mid: "flow.instance." + option.id
+			mid: "workspace" + option.id
 		});
 	},
 	

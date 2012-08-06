@@ -138,7 +138,7 @@ bc.flowattach = {
 		},
 		/**
 		 * 下载附件，只支持附件
-		 * @id {ind} id
+		 * @id {id} id
 		 */
 		download : function(option){
 			var url = bc.root + "/bc-workflow/flowattachfile/download?id=" + option.id;			
