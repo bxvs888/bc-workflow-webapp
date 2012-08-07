@@ -68,7 +68,7 @@
 			<span class="text">待办信息</span>
 			<span class="rightIcons">
 				<span class="reverse"><span class="ui-icon ui-icon-carat-2-n-s" title="反转详细信息区域的显示"></span></span>
-				<span class="toggle"><span class="ui-icon ui-icon-triangle-1-n" title="折叠|展开公共信息"></span></span>
+				<span class="toggle"><span class="ui-icon ui-icon-triangle-1-n" title="折叠|展开待办信息"></span></span>
 			</span>
 		</div>
 		<!-- 信息列表 -->
@@ -174,7 +174,7 @@
 			<span class="text">已办信息</span>
 			<span class="rightIcons">
 				<span class="reverse"><span class="ui-icon ui-icon-carat-2-n-s" title="反转详细信息区域的显示"></span></span>
-				<span class="toggle"><span class="ui-icon ui-icon-triangle-1-n" title="折叠|展开公共信息"></span></span>
+				<span class="toggle"><span class="ui-icon ui-icon-triangle-1-n" title="折叠|展开已办信息"></span></span>
 			</span>
 		</div>
 		<!-- 信息列表 -->
