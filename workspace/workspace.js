@@ -3,7 +3,7 @@ bc.flow.workspace = {
 	init : function() {
 		var $page = $(this);
 		var $common = $page.children(".common");
-		var $wsform = $page.children("#wsform");
+		var $wsform = $page.children("#wsForm");
 		
 		// 记录流程实例的id
 		var pid = $wsform.find("input[name='id']").val();
