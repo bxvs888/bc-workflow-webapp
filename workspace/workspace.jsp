@@ -13,6 +13,26 @@
 	</div>
 </s:if>
 <s:else>
+	<!-- 隐藏信息 -->
+	<form name="wsForm" id="wsForm">
+		<!-- 隐藏信息：流程实例 -->
+		<input type="hidden" name="id" value="${ws['id']}"/>
+		<input type="hidden" name="businessKey" value="${ws['businessKey']}"/>
+		<input type="hidden" name="subject" value="${ws['subject']}"/>
+		
+		<!-- 隐藏信息：流程定义 -->
+		<input type="hidden" name="definitionId" value="${ws['definitionId']}"/>
+		<input type="hidden" name="definitionCategory" value="${ws['definitionCategory']}"/>
+		<input type="hidden" name="definitionKey" value="${ws['definitionKey']}"/>
+		<input type="hidden" name="definitionVersion" value="${ws['definitionVersion']}"/>
+		<input type="hidden" name="definitionName" value="${ws['definitionName']}"/>
+		<input type="hidden" name="definitionResourceName" value="${ws['definitionResourceName']}"/>
+		<input type="hidden" name="definitionDiagramResourceName" value="${ws['definitionDiagramResourceName']}"/>
+		
+		<!-- 隐藏信息：流程发布 -->
+		<input type="hidden" name="deploymentId" value="${ws['deploymentId']}"/>
+	</form>
+	
 	<!-- 公共信息区 -->
 	<div class="common ui-widget-content" >
 		<!-- 标题行 -->
@@ -257,25 +277,5 @@
 		</div>
 		</s:iterator>
 	</div>
-	
-	<!-- 隐藏信息 -->
-	<form name="ws">
-		<!-- 隐藏信息：流程实例 -->
-		<input type="hidden" name="id" value="${ws['id']}"/>
-		<input type="hidden" name="businessKey" value="${ws['businessKey']}"/>
-		<input type="hidden" name="subject" value="${ws['subject']}"/>
-		
-		<!-- 隐藏信息：流程定义 -->
-		<input type="hidden" name="definitionId" value="${ws['definitionId']}"/>
-		<input type="hidden" name="definitionCategory" value="${ws['definitionCategory']}"/>
-		<input type="hidden" name="definitionKey" value="${ws['definitionKey']}"/>
-		<input type="hidden" name="definitionVersion" value="${ws['definitionVersion']}"/>
-		<input type="hidden" name="definitionName" value="${ws['definitionName']}"/>
-		<input type="hidden" name="definitionResourceName" value="${ws['definitionResourceName']}"/>
-		<input type="hidden" name="definitionDiagramResourceName" value="${ws['definitionDiagramResourceName']}"/>
-		
-		<!-- 隐藏信息：流程发布 -->
-		<input type="hidden" name="deploymentId" value="${ws['deploymentId']}"/>
-	</form>
  </s:else>
 </div>
