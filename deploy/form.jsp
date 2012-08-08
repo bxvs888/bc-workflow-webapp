@@ -76,7 +76,7 @@
 							<ul class="inputIcons" style="padding-right:8px">
 								<li id="upLoadFileId" class="inputIcon ui-icon ui-icon-circle-arrow-n" style="position: relative;">
 									<input type="file" class="auto uploadFile" id="uploadFile" name="uploadFile" title="点击上传文件"
-										data-cfg='{"callback":"bc.deployForm.afterUploadfile","subdir":"workflow/deploy","source":":input[name=\"e.subject\"]","to":":input[name=\"e.path\"]","ptype":"deploy","puid":"<s:property value="e.uid"/>"}'
+										data-cfg='{"callback":"bc.deployForm.afterUploadfile","subdir":"workflow/deploy","source":":input[name=\"e.code\"]","to":":input[name=\"e.path\"]","ptype":"deploy","puid":"<s:property value="e.uid"/>"}'
 										style="position: absolute;left: 0;top: 0;width: 100%;height: 100%;filter: alpha(opacity = 10);opacity: 0;cursor: pointer;">
 								</li>
 								<li class="downLoadFileId inputIcon ui-icon ui-icon-circle-arrow-s" title='<s:text name="deploy.download"/>' >

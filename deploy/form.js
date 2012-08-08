@@ -143,10 +143,11 @@ bc.deployForm = {
 			var $page = this.closest(".bc-page");
 			var lastIndex = json.source.lastIndexOf(".");
 			var filename = lastIndex != -1 ? json.source.substring(0,lastIndex) : json.source;
-			$page.find(':input[name="e.subject"]').val(filename); 	// 名称
 			$page.find(':input[name="e.code"]').val(filename); 		// 编码
 			$page.find(':input[name="e.path"]').val(json.to); 		// 路径
 			$page.find(':input[name="e.source"]').val(json.source); // 原始文件名
+			var $subject = $page.find(':input[name="e.subject"]');
+			if($subject.val().length == 0) $subject.val(filename); 	// 名称
 		}else{
 			bc.msg.alert(json.msg);
 		}
