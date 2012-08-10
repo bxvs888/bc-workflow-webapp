@@ -22,7 +22,7 @@ bc.flow.workspace = {
 			click: function(e) {
 				var $this = $(this);
 				$this.children(".ui-icon").toggleClass("ui-icon-triangle-1-n ui-icon-triangle-1-s");
-				$this.closest(".header").siblings(".info").toggleClass("hide");
+				$this.closest(".header").next().children(".info").toggleClass("hide");
 				
 				return false;
 			}
@@ -32,12 +32,7 @@ bc.flow.workspace = {
 		$page.delegate(".header>.rightIcons>.reverse,.topic>.rightIcons>.reverse",{
 			click: function(e) {
 				var $h = $(this).closest(".header,.simple");
-				var $infos;
-				if($h.is(".simple")){
-					$infos = $h.next().children(".info");
-				}else{// 当header处理
-					$infos = $h.siblings(".info");
-				}
+				var $infos = $h.next().children(".info");
 				$infos.toggleClass("collapse");
 				$infos.find(">.simple>.line>.rightIcons>.toggle>.ui-icon").toggleClass("ui-icon-carat-1-sw ui-icon-carat-1-ne");
 				return false;
