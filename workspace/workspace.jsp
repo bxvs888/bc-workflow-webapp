@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <div class="bc-page ws" title='<s:property value="title"/>'
 	data-type="form"
-	data-js='<s:url value="/bc-workflow/workspace/workspace.js"/>,<s:url value="/bc-workflow/flowattach/flowattach.js"/>,<s:url value="/bc/identity/identity.js"/>'
+	data-js='js:bc_identity,js:quicksand,<s:url value="/bc-workflow/workspace/workspace.js"/>,<s:url value="/bc-workflow/flowattach/flowattach.js"/>'
 	data-initMethod='bc.flow.workspace.init'
 	data-option='<s:property value="pageOption"/>' style="overflow-y: auto;">
 <s:if test="%{error.length()>0}">
@@ -46,6 +46,7 @@
 			</span>
 		</div>
 		<!-- 信息列表 -->
+		<div class="items">
 		<s:iterator value="ws['commonInfo']['items']" var="item">
 		<div class="info ui-widget-content collapse ${item['type']}" data-id="${item['id']}"
 			<s:if test="%{#item['type']=='attach'}">
@@ -77,6 +78,7 @@
 			</div>
 		</div>
 		</s:iterator>
+		</div>
 	</div>
 
 	<s:if test="%{ws['flowing']}">
@@ -92,6 +94,7 @@
 			</span>
 		</div>
 		<!-- 信息列表 -->
+		<div class="items">
 		<s:iterator value="ws['todoInfo']['tasks']" var="task">
 		<div class="info" data-id="${task['id']}" data-isMyTask="${task['isMyTask']}" data-isUserTask="${task['isUserTask']}">
 			<div class="simple">
@@ -106,7 +109,7 @@
 				</div>
 			</div>
 			<div class="detail">
-				<s:if test="%{task['dueDate'] != null}">
+				<s:if test="%{#task['dueDate'] != null}">
 				<!-- 办理期限 -->
 				<div class="line">
 					<span class="leftIcon ui-icon ui-icon-clock"></span>
@@ -183,6 +186,7 @@
 			</div>
 		</div>
 		</s:iterator>
+		</div>
 	</div>
 	</s:if>
 
@@ -192,21 +196,31 @@
 		<div class="header line ui-widget-header">
 			<span class="leftIcon ui-icon ui-icon-tag"></span>
 			<span class="text">已办信息</span>
+			<span class="order type bc-radioGroup ui-buttonset"" title="点击切换排序方式" data-change="bc.flow.workspace.reorderDones">
+				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left ui-state-active" data-value="endTime"><span class="ui-button-text">完成时间</span></div>
+				<div class="ui-button ui-widget ui-state-default ui-button-text-only" data-value="startTime"><span class="ui-button-text">创建时间</span></div>
+				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right" data-value="orderNo"><span class="ui-button-text">业务编号</span></div>
+			</span>
+			<span class="order dir bc-radioGroup ui-buttonset"" title="点击切换排序方向" data-change="bc.flow.workspace.reorderDones">
+				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left ui-state-active" data-value="true"><span class="ui-button-text">正序</span></div>
+				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right" data-value="false"><span class="ui-button-text">逆序</span></div>
+			</span>
 			<span class="rightIcons">
 				<span class="reverse"><span class="ui-icon ui-icon-carat-2-n-s" title="反转详细信息区域的显示"></span></span>
 				<span class="toggle"><span class="ui-icon ui-icon-triangle-1-n" title="折叠|展开已办信息"></span></span>
 			</span>
 		</div>
 		<!-- 信息列表 -->
+		<div class="items">
 		<s:iterator value="ws['doneInfo']['tasks']" var="task">
-		<div class="info" data-id="${task['id']}">
+		<div class="info" data-id="${task['id']}" data-orderNo="${task['orderNo']}" data-startTime="${task['startTime']}" data-endTime="${task['endTime']}">
 			<div class="simple">
 				<div class="line topic ui-state-default">
 					<span class="leftIcon ui-icon ui-icon-flag"></span>
 					<span class="text">${task['subject']}</span>
 					<span class="rightIcons">
 						<span class="text"><span class="ui-icon ui-icon-person"></span><span class="text">${task['assignee']}</span></span>
-						<span class="text"><span class="ui-icon ui-icon-clock"></span><span class="text">${task['startTime']}</span></span>
+						<span class="text"><span class="ui-icon ui-icon-clock"></span><span class="text">${task['endTime2m']}</span></span>
 						<span class="toggle"><span class="ui-icon ui-icon-carat-1-ne" title="折叠|展开详细信息"></span></span>
 					</span>
 				</div>
@@ -266,7 +280,7 @@
 					<span class="text">${task['wasteTime']}</span>
 				</div>
 				
-				<s:if test="%{task['dueDate'] != null}">
+				<s:if test="%{#task['dueDate'] != null}">
 				<!-- 办理期限 -->
 				<div class="line">
 					<span class="leftIcon ui-icon ui-icon-clock"></span>
@@ -276,6 +290,7 @@
 			</div>
 		</div>
 		</s:iterator>
+		</div>
 	</div>
  </s:else>
 </div>

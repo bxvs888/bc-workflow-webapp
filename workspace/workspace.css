@@ -140,3 +140,16 @@
 .ws .little,.ws .little>* {
 	font-size: 90%;
 }
+.ws .order {
+	display: inline-block;
+	padding:0;
+	margin:0 0 0 0.5em;
+	list-style: none;
+	outline: none;
+}
+.ws .order>div>.ui-button-text{
+	padding: 0.05em 0.2em;
+}
+.ws .order>.ui-button{
+	margin-right: -0.4em;
+}

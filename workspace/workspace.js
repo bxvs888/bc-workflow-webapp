@@ -58,7 +58,7 @@ bc.flow.workspace = {
 		});
 		
 		// 公共信息区添加意见、附件，待办信息区添加意见、附件、完成办理、分派任务、签领任务
-		$page.delegate(".common>.header>.rightIcons>.mainOperate,.todo>.info>.simple>.line>.rightIcons>.mainOperate",{
+		$page.delegate(".common>.header>.rightIcons>.mainOperate,.todo>.items>.info>.simple>.line>.rightIcons>.mainOperate",{
 			click: function(e) {
 				var $this = $(this);
 				var $line = $this.closest(".line");
@@ -160,7 +160,7 @@ bc.flow.workspace = {
 		});
 		
 		//聚焦到待办的可领取或办理任务区域
-		var $focusArr=$page.find(".todo>.info>.simple>.line>.rightIcons>.finish,.todo>.info>.simple>.line>.rightIcons>.claim");	
+		var $focusArr=$page.find(".todo>.items>.info>.simple>.line>.rightIcons>.finish,.todo>.items>.info>.simple>.line>.rightIcons>.claim");	
 		if($focusArr.size()>0){
 			var $focus=$($focusArr.get(0));
 			$focus.attr("tabindex",0);
@@ -501,6 +501,56 @@ bc.flow.workspace = {
 		});
 		//alert($.toJSON(data));
 		return data;
+	},
+	
+	/** 重新排序已办信息区的内容 */
+	reorderDones: function(data){
+		// 创建通用的排序函数
+		if(!$.fn.sorted){
+	      	$.fn.sorted = function(customOptions) {
+	      		var options = {
+	      			reversed: false,
+	      			by: function(a) { return a.text(); }
+	      		};
+	      		$.extend(options, customOptions);
+	      		var $data = $(this);
+	      		var arr = $data.get();
+	      		arr.sort(function(a, b) {
+	      		   	var valA = options.by($(a));
+	      		   	var valB = options.by($(b));
+	      			if (options.reversed) {
+	      				return (valA < valB) ? 1 : (valA > valB) ? -1 : 0;				
+	      			} else {		
+	      				return (valA < valB) ? -1 : (valA > valB) ? 1 : 0;	
+	      			}
+	      		});
+	      		return $(arr);
+	      	};
+		}
+		
+		logger.info("reorderDones:" + $.toJSON(data));
+		var $page = $(this);
+		var $done = $page.children(".done");
+		var $header = $done.children(".header");
+		var $items = $done.children(".items");
+		
+		// 获取已办任务列表
+		var $sortedTasks = $items.clone().children('.info');
+		
+		// 对已办任务进行排序
+		var type = $header.find(">.order.type>.ui-state-active").attr("data-value");
+		$sortedTasks = $sortedTasks.sorted({
+			reversed: $header.find(">.order.dir>.ui-state-active").attr("data-value") != "true",
+			by: function(v) {
+				return $(v).attr('data-' + type);
+			}
+		});
+		
+		// 执行排序处理
+		$items.quicksand($sortedTasks, {
+      	    duration: 0,
+      	    easing: 'easeInOutQuad'
+      	});
 	}
 };
 
