@@ -199,7 +199,8 @@
 			<span class="order type bc-radioGroup ui-buttonset"" title="点击切换排序方式" data-change="bc.flow.workspace.reorderDones">
 				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left ui-state-active" data-value="endTime"><span class="ui-button-text">完成时间</span></div>
 				<div class="ui-button ui-widget ui-state-default ui-button-text-only" data-value="startTime"><span class="ui-button-text">创建时间</span></div>
-				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right" data-value="orderNo"><span class="ui-button-text">业务编号</span></div>
+				<div class="ui-button ui-widget ui-state-default ui-button-text-only" data-value="orderNo"><span class="ui-button-text">任务编号</span></div>
+				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right" data-value="name"><span class="ui-button-text">任务名称</span></div>
 			</span>
 			<span class="order dir bc-radioGroup ui-buttonset"" title="点击切换排序方向" data-change="bc.flow.workspace.reorderDones">
 				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left ui-state-active" data-value="true"><span class="ui-button-text">正序</span></div>
@@ -213,7 +214,7 @@
 		<!-- 信息列表 -->
 		<div class="items">
 		<s:iterator value="ws['doneInfo']['tasks']" var="task">
-		<div class="info" data-id="${task['id']}" data-orderNo="${task['orderNo']}" data-startTime="${task['startTime']}" data-endTime="${task['endTime']}">
+		<div class="info" data-id="${task['id']}" data-orderNo="${task['orderNo']}" data-name="${task['name']}" data-startTime="${task['startTime']}" data-endTime="${task['endTime']}">
 			<div class="simple">
 				<div class="line topic ui-state-default">
 					<span class="leftIcon ui-icon ui-icon-flag"></span>
