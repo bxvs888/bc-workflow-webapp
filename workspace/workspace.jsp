@@ -106,7 +106,7 @@
 				</div>
 			</div>
 			<div class="detail">
-				<s:if test="%{task['dueDate'] != null}">
+				<s:if test="%{#task['dueDate'] != null}">
 				<!-- 办理期限 -->
 				<div class="line">
 					<span class="leftIcon ui-icon ui-icon-clock"></span>
