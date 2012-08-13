@@ -197,8 +197,8 @@
 			<span class="leftIcon ui-icon ui-icon-tag"></span>
 			<span class="text">已办信息</span>
 			<span class="order type bc-radioGroup ui-buttonset"" title="点击切换排序方式" data-change="bc.flow.workspace.reorderDones">
-				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left ui-state-active" data-value="endTime"><span class="ui-button-text">完成时间</span></div>
-				<div class="ui-button ui-widget ui-state-default ui-button-text-only" data-value="startTime"><span class="ui-button-text">创建时间</span></div>
+				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left ui-state-active" data-value="startTime"><span class="ui-button-text">创建时间</span></div>
+				<div class="ui-button ui-widget ui-state-default ui-button-text-only" data-value="endTime"><span class="ui-button-text">完成时间</span></div>
 				<div class="ui-button ui-widget ui-state-default ui-button-text-only" data-value="orderNo"><span class="ui-button-text">任务编号</span></div>
 				<div class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right" data-value="name"><span class="ui-button-text">任务名称</span></div>
 			</span>
