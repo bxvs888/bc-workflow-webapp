@@ -67,13 +67,13 @@ bc.flow.workspace = {
 					});
 				}else if($this.is(".addComment")){// 添加意见
 					if($line.is(".header")){// 添加公共意见
-						bc.flow.workspace.addComment.call($line.parent(),"common",pid);
+						bc.flow.workspace.addComment.call($line.next(),"common",pid);
 					}else if($line.is(".topic")){// 添加待办意见
 						bc.flow.workspace.addComment.call($info.children(".detail"),"todo",pid,$info.data("id"));
 					}
 				}else if($this.is(".addAttach")){// 添加附件
 					if($line.is(".header")){// 添加公共附件
-						bc.flow.workspace.addAttach.call($line.parent(),"common",pid);
+						bc.flow.workspace.addAttach.call($line.next(),"common",pid);
 					}else if($line.is(".topic")){// 添加待办附件
 						bc.flow.workspace.addAttach.call($info.children(".detail"),"todo",pid,$info.data("id"));
 					}
