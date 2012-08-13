@@ -125,11 +125,13 @@ bc.flowattachForm = {
 			data.fileDate=json.fileDate;
 			data.modifier=json.modifier;
 			data.modifiedDate=json.modifiedDate;
-			if(type=='1'){
+			//附件
+			if(type == '1'){
 				data.uid=$page.find(":input[name='e.uid']").val();
 				data.ext=json.ext;
 				data.size=json.size;
 				data.formatted=json.formatted;
+				data.path=json.path;
 			}
 			logger.info($.toJSON(data));
 			$page.data("data-status", data);
